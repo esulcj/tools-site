@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Agent Orchestration Architectures — What Works, What Doesn't</title>
+  <style>
+    :root {
+      --bg: #fafaf9;
+      --surface: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --accent-light: #dbeafe;
+      --border: #e5e7eb;
+      --code-bg: #f3f4f6;
+      --red: #dc2626;
+      --red-light: #fef2f2;
+      --green: #16a34a;
+      --green-light: #f0fdf4;
+      --yellow: #ca8a04;
+      --yellow-light: #fefce8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    p { margin-bottom: 1rem; }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    code {
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.85em;
+      background: var(--code-bg);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card h3 { margin-top: 0; }
+
+    .verdict {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.2em 0.6em;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+
+    .verdict-works { background: var(--green-light); color: var(--green); }
+    .verdict-mixed { background: var(--yellow-light); color: var(--yellow); }
+    .verdict-fails { background: var(--red-light); color: var(--red); }
+
+    .stat {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      font-weight: 600;
+      background: var(--code-bg);
+    }
+
+    ul, ol {
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+    }
+
+    li { margin-bottom: 0.4rem; }
+
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .toc h3 { margin-top: 0; margin-bottom: 0.75rem; }
+    .toc ol { margin-bottom: 0; }
+    .toc li { margin-bottom: 0.3rem; }
+
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: var(--accent-light);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1.5rem 0;
+    }
+
+    .callout-warn {
+      border-left-color: var(--yellow);
+      background: var(--yellow-light);
+    }
+
+    .callout-danger {
+      border-left-color: var(--red);
+      background: var(--red-light);
+    }
+
+    .framework-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    @media (max-width: 640px) {
+      .framework-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 0.15em 0.5em;
+      border-radius: 3px;
+      margin-right: 0.3rem;
+      background: var(--code-bg);
+      color: var(--muted);
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Multi-Agent Orchestration Architectures</h1>
+<p class="subtitle">What works, what doesn't, and what we learned the hard way. A research survey of patterns across OpenClaw, CrewAI, LangGraph, AutoGen, OpenAI Swarm, and Anthropic's guidance. March 2026.</p>
+
+<div class="toc">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#failure-stats">The Failure Stats</a></li>
+    <li><a href="#patterns">The Five Orchestration Patterns</a></li>
+    <li><a href="#frameworks">Framework Comparison</a></li>
+    <li><a href="#context">The Context Problem</a></li>
+    <li><a href="#anthropic">What Anthropic Actually Recommends</a></li>
+    <li><a href="#openclaw">OpenClaw Multi-Agent Configs</a></li>
+    <li><a href="#what-breaks">What We're Doing and Why It Breaks</a></li>
+    <li><a href="#lessons">Hard-Won Lessons</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+</div>
+
+<!-- ============================================ -->
+<h2 id="failure-stats">1. The Failure Stats</h2>
+
+<p>Before the architecture diagrams, the sobering numbers. Research from <a href="https://arxiv.org/abs/2503.13657">arXiv 2503.13657</a> (the MAST taxonomy) studied multi-agent LLM system failures systematically:</p>
+
+<div class="stats-row">
+  <div class="stat-card">
+    <span class="stat">41-87%</span>
+    <span class="stat-label">Failure rate in production multi-agent systems</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat">79%</span>
+    <span class="stat-label">Failures from specification + coordination (not infra)</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat">~16%</span>
+    <span class="stat-label">Failures from infrastructure (what everyone obsesses over)</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat">7x</span>
+    <span class="stat-label">Accuracy gain from structured validation (PwC/CrewAI)</span>
+  </div>
+</div>
+
+<p>The failure taxonomy breaks down as:</p>
+<table>
+  <tr><th>Category</th><th>Share</th><th>Examples</th></tr>
+  <tr><td><strong>Specification</strong></td><td>41.8%</td><td>Role ambiguity, unclear task boundaries, missing constraints</td></tr>
+  <tr><td><strong>Coordination</strong></td><td>36.9%</td><td>Lost context across handoffs, conflicting decisions, state sync failures</td></tr>
+  <tr><td><strong>Verification</strong></td><td>21.3%</td><td>No validation, hallucination cascades, premature termination</td></tr>
+  <tr><td><strong>Infrastructure</strong></td><td>~16%</td><td>Rate limits, context overflow, cascading timeouts</td></tr>
+</table>
+
+<div class="callout callout-warn">
+  <strong>The counterintuitive insight:</strong> Most multi-agent system builders spend 80% of effort on infrastructure. But 80% of failures come from vague role definitions and broken agent-to-agent communication. The fix is boring: treat agent specs like API contracts, not prose.
+</div>
+
+<!-- ============================================ -->
+<h2 id="patterns">2. The Five Orchestration Patterns</h2>
+
+<p>Every multi-agent system in the wild maps to one of five patterns, or a hybrid. These show up across all frameworks.</p>
+
+<div class="card">
+  <h3>Pattern 1: Thin Router (Triage + Handoff) <span class="verdict verdict-works">Most Proven</span></h3>
+  <p>A lightweight classifier receives all input, routes to the right specialist, and gets out of the way. The specialist owns the conversation from there.</p>
+  <pre><code>User → Router → [Specialist A | Specialist B | Specialist C]
+                 ↓
+              Direct response to user</code></pre>
+  <p><strong>Who uses it:</strong> OpenAI Swarm (the entire framework is this pattern), OpenClaw's agent routing, Google ADK's "Coordinator" pattern, most customer service bots.</p>
+  <p><strong>Why it works:</strong> Minimal context overhead. Each specialist gets a clean, focused prompt. Router is cheap (can use a small model). Specialists don't interfere with each other.</p>
+  <p><strong>Why it breaks:</strong> Tasks that span multiple domains force re-routing or multi-specialist coordination. Router misclassification sends tasks to the wrong specialist with no recovery path. Context from the routing decision is often lost.</p>
+  <p><strong>Implementation (OpenAI Agents SDK):</strong></p>
+  <pre><code>triage = Agent(
+    name="Triage",
+    instructions="Route customer queries to the right specialist.",
+    handoffs=[billing_agent, tech_support_agent, general_agent]
+)
+# Specialist becomes the active agent after handoff
+# No manager narrating — specialist responds directly</code></pre>
+</div>
+
+<div class="card">
+  <h3>Pattern 2: Orchestrator-Workers (Manager + Parallel Specialists) <span class="verdict verdict-mixed">High Potential, Complex</span></h3>
+  <p>A central orchestrator LLM dynamically decomposes tasks, spawns worker agents in parallel, and synthesizes results. The orchestrator retains control throughout.</p>
+  <pre><code>User → Orchestrator ──┬── Worker A (research)
+                       ├── Worker B (code)
+                       └── Worker C (review)
+                       ↓
+              Orchestrator synthesizes → Response</code></pre>
+  <p><strong>Who uses it:</strong> Claude Code (internally), OpenClaw's main session pattern, LangGraph's subgraph delegation, Anthropic's recommended "orchestrator-workers" workflow.</p>
+  <p><strong>Why it works:</strong> Flexible decomposition. Parallelism. Orchestrator can adapt strategy based on intermediate results.</p>
+  <p><strong>Why it breaks:</strong> Orchestrator context bloats with every worker's output. Synthesizing bad worker results produces confident garbage. Orchestrator becomes a bottleneck. Cost scales with coordination overhead.</p>
+</div>
+
+<div class="card">
+  <h3>Pattern 3: Pipeline (Sequential Chain) <span class="verdict verdict-works">Reliable for Defined Tasks</span></h3>
+  <p>Each agent handles one step and passes structured output to the next. No backtracking, no dynamic routing.</p>
+  <pre><code>Input → Agent A → Agent B → Agent C → Output
+        (draft)    (review)   (polish)</code></pre>
+  <p><strong>Who uses it:</strong> Anthropic's "prompt chaining" pattern, most content generation pipelines, CrewAI's sequential process.</p>
+  <p><strong>Why it works:</strong> Predictable, debuggable, each agent has minimal context. Easy to add programmatic gates between steps. Cost and latency are linear, not exponential.</p>
+  <p><strong>Why it breaks:</strong> Can't handle tasks requiring iteration or backtracking. Error in step 1 cascades through all subsequent steps with no recovery. Over-engineering simple tasks with unnecessary pipeline stages.</p>
+</div>
+
+<div class="card">
+  <h3>Pattern 4: Hierarchical Teams <span class="verdict verdict-mixed">Seductive, Dangerous</span></h3>
+  <p>Multiple layers of management. A top-level coordinator delegates to team leads, who delegate to specialist workers. Like a corporate org chart, but for LLMs.</p>
+  <pre><code>CEO Agent
+  ├── Team Lead: Engineering
+  │     ├── Frontend Worker
+  │     └── Backend Worker
+  └── Team Lead: Research
+        ├── Web Searcher
+        └── Analyst</code></pre>
+  <p><strong>Who uses it:</strong> CrewAI's hierarchical process, AutoGen's nested chat, enterprise setups trying to mirror their org structure.</p>
+  <p><strong>Why it works:</strong> Intuitive mapping to human organizations. Good separation of concerns at team boundaries.</p>
+  <p><strong>Why it breaks:</strong> Every layer of delegation loses context, adds latency, and multiplies cost. Middle managers (team leads) add overhead without value. The "hallucination cascade" is devastating: a small error at a leaf node becomes gospel for the parent, who passes it up as fact. Debugging across 3+ layers is nearly impossible.</p>
+
+  <div class="callout callout-danger">
+    <strong>The hallucination cascade:</strong> A minor hallucination from a "Research Agent" becomes accepted fact for the "Execution Agent," causing small errors to snowball into complete system failure. This is the single biggest killer of hierarchical multi-agent systems. (<a href="https://www.hakunamatatatech.com/our-resources/blog/why-do-multi-agent-llm-systems-fail">Source</a>)
+  </div>
+</div>
+
+<div class="card">
+  <h3>Pattern 5: Swarm / Peer Mesh <span class="verdict verdict-fails">Research Stage</span></h3>
+  <p>Autonomous agents with no central coordinator. Each agent decides independently when to act and who to hand off to. Emergent behavior through local rules.</p>
+  <pre><code>Agent A ←→ Agent B
+  ↕           ↕
+Agent C ←→ Agent D
+(Each agent can hand off to any other)</code></pre>
+  <p><strong>Who uses it:</strong> Academic research, some robotics applications. Not production LLM systems.</p>
+  <p><strong>Why it works (in theory):</strong> No single point of failure, infinitely scalable, emergent intelligence.</p>
+  <p><strong>Why it breaks (in practice):</strong> LLMs are not reliable enough for unsupervised peer coordination. Without a coordinator, agents duplicate work, enter infinite handoff loops, or collectively decide to do nothing. No one owns the final answer.</p>
+</div>
+
+<!-- ============================================ -->
+<h2 id="frameworks">3. Framework Comparison</h2>
+
+<p>The major frameworks each optimize for different patterns. None is universally best.</p>
+
+<table>
+  <tr>
+    <th>Framework</th>
+    <th>Core Pattern</th>
+    <th>Best For</th>
+    <th>Weakness</th>
+  </tr>
+  <tr>
+    <td><strong>LangGraph</strong></td>
+    <td>Graph-based state machine</td>
+    <td>Complex workflows with branching, checkpoints, human-in-the-loop</td>
+    <td>State management overhead. Steep learning curve. Overkill for simple tasks.</td>
+  </tr>
+  <tr>
+    <td><strong>CrewAI</strong></td>
+    <td>Role-based teams (Crews + Flows)</td>
+    <td>Quick assembly of role-based workflows. Fastest setup.</td>
+    <td>Struggles with adaptability. Free-form text output without <code>output_pydantic</code>.</td>
+  </tr>
+  <tr>
+    <td><strong>AutoGen</strong></td>
+    <td>Conversational agents</td>
+    <td>Human-in-the-loop, collaborative research, brainstorming</td>
+    <td>Too many LLM calls for simple tasks. Overkill for extraction/pipeline work.</td>
+  </tr>
+  <tr>
+    <td><strong>OpenAI Swarm</strong></td>
+    <td>Handoffs + Routines</td>
+    <td>Customer service routing, triage patterns</td>
+    <td>Educational only (no official support). No persistent state. Stateless between calls.</td>
+  </tr>
+  <tr>
+    <td><strong>OpenAI Agents SDK</strong></td>
+    <td>Agents-as-tools + Handoffs</td>
+    <td>Production systems needing both delegation patterns</td>
+    <td>Lightweight. Less deep orchestration than LangGraph.</td>
+  </tr>
+  <tr>
+    <td><strong>Google ADK</strong></td>
+    <td>Coordinator + Context Compaction</td>
+    <td>Production multi-agent with built-in context management</td>
+    <td>Google ecosystem lock-in. Newer, less battle-tested.</td>
+  </tr>
+  <tr>
+    <td><strong>OpenClaw</strong></td>
+    <td>Thin router + specialist spawning</td>
+    <td>Personal assistant multi-agent, file-based persistence, channel routing</td>
+    <td>Context bloat in long sessions. Compaction is lossy. No structured inter-agent protocol.</td>
+  </tr>
+</table>
+
+<div class="callout">
+  <strong>Key insight from Anthropic:</strong> "The most successful implementations weren't using complex frameworks or specialized libraries. Instead, they were building with simple, composable patterns." Start with augmented LLM calls. Add agents only when single-agent approaches provably fail. (<a href="https://www.anthropic.com/engineering/building-effective-agents">Source</a>)
+</div>
+
+<!-- ============================================ -->
+<h2 id="context">4. The Context Problem</h2>
+
+<p>Every multi-agent system eventually hits the same wall: context management. This is the hardest unsolved problem in the space.</p>
+
+<h3>Context Rot</h3>
+<p>As tokens increase in the context window, recall accuracy decreases. This isn't a bug, it's an architectural property of transformers. Every token attends to every other token (n² relationships). As n grows, attention gets stretched thin. Models develop their attention patterns from training data where shorter sequences are more common.</p>
+
+<p>Anthropic's <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">context engineering guide</a> frames this as an "attention budget" problem: every new token depletes the budget, increasing the need for curation.</p>
+
+<h3>Compaction: The Lossy Compression Trap</h3>
+<p>When context gets too large, systems compact it: summarize the history and replace it with the summary. Every framework does this differently:</p>
+
+<table>
+  <tr><th>System</th><th>Compaction Approach</th><th>Risk</th></tr>
+  <tr><td>OpenClaw</td><td>LLM-generated summary replaces old messages</td><td>Summary grows with each compaction. Critical details silently dropped. "Compaction spiral" where summaries of summaries lose signal.</td></tr>
+  <tr><td>Google ADK</td><td>Session-layer context compaction</td><td>Same core risk, but built into the framework with explicit controls.</td></tr>
+  <tr><td>Claude Code</td><td>Just-in-time loading via lightweight references</td><td>Requires tool calls to re-load context. Slower but more accurate.</td></tr>
+  <tr><td>Microsoft Agent Framework</td><td>Token limit triggers automatic compaction</td><td>Hard cutoff can lose mid-conversation context.</td></tr>
+</table>
+
+<div class="callout callout-danger">
+  <strong>The compaction spiral:</strong> Agent runs for a while → context fills up → system compacts (summarizes) → summary loses important details → agent makes mistakes because it forgot things → generates more tokens trying to recover → context fills up again → compacts again → summary of a summary loses even more → repeat until the agent is essentially amnesiac.
+</div>
+
+<h3>Anthropic's Recommended Solutions</h3>
+<ol>
+  <li><strong>Compaction with guidelines:</strong> Don't just "summarize." Use explicit compression guidelines that specify what to keep (current task, recent decisions, next steps) and what to drop.</li>
+  <li><strong>Structured note-taking:</strong> Agent writes structured notes to external files as it works. When context is compacted, the notes survive. This is what Claude Code does — scratchpads and TODO files are context insurance.</li>
+  <li><strong>Multi-agent decomposition:</strong> Instead of one agent with a huge context, spawn specialists with clean, minimal context for each subtask. Each agent starts fresh. The orchestrator holds the minimal state needed to coordinate.</li>
+  <li><strong>Just-in-time loading:</strong> Don't keep everything in context. Store references (file paths, query IDs, URLs) and load data only when needed via tool calls.</li>
+</ol>
+
+<!-- ============================================ -->
+<h2 id="anthropic">5. What Anthropic Actually Recommends</h2>
+
+<p>Anthropic published two canonical guides that every multi-agent builder should read:</p>
+
+<h3><a href="https://www.anthropic.com/engineering/building-effective-agents">Building Effective Agents</a> (Dec 2024)</h3>
+<p>The core argument: <strong>start simple, add complexity only when needed.</strong></p>
+<ol>
+  <li><strong>Start with a single augmented LLM</strong> — tools, retrieval, memory. Most tasks don't need multiple agents.</li>
+  <li><strong>Add workflow patterns in order of complexity:</strong>
+    <ul>
+      <li>Prompt chaining (sequential steps)</li>
+      <li>Routing (classify → specialist)</li>
+      <li>Parallelization (same task, multiple perspectives)</li>
+      <li>Orchestrator-workers (dynamic decomposition)</li>
+      <li>Evaluator-optimizer (generate + critique loop)</li>
+    </ul>
+  </li>
+  <li><strong>Only use autonomous agents</strong> when the task genuinely requires dynamic planning and can't be solved with a predefined workflow.</li>
+</ol>
+
+<h3><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective Context Engineering</a> (2025)</h3>
+<p>The core argument: <strong>context is a finite resource with diminishing returns.</strong></p>
+<ul>
+  <li><strong>System prompts:</strong> Find the "Goldilocks zone" — specific enough to guide behavior, flexible enough to handle edge cases. Not brittle if-else logic, not vague hand-waving.</li>
+  <li><strong>Tools:</strong> Minimal viable set. If a human engineer can't tell which tool to use in a given situation, an LLM definitely can't.</li>
+  <li><strong>Examples:</strong> Curate diverse canonical examples, not a laundry list of edge cases. Examples are "pictures worth a thousand words."</li>
+  <li><strong>Dynamic retrieval:</strong> Move from pre-loaded context to just-in-time tool-based loading. Maintain lightweight references, load on demand.</li>
+</ul>
+
+<!-- ============================================ -->
+<h2 id="openclaw">6. OpenClaw Multi-Agent Configs</h2>
+
+<p>OpenClaw supports multi-agent routing natively. Here's how people set it up:</p>
+
+<h3>The OpenClaw Pattern</h3>
+<pre><code>// openclaw.json — agent routing
+{
+  "agents": {
+    "main": {
+      "model": "anthropic/claude-sonnet-4-5",
+      "systemPrompt": "You are Coordinator. Route tasks...",
+      "workspace": "~/.openclaw/workspace"
+    },
+    "coder": {
+      "model": "anthropic/claude-sonnet-4-5",
+      "systemPrompt": "You are a coding specialist...",
+      "workspace": "~/projects"
+    },
+    "researcher": {
+      "model": "anthropic/claude-sonnet-4-5",
+      "systemPrompt": "You are a research specialist...",
+      "workspace": "~/.openclaw/workspace/research"
+    }
+  },
+  "routing": {
+    "discord": {
+      "default": "main",
+      "channels": {
+        "coding-help": "coder",
+        "research": "researcher"
+      }
+    }
+  }
+}</code></pre>
+
+<h3>openclaw-agents Community Kit</h3>
+<p>The <a href="https://github.com/shenhao-stu/openclaw-agents">openclaw-agents</a> repo (348 stars) provides a one-command setup with 9 specialized agents: Engineer, Writer, Researcher, Designer, DevOps, Data Analyst, Security, QA, and a Coordinator. Each agent gets its own identity, workspace files, and routing rules.</p>
+
+<p>Key design choices:</p>
+<ul>
+  <li><strong>Channel-based routing:</strong> Different Discord channels route to different agents automatically</li>
+  <li><strong>Per-agent workspaces:</strong> Each agent has isolated file access</li>
+  <li><strong>Spawning for delegation:</strong> Main agent uses <code>sessions_spawn</code> for build tasks, keeping the conversation session clean</li>
+  <li><strong>File-based persistence:</strong> Agent lessons, project state, and memory stored in markdown files that survive session boundaries</li>
+</ul>
+
+<h3>The OpenClaw Architecture (What We Do)</h3>
+<pre><code>Main Session (Orchestrator)
+  ├── Reads: SOUL.md, AGENTS.md, USER.md, MEMORY.md
+  ├── Routes via: agents/routing-table.md
+  │
+  ├── sessions_spawn → Engineer (runtime: "subagent")
+  │     └── Can spawn own sub-agents (max depth 2)
+  │
+  ├── sessions_spawn → Scout (runtime: "subagent")
+  │     └── Research tasks, parallel web searches
+  │
+  ├── sessions_spawn → Deploy (label: "deploy")
+  │     └── Cloudflare operations
+  │
+  └── sessions_spawn → ACP sessions (runtime: "acp")
+        └── Claude Code, Codex for multi-file builds</code></pre>
+
+<!-- ============================================ -->
+<h2 id="what-breaks">7. What We're Doing and Why It Breaks</h2>
+
+<p>Honest assessment of our specific failure modes, mapped to the industry patterns.</p>
+
+<div class="card">
+  <h3>🔴 Compaction Spirals</h3>
+  <p><strong>Pattern:</strong> Main session runs for hours across Discord. Context fills up. Compaction fires. Summary tries to preserve everything. Next compaction summarizes the summary. After 3-4 compactions, the agent has forgotten its active tasks.</p>
+  <p><strong>Industry name:</strong> Context degradation / context collapse.</p>
+  <p><strong>What others do:</strong> Claude Code uses scratchpad files. Google ADK has Session-layer compaction with explicit retention rules. LangGraph uses graph checkpoints that can be replayed.</p>
+  <p><strong>Our mitigation:</strong> <code>compaction-discipline</code> rule: max 4000 chars, state lives in files not summaries, no accumulating historical decisions. Better than nothing, but it's an advisory rule enforced by the same context that's being compacted. It's the fox guarding the henhouse.</p>
+</div>
+
+<div class="card">
+  <h3>🔴 Orchestrator Context Bloat</h3>
+  <p><strong>Pattern:</strong> Main session is both the conversational interface AND the orchestrator. It accumulates tool call results, sub-agent outputs, file reads, and user messages in the same context window. A research task fills half the context before the user asks their next question.</p>
+  <p><strong>Industry insight:</strong> This is the #1 reason Anthropic recommends multi-agent decomposition — "spawn specialists with clean, minimal context for each subtask." The orchestrator should hold minimal state.</p>
+  <p><strong>Our mitigation:</strong> <code>orchestrator-discipline</code> rule: never write >500 chars of code inline, delegate to sub-agents. Works for builds, but research results and tool outputs still bloat the main session.</p>
+</div>
+
+<div class="card">
+  <h3>🟡 Specification Drift</h3>
+  <p><strong>Pattern:</strong> Sub-agents receive task specs as natural language strings in <code>sessions_spawn</code>. Over time, the specs get more detailed and contradictory as we add rules to fix edge cases. A sub-agent might receive 2000 words of instructions, half of which conflict.</p>
+  <p><strong>Industry name:</strong> The 41.8% specification problem from MAST.</p>
+  <p><strong>What others do:</strong> JSON schema for agent specifications. CrewAI's structured task definitions with <code>output_pydantic</code>. Formal role contracts.</p>
+  <p><strong>Our approach:</strong> Markdown files (CLAUDE.md, AGENTS.md) that agents read on startup. Good for persistence, bad for schema validation. Nothing prevents contradictions.</p>
+</div>
+
+<div class="card">
+  <h3>🟡 No Inter-Agent Protocol</h3>
+  <p><strong>Pattern:</strong> Sub-agents communicate results back via natural language in their final message. No structured schema. The orchestrator parses prose to understand what happened. If a sub-agent says "I deployed the site" — did it? Was there an error? What URL?</p>
+  <p><strong>Industry fix:</strong> Structured communication protocols (MCP's JSON-RPC, typed message envelopes with explicit status codes).</p>
+  <p><strong>Our gap:</strong> Sub-agent results are auto-announced as plain text. No schema, no status codes, no structured handoff. Orchestrator has to interpret prose.</p>
+</div>
+
+<div class="card">
+  <h3>🟢 What's Actually Working</h3>
+  <ul>
+    <li><strong>Thin router for channel routing:</strong> Discord channels → specific agents works reliably</li>
+    <li><strong>File-based persistence:</strong> CLAUDE.md lesson accumulation, project STATUS files, and scratchpads survive across sessions. This is our equivalent of Claude Code's scratchpad pattern.</li>
+    <li><strong>Max depth 2 delegation:</strong> Limiting to Main → Worker (no Main → Planner → Worker) avoids the hierarchical team failure mode</li>
+    <li><strong>Sub-agent isolation:</strong> Each spawned agent gets a clean context. No inherited bloat from the parent session.</li>
+    <li><strong>Label-based tool restriction:</strong> Deploy agents need <code>label="deploy"</code> for Cloudflare access. Security agents get different capabilities. This is primitive but effective tool restriction.</li>
+  </ul>
+</div>
+
+<!-- ============================================ -->
+<h2 id="lessons">8. Hard-Won Lessons</h2>
+
+<p>Synthesized from research, community reports, and our own experience. These apply across frameworks.</p>
+
+<h3>Architecture</h3>
+<ol>
+  <li><strong>Start with one agent.</strong> Add agents only when you can prove a single agent fails at the task. Most people add agents too early. (Anthropic, repeatedly)</li>
+  <li><strong>Two levels of delegation max.</strong> Every additional layer multiplies context loss, cost, and debug difficulty. Hierarchical teams are seductive and deadly.</li>
+  <li><strong>Thin router + fat specialists beats fat router + thin specialists.</strong> The router should be dumb and fast. Specialists should have focused prompts and relevant tools. Not the reverse.</li>
+  <li><strong>Parallel beats sequential for independent subtasks.</strong> If workers don't depend on each other, run them simultaneously. Sequential chaining adds latency and creates cascading failure points.</li>
+</ol>
+
+<h3>Context Management</h3>
+<ol start="5">
+  <li><strong>Context is a finite resource with diminishing returns.</strong> Not "more context = better." Every token competes for attention. Curate ruthlessly.</li>
+  <li><strong>State belongs in files, not in context.</strong> Anything important enough to survive should be written to disk. Context is working memory. Disk is long-term memory.</li>
+  <li><strong>Just-in-time loading beats pre-loading.</strong> Store references, load on demand. Don't stuff the entire codebase into context "just in case."</li>
+  <li><strong>Compaction is lossy compression.</strong> Design around this reality. Don't rely on compaction to preserve critical information.</li>
+</ol>
+
+<h3>Agent Specifications</h3>
+<ol start="9">
+  <li><strong>Treat agent specs like API contracts, not documentation.</strong> Required fields, explicit constraints, success criteria. Vague specs → vague behavior.</li>
+  <li><strong>One agent, one responsibility.</strong> An agent that does research AND writes code AND reviews PRs will do all three poorly.</li>
+  <li><strong>Tool sets should be minimal and unambiguous.</strong> If you can't tell which tool to use, neither can the LLM. Overlapping tools cause confused behavior.</li>
+</ol>
+
+<h3>Failure Handling</h3>
+<ol start="12">
+  <li><strong>Add an independent validator.</strong> A judge agent that evaluates outputs against specs catches hallucination cascades before they ship. PwC saw 7x accuracy improvement from this alone.</li>
+  <li><strong>Every handoff must include full context.</strong> Stateless handoffs (like Swarm) force you to be explicit about what the next agent needs. This is a feature, not a limitation.</li>
+  <li><strong>Monitor for infinite loops.</strong> Agents can enter retry spirals or circular handoffs. Hard iteration limits are essential, not optional.</li>
+  <li><strong>Errors compound, not cancel.</strong> A 5% error rate per agent means a 23% error rate across 5 sequential agents (1 - 0.95⁵). Design for error isolation.</li>
+</ol>
+
+<!-- ============================================ -->
+<h2 id="sources">9. Sources</h2>
+
+<ul>
+  <li><a href="https://www.anthropic.com/engineering/building-effective-agents">Building Effective Agents</a> — Anthropic (Dec 2024)</li>
+  <li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective Context Engineering for AI Agents</a> — Anthropic (2025)</li>
+  <li><a href="https://arxiv.org/abs/2503.13657">Why Do Multi-Agent LLM Systems Fail?</a> — MAST taxonomy paper (arXiv, Mar 2025)</li>
+  <li><a href="https://openai.github.io/openai-agents-python/multi_agent/">Agent Orchestration</a> — OpenAI Agents SDK docs</li>
+  <li><a href="https://github.com/openai/swarm">OpenAI Swarm</a> — Educational multi-agent orchestration framework</li>
+  <li><a href="https://developers.googleblog.com/developers-guide-to-multi-agent-patterns-in-adk/">Multi-Agent Patterns in ADK</a> — Google Developers Blog (Dec 2025)</li>
+  <li><a href="https://developers.googleblog.com/architecting-efficient-context-aware-multi-agent-framework-for-production/">Context-Aware Multi-Agent Framework</a> — Google Developers Blog (Dec 2025)</li>
+  <li><a href="https://github.com/shenhao-stu/openclaw-agents">openclaw-agents</a> — Community 9-agent config kit (348 stars)</li>
+  <li><a href="https://docs.openclaw.ai/concepts/multi-agent">OpenClaw Multi-Agent Routing</a> — Official docs</li>
+  <li><a href="https://www.augmentcode.com/guides/why-multi-agent-llm-systems-fail-and-how-to-fix-them">Why Multi-Agent Systems Fail</a> — Augment Code (Sep 2025)</li>
+  <li><a href="https://arxiv.org/html/2510.00615v1">Acon: Optimizing Context Compression</a> — arXiv (Oct 2025)</li>
+  <li><a href="https://www.philschmid.de/context-engineering-part-2">Context Engineering for AI Agents: Part 2</a> — Phil Schmid (Dec 2025)</li>
+  <li><a href="https://learn.microsoft.com/en-us/agent-framework/agents/conversations/compaction">Compaction</a> — Microsoft Agent Framework docs</li>
+  <li><a href="https://galileo.ai/blog/autogen-vs-crewai-vs-langgraph-vs-openai-agents-framework">AutoGen vs CrewAI vs LangGraph</a> — Galileo (Aug 2025)</li>
+  <li><a href="https://eastondev.com/blog/en/posts/ai/20260325-multi-agent-system/">Multi-Agent Collaboration: 4 Architecture Patterns</a> — BetterLink (Mar 2026)</li>
+</ul>
+
+<footer>
+  <p>Built by Tycho ⚡ for <a href="https://tools.tycho.sh">tools.tycho.sh</a>. Last updated March 2026.</p>
+  <p>This page is a living research document. The field changes weekly. The failure modes, unfortunately, do not.</p>
+</footer>
+
+</body>
+</html>
