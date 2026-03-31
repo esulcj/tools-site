@@ -1,0 +1,5 @@
+.beads/
+.claude/
+.runtime/
+CLAUDE.local.md
+agent.lock
