@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Fundraising HQ",
+    "description": "Pipeline kanban + action queue for investor tracking",
+    "url": "https://review.tycho.sh",
+    "status": "live"
+  },
+  {
+    "name": "Investor Deck",
+    "description": "Interactive pitch deck",
+    "url": "https://deck.tycho.sh",
+    "status": "live"
+  },
+  {
+    "name": "Agent Architectures",
+    "description": "Architecture visualization",
+    "url": "/agent-architectures.html",
+    "status": "live"
+  },
+  {
+    "name": "Fundraising CRM",
+    "description": "Full investor CRM with AI agents",
+    "url": "#",
+    "status": "building"
+  }
+]
