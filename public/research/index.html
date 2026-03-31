@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research Library — Tycho Tools</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/nav.css">
+  <style>
+    .research-header { margin-bottom: 40px; }
+    .research-header h1 { margin-bottom: 8px; }
+    .search-bar {
+      margin-bottom: 32px;
+    }
+    .search-bar input {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px 14px;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      background: #fafafa;
+    }
+    .search-bar input:focus {
+      border-color: #ccc;
+      background: #fff;
+    }
+    .research-card {
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 16px;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: box-shadow 0.15s ease;
+    }
+    .research-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    .research-card-title {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #1a1a1a;
+    }
+    .research-card-meta {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .research-card-excerpt {
+      font-size: 14px;
+      color: #444;
+      line-height: 1.6;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #f0f0f0;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .no-results {
+      text-align: center;
+      padding: 48px 24px;
+      color: #999;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <button id="hamburger" class="hamburger" aria-label="Toggle navigation">&#9776;</button>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <span class="logo">T</span>
+      <a href="/" class="site-name">Tycho Tools</a>
+    </div>
+    <div class="sidebar-search">
+      <input type="text" placeholder="Search..." aria-label="Search">
+    </div>
+    <ul id="nav-list" class="nav-list"></ul>
+  </aside>
+
+  <main class="main-content">
+    <div class="research-header">
+      <h1>Research Library</h1>
+      <p class="subtitle">Internal research documents and primers</p>
+    </div>
+    <div class="search-bar">
+      <input type="text" id="research-search" placeholder="Search by title or tag..." aria-label="Search research">
+    </div>
+    <div id="research-list"></div>
+    <div id="no-results" class="no-results" style="display:none;">No matching documents found.</div>
+  </main>
+
+  <script src="/js/nav.js"></script>
+  <script src="/js/research-data.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      var listEl = document.getElementById('research-list');
+      var searchEl = document.getElementById('research-search');
+      var noResults = document.getElementById('no-results');
+      var slugs = Object.keys(RESEARCH_DATA);
+
+      // Sort by date descending
+      slugs.sort(function(a, b) {
+        return RESEARCH_DATA[b].date.localeCompare(RESEARCH_DATA[a].date);
+      });
+
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+      }
+
+      function renderList(filter) {
+        var html = '';
+        var count = 0;
+        var filterLower = (filter || '').toLowerCase();
+
+        slugs.forEach(function(slug) {
+          var doc = RESEARCH_DATA[slug];
+          var titleLower = doc.title.toLowerCase();
+          var tagsStr = (doc.tags || []).join(' ').toLowerCase();
+
+          if (filterLower && titleLower.indexOf(filterLower) === -1 && tagsStr.indexOf(filterLower) === -1) {
+            return;
+          }
+
+          count++;
+          html += '<a href="/research/viewer.html#' + slug + '" class="research-card">';
+          html += '<div class="research-card-title">' + escapeHtml(doc.title) + '</div>';
+          html += '<div class="research-card-meta">';
+          html += '<span>' + escapeHtml(doc.date) + '</span>';
+          (doc.tags || []).forEach(function(tag) {
+            html += '<span class="tag">' + escapeHtml(tag) + '</span>';
+          });
+          html += '</div>';
+          html += '<div class="research-card-excerpt">' + escapeHtml(doc.excerpt) + '</div>';
+          html += '</a>';
+        });
+
+        listEl.innerHTML = html;
+        noResults.style.display = count === 0 ? 'block' : 'none';
+      }
+
+      renderList('');
+
+      searchEl.addEventListener('input', function() {
+        renderList(searchEl.value.trim());
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research — Tycho Tools</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/nav.css">
+  <style>
+    .reader-layout {
+      display: flex;
+      gap: 48px;
+      align-items: flex-start;
+    }
+    .reader-content {
+      max-width: 700px;
+      flex: 1;
+      min-width: 0;
+    }
+    .reader-content h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.15;
+    }
+    .reader-meta {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #f0f0f0;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .reader-content h2 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .reader-content h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .reader-content h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    .reader-content p {
+      font-size: 16px;
+      line-height: 1.75;
+      margin-bottom: 16px;
+      color: #333;
+    }
+    .reader-content p.list-item {
+      margin-bottom: 8px;
+    }
+    .reader-content blockquote {
+      border-left: 3px solid #e5e5e5;
+      padding-left: 16px;
+      margin: 16px 0;
+      color: #666;
+      font-style: italic;
+    }
+    .reader-content ul {
+      margin: 12px 0 16px 24px;
+      line-height: 1.75;
+    }
+    .reader-content li {
+      margin-bottom: 4px;
+      font-size: 16px;
+      color: #333;
+    }
+    .reader-content code {
+      font-size: 14px;
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+    }
+    .reader-content pre {
+      background: #f5f5f5;
+      padding: 16px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+    .reader-content pre code {
+      background: none;
+      padding: 0;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .reader-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .reader-content th, .reader-content td {
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .reader-content th {
+      font-weight: 600;
+      background: #fafafa;
+    }
+    .reader-content a {
+      color: #1a6eff;
+      text-decoration: none;
+    }
+    .reader-content a:hover {
+      text-decoration: underline;
+    }
+    .reader-content hr {
+      border: none;
+      border-top: 1px solid #e5e5e5;
+      margin: 32px 0;
+    }
+    .reader-content strong {
+      font-weight: 600;
+    }
+
+    /* Table of contents */
+    .toc {
+      position: sticky;
+      top: 48px;
+      width: 220px;
+      flex-shrink: 0;
+      max-height: calc(100vh - 96px);
+      overflow-y: auto;
+    }
+    .toc-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #999;
+      margin-bottom: 12px;
+    }
+    .toc a {
+      display: block;
+      font-size: 13px;
+      color: #666;
+      text-decoration: none;
+      padding: 4px 0;
+      line-height: 1.4;
+    }
+    .toc a:hover {
+      color: #1a1a1a;
+    }
+    .toc a.toc-h3 {
+      padding-left: 16px;
+      font-size: 12px;
+      color: #888;
+    }
+
+    /* Prev/next navigation */
+    .reader-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e5e5;
+    }
+    .reader-nav a {
+      font-size: 14px;
+      color: #1a6eff;
+      text-decoration: none;
+    }
+    .reader-nav a:hover {
+      text-decoration: underline;
+    }
+    .reader-nav .label {
+      font-size: 12px;
+      color: #999;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 900px) {
+      .toc { display: none; }
+      .reader-content { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <button id="hamburger" class="hamburger" aria-label="Toggle navigation">&#9776;</button>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <span class="logo">T</span>
+      <a href="/" class="site-name">Tycho Tools</a>
+    </div>
+    <div class="sidebar-search">
+      <input type="text" placeholder="Search..." aria-label="Search">
+    </div>
+    <ul id="nav-list" class="nav-list"></ul>
+  </aside>
+
+  <main class="main-content">
+    <div id="viewer"></div>
+  </main>
+
+  <script src="/js/nav.js"></script>
+  <script src="/js/markdown.js"></script>
+  <script src="/js/research-data.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      var viewerEl = document.getElementById('viewer');
+      var slug = window.location.hash.replace('#', '');
+      var slugs = Object.keys(RESEARCH_DATA);
+
+      // Sort by date descending
+      slugs.sort(function(a, b) {
+        return RESEARCH_DATA[b].date.localeCompare(RESEARCH_DATA[a].date);
+      });
+
+      if (!slug || !RESEARCH_DATA[slug]) {
+        if (slugs.length > 0) {
+          slug = slugs[0];
+          window.location.hash = '#' + slug;
+        } else {
+          viewerEl.innerHTML = '<div class="coming-soon"><h2>No documents</h2><p>Research library is empty.</p></div>';
+          return;
+        }
+      }
+
+      var doc = RESEARCH_DATA[slug];
+      document.title = doc.title + ' — Tycho Tools';
+
+      // Build TOC
+      var headings = Markdown.extractHeadings(doc.markdown);
+      var tocHtml = '<div class="toc-title">Contents</div>';
+      headings.forEach(function(h) {
+        var cls = h.level === 3 ? ' class="toc-h3"' : '';
+        tocHtml += '<a href="#' + h.id + '"' + cls + '>' + Markdown.escapeHtml(h.text) + '</a>';
+      });
+
+      // Build content
+      var bodyHtml = Markdown.convert(doc.markdown);
+
+      // Build prev/next
+      var currentIdx = slugs.indexOf(slug);
+      var navHtml = '<div class="reader-nav">';
+      if (currentIdx > 0) {
+        var prev = RESEARCH_DATA[slugs[currentIdx - 1]];
+        navHtml += '<a href="/research/viewer.html#' + slugs[currentIdx - 1] + '"><span class="label">Previous</span>' + Markdown.escapeHtml(prev.title) + '</a>';
+      } else {
+        navHtml += '<span></span>';
+      }
+      if (currentIdx < slugs.length - 1) {
+        var next = RESEARCH_DATA[slugs[currentIdx + 1]];
+        navHtml += '<a href="/research/viewer.html#' + slugs[currentIdx + 1] + '" style="text-align:right"><span class="label">Next</span>' + Markdown.escapeHtml(next.title) + '</a>';
+      }
+      navHtml += '</div>';
+
+      // Meta
+      var metaHtml = '<div class="reader-meta"><span>' + Markdown.escapeHtml(doc.date) + '</span>';
+      (doc.tags || []).forEach(function(tag) {
+        metaHtml += '<span class="tag">' + Markdown.escapeHtml(tag) + '</span>';
+      });
+      metaHtml += '</div>';
+
+      viewerEl.innerHTML =
+        '<div class="reader-layout">' +
+          '<div class="reader-content">' +
+            metaHtml +
+            bodyHtml +
+            navHtml +
+          '</div>' +
+          '<div class="toc">' + tocHtml + '</div>' +
+        '</div>';
+
+      // Handle hash change for prev/next
+      window.addEventListener('hashchange', function() {
+        window.location.reload();
+      });
+    })();
+  </script>
+</body>
+</html>

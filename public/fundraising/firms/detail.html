@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firm Detail — Tycho Tools</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/nav.css">
+  <style>
+    .detail-content { max-width: 700px; }
+    .detail-content h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.15;
+    }
+    .detail-meta {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .tier-badge-lg {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 6px;
+    }
+    .tier-A { background: #D1FAE5; color: #065F46; }
+    .tier-B { background: #FEF3C7; color: #92400E; }
+    .tier-C { background: #F3F4F6; color: #6B7280; }
+    .meta-item {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #999;
+      margin-bottom: 12px;
+    }
+    .section-body {
+      font-size: 16px;
+      line-height: 1.75;
+      color: #333;
+    }
+    .section-body p {
+      margin-bottom: 12px;
+    }
+
+    .stars {
+      color: #D97706;
+      font-size: 24px;
+      letter-spacing: 2px;
+    }
+    .stars-empty { color: #e5e5e5; }
+    .fit-label {
+      font-size: 14px;
+      color: #666;
+      margin-left: 8px;
+    }
+
+    .portfolio-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .portfolio-chip {
+      display: inline-block;
+      font-size: 13px;
+      padding: 4px 12px;
+      border: 1px solid #e5e5e5;
+      border-radius: 999px;
+      background: #fff;
+    }
+    .portfolio-chip.highlight {
+      border-color: #FD384E;
+      color: #FD384E;
+      font-weight: 600;
+    }
+
+    .partner-card {
+      border: 1px solid #f0f0f0;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .partner-name {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+    .partner-detail {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .contact-box {
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 20px;
+      background: #fafafa;
+    }
+    .contact-name { font-weight: 600; font-size: 16px; }
+    .contact-title { font-size: 14px; color: #666; margin-bottom: 4px; }
+    .contact-context { font-size: 14px; color: #444; line-height: 1.5; margin-top: 8px; }
+
+    .pending-notice {
+      text-align: center;
+      padding: 24px;
+      background: #fafafa;
+      border-radius: 8px;
+      color: #999;
+      font-size: 14px;
+    }
+
+    .detail-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e5e5;
+    }
+    .detail-nav a {
+      font-size: 14px;
+      color: #1a6eff;
+      text-decoration: none;
+    }
+    .detail-nav a:hover { text-decoration: underline; }
+    .detail-nav .label {
+      font-size: 12px;
+      color: #999;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .back-link {
+      font-size: 14px;
+      color: #1a6eff;
+      text-decoration: none;
+      margin-bottom: 24px;
+      display: inline-block;
+    }
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <button id="hamburger" class="hamburger" aria-label="Toggle navigation">&#9776;</button>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <span class="logo">T</span>
+      <a href="/" class="site-name">Tycho Tools</a>
+    </div>
+    <div class="sidebar-search">
+      <input type="text" placeholder="Search..." aria-label="Search">
+    </div>
+    <ul id="nav-list" class="nav-list"></ul>
+  </aside>
+
+  <main class="main-content">
+    <div id="detail" class="detail-content"></div>
+  </main>
+
+  <script src="/js/nav.js"></script>
+  <script src="/js/firms-data.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      var detailEl = document.getElementById('detail');
+      var firmId = window.location.hash.replace('#', '');
+
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str || ''));
+        return div.innerHTML;
+      }
+
+      // Find firm
+      var firm = null;
+      var firmIndex = -1;
+      for (var i = 0; i < FIRMS_DATA.length; i++) {
+        if (FIRMS_DATA[i].id === firmId) {
+          firm = FIRMS_DATA[i];
+          firmIndex = i;
+          break;
+        }
+      }
+
+      if (!firm) {
+        detailEl.innerHTML = '<a href="/fundraising/firms/" class="back-link">&larr; Back to directory</a>' +
+          '<div class="coming-soon"><h2>Firm not found</h2><p>No firm with that ID.</p></div>';
+        return;
+      }
+
+      document.title = firm.firm + ' — Tycho Tools';
+
+      var html = '<a href="/fundraising/firms/" class="back-link">&larr; Back to directory</a>';
+
+      // Header
+      html += '<h1>' + escapeHtml(firm.firm) + '</h1>';
+      html += '<div class="detail-meta">';
+      html += '<span class="tier-badge-lg tier-' + firm.tier + '">Tier ' + firm.tier + '</span>';
+      if (firm.fundSize) html += '<span class="meta-item">' + escapeHtml(firm.fundSize) + '</span>';
+      if (firm.hq) html += '<span class="meta-item">' + escapeHtml(firm.hq) + '</span>';
+      html += '</div>';
+
+      // Thesis fit score
+      var r = firm.research;
+      if (r && r.thesisFit) {
+        html += '<div class="section">';
+        html += '<div class="section-title">Thesis Fit Score</div>';
+        var full = Math.floor(r.thesisFit);
+        var starsHtml = '';
+        for (var s = 0; s < 5; s++) {
+          if (s < full) starsHtml += '&#9733;';
+          else starsHtml += '<span class="stars-empty">&#9733;</span>';
+        }
+        html += '<span class="stars">' + starsHtml + '</span>';
+        html += '<span class="fit-label">' + r.thesisFit + ' / 5</span>';
+        html += '</div>';
+      }
+
+      // Thesis
+      if (firm.thesis) {
+        html += '<div class="section">';
+        html += '<div class="section-title">Investment Thesis</div>';
+        html += '<div class="section-body">' + escapeHtml(firm.thesis) + '</div>';
+        html += '</div>';
+      }
+
+      // Stage
+      if (firm.stage) {
+        html += '<div class="section">';
+        html += '<div class="section-title">Stage</div>';
+        html += '<div class="section-body">' + escapeHtml(firm.stage) + '</div>';
+        html += '</div>';
+      }
+
+      // Why (fit explanation)
+      if (firm.why) {
+        html += '<div class="section">';
+        html += '<div class="section-title">Why This Firm</div>';
+        html += '<div class="section-body">' + escapeHtml(firm.why) + '</div>';
+        html += '</div>';
+      }
+
+      // Key partners (from research)
+      if (r && r.keyPartners && r.keyPartners.length > 0) {
+        html += '<div class="section">';
+        html += '<div class="section-title">Key Partners</div>';
+        r.keyPartners.forEach(function(p) {
+          html += '<div class="partner-card">';
+          html += '<div class="partner-name">' + escapeHtml(p.name) + '</div>';
+          html += '<div class="partner-detail">' + escapeHtml(p.detail) + '</div>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+
+      // Portfolio
+      var competitors = ['hadrian', 'bright machines', 'machina labs'];
+      if (firm.portfolio && firm.portfolio.length > 0) {
+        html += '<div class="section">';
+        html += '<div class="section-title">Portfolio Companies</div>';
+        html += '<div class="portfolio-list">';
+        firm.portfolio.forEach(function(co) {
+          var isComp = false;
+          for (var c = 0; c < competitors.length; c++) {
+            if (co.toLowerCase().indexOf(competitors[c]) > -1) isComp = true;
+          }
+          var cls = isComp ? 'portfolio-chip highlight' : 'portfolio-chip';
+          html += '<span class="' + cls + '">' + escapeHtml(co) + '</span>';
+        });
+        html += '</div>';
+        html += '</div>';
+      }
+
+      // Conflicts
+      if (r && r.conflicts) {
+        html += '<div class="section">';
+        html += '<div class="section-title">Conflict Analysis</div>';
+        html += '<div class="section-body">' + escapeHtml(r.conflicts) + '</div>';
+        html += '</div>';
+      }
+
+      // Recommended approach
+      if (r && r.approach) {
+        html += '<div class="section">';
+        html += '<div class="section-title">Recommended Approach</div>';
+        html += '<div class="section-body">' + escapeHtml(r.approach) + '</div>';
+        html += '</div>';
+      }
+
+      // Recent activity
+      if (r && r.recentActivity) {
+        html += '<div class="section">';
+        html += '<div class="section-title">Recent Activity</div>';
+        html += '<div class="section-body">' + escapeHtml(r.recentActivity) + '</div>';
+        html += '</div>';
+      }
+
+      // Contact
+      if (firm.contact) {
+        html += '<div class="section">';
+        html += '<div class="section-title">Contact</div>';
+        html += '<div class="contact-box">';
+        html += '<div class="contact-name">' + escapeHtml(firm.contact) + '</div>';
+        if (firm.contactTitle) html += '<div class="contact-title">' + escapeHtml(firm.contactTitle) + '</div>';
+        if (firm.contactContext) html += '<div class="contact-context">' + escapeHtml(firm.contactContext) + '</div>';
+        html += '</div>';
+        html += '</div>';
+      }
+
+      // No research notice
+      if (!r) {
+        html += '<div class="pending-notice">Detailed research pending</div>';
+      }
+
+      // Prev/next navigation
+      html += '<div class="detail-nav">';
+      if (firmIndex > 0) {
+        var prev = FIRMS_DATA[firmIndex - 1];
+        html += '<a href="/fundraising/firms/detail.html#' + prev.id + '">';
+        html += '<span class="label">Previous</span>' + escapeHtml(prev.firm) + '</a>';
+      } else {
+        html += '<span></span>';
+      }
+      if (firmIndex < FIRMS_DATA.length - 1) {
+        var next = FIRMS_DATA[firmIndex + 1];
+        html += '<a href="/fundraising/firms/detail.html#' + next.id + '" style="text-align:right">';
+        html += '<span class="label">Next</span>' + escapeHtml(next.firm) + '</a>';
+      }
+      html += '</div>';
+
+      detailEl.innerHTML = html;
+
+      window.addEventListener('hashchange', function() {
+        window.location.reload();
+      });
+    })();
+  </script>
+</body>
+</html>

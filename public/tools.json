@@ -18,6 +18,18 @@
     "status": "live"
   },
   {
+    "name": "Research Library",
+    "description": "Internal research documents and primers",
+    "url": "/research/",
+    "status": "live"
+  },
+  {
+    "name": "Firm Directory",
+    "description": "93 US growth investors — sortable, filterable, with research",
+    "url": "/fundraising/firms/",
+    "status": "live"
+  },
+  {
     "name": "Fundraising CRM",
     "description": "Full investor CRM with AI agents",
     "url": "#",

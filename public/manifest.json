@@ -1,7 +1,10 @@
 {
   "sections": [
     { "title": "Dashboard", "path": "/", "icon": "home" },
-    { "title": "Research", "path": "/research/", "children": [] },
+    { "title": "Research", "path": "/research/", "children": [
+      { "title": "RFT Primer", "path": "/research/viewer.html#rft-primer" },
+      { "title": "Memory Architectures", "path": "/research/viewer.html#memory-architectures" }
+    ]},
     { "title": "Fundraising", "path": "/fundraising/", "children": [
       { "title": "Firm Directory", "path": "/fundraising/firms/" },
       { "title": "TAM Analysis", "path": "/fundraising/tam" }

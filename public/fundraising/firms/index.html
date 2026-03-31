@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firm Directory — Tycho Tools</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/nav.css">
+  <style>
+    .firms-header { margin-bottom: 32px; }
+    .firms-header h1 { margin-bottom: 8px; }
+    .firms-controls {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .firms-controls input {
+      padding: 8px 14px;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      background: #fafafa;
+      flex: 1;
+      min-width: 200px;
+      max-width: 360px;
+    }
+    .firms-controls input:focus {
+      border-color: #ccc;
+      background: #fff;
+    }
+    .tier-filters {
+      display: flex;
+      gap: 6px;
+    }
+    .tier-btn {
+      padding: 6px 14px;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      transition: all 0.1s ease;
+    }
+    .tier-btn:hover { background: #fafafa; }
+    .tier-btn.active { border-color: #1a1a1a; background: #1a1a1a; color: #fff; }
+    .firms-count {
+      font-size: 13px;
+      color: #999;
+    }
+
+    .firms-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .firms-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .firms-table th {
+      text-align: left;
+      padding: 10px 12px;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #666;
+      border-bottom: 2px solid #e5e5e5;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .firms-table th:hover { color: #1a1a1a; }
+    .firms-table th .sort-arrow { font-size: 10px; margin-left: 4px; color: #ccc; }
+    .firms-table th.sorted .sort-arrow { color: #1a1a1a; }
+    .firms-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: top;
+    }
+    .firms-table tr:hover { background: #fafafa; }
+    .firms-table tr { cursor: pointer; }
+    .firm-name { font-weight: 600; color: #1a1a1a; }
+    .tier-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      border-radius: 4px;
+    }
+    .tier-A { background: #D1FAE5; color: #065F46; }
+    .tier-B { background: #FEF3C7; color: #92400E; }
+    .tier-C { background: #F3F4F6; color: #6B7280; }
+    .thesis-fit {
+      color: #D97706;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+    .no-results {
+      text-align: center;
+      padding: 48px 24px;
+      color: #999;
+      font-size: 14px;
+    }
+    @media (max-width: 768px) {
+      .firms-table { font-size: 13px; }
+      .firms-table th, .firms-table td { padding: 8px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <button id="hamburger" class="hamburger" aria-label="Toggle navigation">&#9776;</button>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <span class="logo">T</span>
+      <a href="/" class="site-name">Tycho Tools</a>
+    </div>
+    <div class="sidebar-search">
+      <input type="text" placeholder="Search..." aria-label="Search">
+    </div>
+    <ul id="nav-list" class="nav-list"></ul>
+  </aside>
+
+  <main class="main-content" style="max-width: 1100px;">
+    <div class="firms-header">
+      <h1>Firm Directory</h1>
+      <p class="subtitle">US growth investors for manufacturing AI / industrial tech</p>
+    </div>
+    <div class="firms-controls">
+      <input type="text" id="firm-search" placeholder="Search firms..." aria-label="Search firms">
+      <div class="tier-filters">
+        <button class="tier-btn active" data-tier="all">All</button>
+        <button class="tier-btn" data-tier="A">Tier A</button>
+        <button class="tier-btn" data-tier="B">Tier B</button>
+        <button class="tier-btn" data-tier="C">Tier C</button>
+      </div>
+      <span class="firms-count" id="firms-count"></span>
+    </div>
+    <div class="firms-table-wrap">
+      <table class="firms-table" id="firms-table">
+        <thead>
+          <tr>
+            <th data-sort="rank"># <span class="sort-arrow">&#9650;</span></th>
+            <th data-sort="firm">Firm <span class="sort-arrow">&#9650;</span></th>
+            <th data-sort="tier">Tier <span class="sort-arrow">&#9650;</span></th>
+            <th data-sort="hq">HQ <span class="sort-arrow">&#9650;</span></th>
+            <th data-sort="fundSize">Fund Size <span class="sort-arrow">&#9650;</span></th>
+            <th data-sort="thesisFit">Fit <span class="sort-arrow">&#9650;</span></th>
+          </tr>
+        </thead>
+        <tbody id="firms-body"></tbody>
+      </table>
+    </div>
+    <div id="no-results" class="no-results" style="display:none;">No matching firms found.</div>
+  </main>
+
+  <script src="/js/nav.js"></script>
+  <script src="/js/firms-data.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      var bodyEl = document.getElementById('firms-body');
+      var searchEl = document.getElementById('firm-search');
+      var countEl = document.getElementById('firms-count');
+      var noResults = document.getElementById('no-results');
+      var tierBtns = document.querySelectorAll('.tier-btn');
+
+      var currentTier = 'all';
+      var currentSort = 'rank';
+      var sortAsc = true;
+
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+      }
+
+      function renderStars(score) {
+        if (!score) return '<span style="color:#ccc;font-size:12px">—</span>';
+        var full = Math.floor(score);
+        var half = score - full >= 0.5;
+        var html = '';
+        for (var i = 0; i < full; i++) html += '&#9733;';
+        if (half) html += '&#189;';
+        return html;
+      }
+
+      function getThesisFit(firm) {
+        return firm.research && firm.research.thesisFit ? firm.research.thesisFit : 0;
+      }
+
+      function sortFirms(firms) {
+        var sorted = firms.slice();
+        sorted.sort(function(a, b) {
+          var va, vb;
+          if (currentSort === 'rank') { va = a.rank; vb = b.rank; }
+          else if (currentSort === 'firm') { va = a.firm.toLowerCase(); vb = b.firm.toLowerCase(); }
+          else if (currentSort === 'tier') { va = a.tier; vb = b.tier; }
+          else if (currentSort === 'hq') { va = a.hq.toLowerCase(); vb = b.hq.toLowerCase(); }
+          else if (currentSort === 'fundSize') { va = a.fundSize; vb = b.fundSize; }
+          else if (currentSort === 'thesisFit') { va = getThesisFit(a); vb = getThesisFit(b); }
+          else { va = a.rank; vb = b.rank; }
+
+          if (va < vb) return sortAsc ? -1 : 1;
+          if (va > vb) return sortAsc ? 1 : -1;
+          return 0;
+        });
+        return sorted;
+      }
+
+      function render() {
+        var filter = (searchEl.value || '').toLowerCase().trim();
+        var filtered = FIRMS_DATA.filter(function(f) {
+          if (currentTier !== 'all' && f.tier !== currentTier) return false;
+          if (filter && f.firm.toLowerCase().indexOf(filter) === -1) return false;
+          return true;
+        });
+
+        var sorted = sortFirms(filtered);
+        countEl.textContent = sorted.length + ' firm' + (sorted.length !== 1 ? 's' : '');
+
+        if (sorted.length === 0) {
+          bodyEl.innerHTML = '';
+          noResults.style.display = 'block';
+          return;
+        }
+        noResults.style.display = 'none';
+
+        var html = '';
+        sorted.forEach(function(f) {
+          html += '<tr data-id="' + f.id + '">';
+          html += '<td>' + f.rank + '</td>';
+          html += '<td><span class="firm-name">' + escapeHtml(f.firm) + '</span></td>';
+          html += '<td><span class="tier-badge tier-' + f.tier + '">' + f.tier + '</span></td>';
+          html += '<td>' + escapeHtml(f.hq) + '</td>';
+          html += '<td style="white-space:nowrap">' + escapeHtml(f.fundSize) + '</td>';
+          html += '<td class="thesis-fit">' + renderStars(getThesisFit(f)) + '</td>';
+          html += '</tr>';
+        });
+        bodyEl.innerHTML = html;
+
+        // Click to detail
+        var rows = bodyEl.querySelectorAll('tr');
+        for (var i = 0; i < rows.length; i++) {
+          rows[i].addEventListener('click', function() {
+            window.location.href = '/fundraising/firms/detail.html#' + this.getAttribute('data-id');
+          });
+        }
+      }
+
+      // Tier filter buttons
+      for (var i = 0; i < tierBtns.length; i++) {
+        tierBtns[i].addEventListener('click', function() {
+          for (var j = 0; j < tierBtns.length; j++) {
+            tierBtns[j].className = tierBtns[j].className.replace(' active', '');
+          }
+          this.className += ' active';
+          currentTier = this.getAttribute('data-tier');
+          render();
+        });
+      }
+
+      // Sort
+      var headers = document.querySelectorAll('.firms-table th');
+      for (var h = 0; h < headers.length; h++) {
+        headers[h].addEventListener('click', function() {
+          var col = this.getAttribute('data-sort');
+          if (currentSort === col) {
+            sortAsc = !sortAsc;
+          } else {
+            currentSort = col;
+            sortAsc = true;
+          }
+          // Update sort indicators
+          for (var k = 0; k < headers.length; k++) {
+            headers[k].className = headers[k].className.replace(' sorted', '');
+            var arrow = headers[k].querySelector('.sort-arrow');
+            if (arrow) arrow.innerHTML = '&#9650;';
+          }
+          this.className += ' sorted';
+          var arrow = this.querySelector('.sort-arrow');
+          if (arrow) arrow.innerHTML = sortAsc ? '&#9650;' : '&#9660;';
+          render();
+        });
+      }
+
+      // Search
+      searchEl.addEventListener('input', function() { render(); });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
