@@ -6,7 +6,7 @@ tools.tycho.sh — internal documentation and tools hub.
 ## Tech
 - Pure HTML/CSS. No frameworks. No build step.
 - System font stack, max-width 960px centered, light theme only.
-- Deploy: `npx wrangler pages deploy . --project-name=tycho-tools --branch=main`
+- Deploy: `npx wrangler deploy` (CF Worker, not Pages)
 - CF credentials via env: CLOUDFLARE_API_KEY, CLOUDFLARE_EMAIL
 
 ## Rules

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tycho Tools</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/nav.css">
+</head>
+<body>
+  <button id="hamburger" class="hamburger" aria-label="Toggle navigation">&#9776;</button>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <span class="logo">T</span>
+      <a href="/" class="site-name">Tycho Tools</a>
+    </div>
+    <div class="sidebar-search">
+      <input type="text" placeholder="Search..." aria-label="Search">
+    </div>
+    <ul id="nav-list" class="nav-list"></ul>
+  </aside>
+
+  <main class="main-content">
+    <div id="app"></div>
+  </main>
+
+  <script src="/js/nav.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "sections": [
+    { "title": "Dashboard", "path": "/", "icon": "home" },
+    { "title": "Research", "path": "/research/", "children": [] },
+    { "title": "Fundraising", "path": "/fundraising/", "children": [
+      { "title": "Firm Directory", "path": "/fundraising/firms/" },
+      { "title": "TAM Analysis", "path": "/fundraising/tam" }
+    ]},
+    { "title": "Agents", "path": "/agents/" },
+    { "title": "CRM", "path": "/crm/", "external": "https://crm.tycho.sh" },
+    { "title": "Workflows", "path": "/workflows/", "external": "https://workflows.tycho.sh" }
+  ]
+}

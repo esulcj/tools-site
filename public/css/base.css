@@ -1,0 +1,141 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #fff;
+  color: #1a1a1a;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+/* Type scale */
+h1 { font-size: 42px; font-weight: 700; }
+h2 { font-size: 22px; font-weight: 600; }
+h3 { font-size: 16px; font-weight: 600; }
+small { font-size: 13px; }
+.text-xs { font-size: 12px; }
+.text-xxs { font-size: 11px; }
+.text-muted { color: #666; }
+
+/* Layout: sidebar + main */
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+.main-content {
+  padding: 48px 40px;
+  max-width: 960px;
+}
+
+/* Card grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.card {
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 24px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: box-shadow 0.15s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.card-title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.card-description {
+  font-size: 14px;
+  color: #666;
+}
+
+.badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.badge-live {
+  background: #D1FAE5;
+  color: #065F46;
+}
+
+.badge-building {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.badge-down {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 40px;
+}
+
+/* Coming soon page */
+.coming-soon {
+  text-align: center;
+  padding: 80px 24px;
+  color: #666;
+}
+
+.coming-soon h2 {
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+/* Responsive */
+@media (min-width: 600px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .main-content {
+    padding: 24px 16px;
+  }
+}
