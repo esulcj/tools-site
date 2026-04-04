@@ -10,5 +10,6 @@
     ],
     "policy": "theo-only"
   },
-  "description": "Internal ops playbooks, guides, and tools. Theo only."
+  "description": "Internal ops playbooks, guides, and tools. Theo only.",
+  "repo": "https://github.com/esulcj/tools-site"
 }
