@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gastown Deep Dive — How to Actually Use It</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #fff;
+    color: #1a1a1a;
+    line-height: 1.7;
+    padding: 2rem 1rem;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #111;
+    line-height: 1.3;
+  }
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    color: #222;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0.3rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  p {
+    margin-bottom: 1rem;
+  }
+  strong {
+    font-weight: 600;
+  }
+  ul, ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  li {
+    margin-bottom: 0.35rem;
+  }
+  li ul, li ol {
+    margin-top: 0.35rem;
+    margin-bottom: 0.35rem;
+  }
+  code {
+    font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', 'Cascadia Code', Menlo, Consolas, monospace;
+    background: #f3f4f6;
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  pre {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    font-size: 0.85em;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    font-size: 0.95em;
+  }
+  th, td {
+    border: 1px solid #d1d5db;
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+  }
+  th {
+    background: #f9fafb;
+    font-weight: 600;
+  }
+  tr:nth-child(even) {
+    background: #fafafa;
+  }
+  .comment {
+    color: #6b7280;
+  }
+  @media (max-width: 600px) {
+    body { padding: 1rem 0.75rem; }
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.3rem; }
+    h3 { font-size: 1.1rem; }
+    pre { padding: 0.75rem; font-size: 0.8em; }
+    table { font-size: 0.85em; }
+    th, td { padding: 0.4rem 0.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Gastown Deep Dive: How to Actually Use It</h1>
+
+<h2>1. How Does the Mayor Know What to Do?</h2>
+
+<p><strong>The Mayor is a Claude Code session with full access to <code>gt</code> commands.</strong> It's not a classifier or a router. It's a persistent AI agent running in <code>~/gt/mayor/</code> that:</p>
+
+<ul>
+  <li>Reads incoming mail/nudges as natural language</li>
+  <li>Has access to all 42+ formulas via <code>bd formula list</code></li>
+  <li>Has the full town context via <code>gt prime</code> (which injects rig state, bead state, polecat availability, memories)</li>
+  <li>Makes judgment calls about which formula to use</li>
+</ul>
+
+<p><strong>The mechanism is prompt-based.</strong> When the Mayor gets <code>gt prime</code>, it sees:</p>
+
+<ul>
+  <li>Its role identity (Mayor)</li>
+  <li>All registered rigs and their status</li>
+  <li>Pending beads/issues</li>
+  <li>Available polecats</li>
+  <li>Injected memories (via <code>gt remember</code>)</li>
+  <li>The formula checklist for its current patrol</li>
+</ul>
+
+<p><strong>How experienced users communicate with the Mayor:</strong></p>
+
+<ul>
+  <li><code>gt nudge mayor "description of what you want"</code> — for quick requests</li>
+  <li><code>gt mail send mayor --subject "BUILD: X" --body "detailed goal"</code> — for formal requests</li>
+  <li>The Mayor reads the request, picks the formula, creates beads, and slings to polecats</li>
+</ul>
+
+<p><strong>There is no classifier.</strong> The Mayor is an LLM making decisions. The quality of its decisions depends on:</p>
+
+<ol>
+  <li>How clear your request is</li>
+  <li>What memories you've stored (<code>gt remember</code>)</li>
+  <li>What the formula checklist tells it to do</li>
+  <li>What it learned from previous sessions (via seance, memories, bead history)</li>
+</ol>
+
+<h2>2. How Does Gastown Self-Improve?</h2>
+
+<h3>Memory System (<code>gt remember</code> / <code>gt memories</code>)</h3>
+
+<p>Persistent key-value store backed by beads. Memories are <strong>injected during <code>gt prime</code></strong> for every agent.</p>
+
+<pre><code><span class="comment"># Store a lesson</span>
+gt remember "Refinery uses worktree, cannot checkout main"
+gt remember --type feedback "Don't mock the database in integration tests"
+gt remember --type user --key senior-go-dev "User has 10 years Go experience"
+
+<span class="comment"># Search/list memories</span>
+gt memories                    <span class="comment"># All memories</span>
+gt memories --type feedback    <span class="comment"># Behavioral corrections only</span>
+gt memories refinery           <span class="comment"># Search term</span></code></pre>
+
+<p><strong>Memory types:</strong></p>
+
+<ul>
+  <li><code>feedback</code> — Corrections from users (behavioral guidance)</li>
+  <li><code>project</code> — Ongoing work context, goals, deadlines</li>
+  <li><code>user</code> — Info about the user</li>
+  <li><code>reference</code> — Pointers to external resources</li>
+  <li><code>general</code> — Uncategorized</li>
+</ul>
+
+<p><strong>Key insight:</strong> This replaces CLAUDE.md-based memory with bead-backed storage. Every <code>gt prime</code> injects relevant memories. So if you <code>gt remember --type feedback "Always run tests before gt done"</code>, every polecat will see that on their next prime.</p>
+
+<h3>Bead History</h3>
+
+<p>The beads system tracks:</p>
+
+<ul>
+  <li>What work was done (bead descriptions, notes)</li>
+  <li>Verdicts from the Refinery (pass/fail/retry)</li>
+  <li>Which polecats did what</li>
+  <li>Time taken, issues found</li>
+</ul>
+
+<p>Agents can query this history. The Mayor sees all beads when it primes.</p>
+
+<h3>Seance (Learning from Dead Sessions)</h3>
+
+<pre><code>gt seance                           <span class="comment"># List predecessor sessions</span>
+gt seance --talk &lt;id&gt; -p "What did you find?"  <span class="comment"># Query a dead session</span></code></pre>
+
+<p>New agents can literally ask their predecessors what they learned. This is how context survives session death.</p>
+
+<h3>Hooks (Lifecycle Events)</h3>
+
+<p>Hooks fire at key moments:</p>
+
+<ul>
+  <li><code>pre-compact-prime</code> — before context compaction, preserve critical info</li>
+  <li><code>post-verdict</code> — after Refinery verdict, could trigger learning</li>
+  <li><code>post-done</code> — after polecat completion</li>
+</ul>
+
+<h3>What Gastown Does NOT Do Automatically</h3>
+
+<ul>
+  <li><strong>Does not write CLAUDE.md files.</strong> That's our addition.</li>
+  <li><strong>Does not create project-specific lessons.</strong> Memories are town-wide, not rig-specific.</li>
+  <li><strong>Does not automatically learn from failures.</strong> You have to <code>gt remember</code> the lesson manually, or set up hooks to do it.</li>
+</ul>
+
+<h3>How to Close the Learning Loop</h3>
+
+<ol>
+  <li><strong>After each build:</strong> <code>gt remember --type feedback "&lt;lesson&gt;"</code> — injected into all future primes</li>
+  <li><strong>For project-specific lessons:</strong> Write to rig CLAUDE.md (our pattern, not native Gastown)</li>
+  <li><strong>For behavioral corrections:</strong> <code>gt remember --type feedback</code> is the strongest signal</li>
+  <li><strong>For debugging past decisions:</strong> <code>gt seance --talk &lt;id&gt;</code> to query dead sessions</li>
+</ol>
+
+<h2>3. Production Setup</h2>
+
+<h3>Proper Installation Sequence</h3>
+
+<pre><code><span class="comment"># 1. Install prerequisites</span>
+brew install gastown dolt beads tmux
+
+<span class="comment"># 2. Create town</span>
+gt install ~/gt --git
+cd ~/gt
+
+<span class="comment"># 3. Verify installation</span>
+gt doctor --fix
+
+<span class="comment"># 4. Start everything properly</span>
+gt up                    <span class="comment"># Starts daemon + all rig services</span>
+<span class="comment"># OR for more control:</span>
+gt daemon start          <span class="comment"># Just the daemon</span>
+gt rig boot &lt;name&gt;       <span class="comment"># Start specific rig services</span></code></pre>
+
+<h3><code>gt up</code> vs <code>gt daemon start</code></h3>
+
+<ul>
+  <li><code>gt up</code> — Starts daemon AND boots ALL registered rigs (witness, refinery, polecats)</li>
+  <li><code>gt daemon start</code> — Starts ONLY the daemon process</li>
+  <li><code>gt rig boot &lt;name&gt;</code> — Boots a specific rig's services</li>
+</ul>
+
+<p><strong>For our setup:</strong> <code>gt up</code> is the right command. It brings everything online.</p>
+
+<h3>Rig Configuration</h3>
+
+<p>Each rig can be configured in its directory:</p>
+
+<ul>
+  <li><code>CLAUDE.md</code> — Agent instructions (standard Claude Code convention)</li>
+  <li><code>.beads/config.yaml</code> — Beads configuration</li>
+  <li>Dolt database for persistent state</li>
+</ul>
+
+<h3>Mayor Configuration</h3>
+
+<p>The Mayor's behavior is configured via:</p>
+
+<ol>
+  <li><strong>Memories</strong> — <code>gt remember</code> stores behavioral guidance</li>
+  <li><strong>Town config</strong> — <code>mayor/town.json</code> (name, version)</li>
+  <li><strong>Formula availability</strong> — what's in <code>.beads/formulas/</code></li>
+  <li><strong>Its own CLAUDE.md</strong> — at <code>~/gt/mayor/CLAUDE.md</code> (if present)</li>
+</ol>
+
+<h3>Common Pitfalls</h3>
+
+<ol>
+  <li><strong>Not running <code>gt doctor --fix</code></strong> — catches missing settings.json, stale formulas, broken config</li>
+  <li><strong>Outdated formulas</strong> — <code>gt doctor</code> reports "10 outdated, 5 new". Need to update.</li>
+  <li><strong>Large repos as rigs</strong> — cloning is slow. Use small focused repos.</li>
+  <li><strong>Not using <code>gt up</code></strong> — starting daemon without booting rigs leaves witness/refinery dead</li>
+  <li><strong>Bypassing the Mayor</strong> — manually creating beads and slinging defeats the purpose</li>
+  <li><strong>Not storing memories</strong> — the system can't learn if you don't <code>gt remember</code></li>
+</ol>
+
+<h3>The Complete Lifecycle</h3>
+
+<pre><code>Human has idea
+    ↓
+Tycho (main) writes goal document
+    ↓
+gt mail send mayor --subject "BUILD: X" --body "&lt;goal&gt;"
+    ↓
+Mayor reads goal, picks formula (mol-idea-to-plan / shiny / etc)
+    ↓
+Mayor creates beads, sets dependencies
+    ↓
+Mayor slings beads to available polecats
+    ↓
+Polecats work (each runs gt prime → sees formula checklist → works → gt done)
+    ↓
+Refinery processes MRs (verify → merge to main OR reject → re-dispatch)
+    ↓
+Mayor reports completion (mail to overseer/human)
+    ↓
+Tycho deploys from merged main branch
+    ↓
+gt remember --type feedback "&lt;lessons from this build&gt;"</code></pre>
+
+<h2>Key Formulas</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Formula</th>
+      <th>Purpose</th>
+      <th>When to Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>mol-idea-to-plan</code></td>
+      <td>Vague idea → approved PRD → beads</td>
+      <td>New features with unclear requirements</td>
+    </tr>
+    <tr>
+      <td><code>shiny</code></td>
+      <td>Design-first engineering (Engineer in a Box)</td>
+      <td>Standard builds with clear goals</td>
+    </tr>
+    <tr>
+      <td><code>shiny-enterprise</code></td>
+      <td>Shiny + Rule of Five (5 parallel reviews)</td>
+      <td>High-stakes builds</td>
+    </tr>
+    <tr>
+      <td><code>shiny-secure</code></td>
+      <td>Shiny + security audit</td>
+      <td>Security-sensitive work</td>
+    </tr>
+    <tr>
+      <td><code>mol-polecat-work</code></td>
+      <td>Standard work lifecycle</td>
+      <td>Simple task execution</td>
+    </tr>
+    <tr>
+      <td><code>mol-polecat-code-review</code></td>
+      <td>Code review pipeline</td>
+      <td>Reviewing existing code</td>
+    </tr>
+    <tr>
+      <td><code>mol-polecat-review-pr</code></td>
+      <td>PR review</td>
+      <td>GitHub PR reviews</td>
+    </tr>
+    <tr>
+      <td><code>mol-digest-generate</code></td>
+      <td>Status digest generation</td>
+      <td>Daily/weekly summaries</td>
+    </tr>
+    <tr>
+      <td><code>mol-convoy-feed</code></td>
+      <td>Auto-dispatch ready work</td>
+      <td>Batch processing</td>
+    </tr>
+    <tr>
+      <td><code>rule-of-five</code></td>
+      <td>5 parallel reviews of same work</td>
+      <td>Quality-critical work</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Dogs (Infrastructure Agents)</h2>
+
+<p>Dogs are cross-rig workers dispatched by the Deacon:</p>
+
+<ul>
+  <li><code>alpha</code> — Triage dog, handles escalations</li>
+  <li><code>boot</code> — Startup/health checks</li>
+  <li>Custom dogs can be added for maintenance tasks</li>
+</ul>
+
+<p>For our use case: Dogs could run deploy health checks, email monitoring, cron-equivalent tasks.</p>
+
+<h2>What We Should Do Next</h2>
+
+<ol>
+  <li><strong>Run <code>gt doctor --fix</code></strong> to fix the 5 issues found</li>
+  <li><strong>Update formulas</strong> (10 outdated, 5 new)</li>
+  <li><strong>Store key memories</strong> — <code>gt remember --type user "Building for Theo, CEO of CloudNC. Light theme. No frameworks."</code> etc.</li>
+  <li><strong>Test the full Mayor pipeline</strong> on a real build</li>
+  <li><strong>Set up <code>gt up</code> on Mac mini startup</strong> so Gastown is always warm</li>
+  <li><strong>Explore Dogs</strong> for automated health checks</li>
+</ol>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAO-STRIKE NEXUS // CLASSIFIED</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0f;
+    color: #00ff41;
+    font-family: 'JetBrains Mono', monospace;
+    overflow-x: hidden;
+  }
+
+  .scanline {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.03) 2px, rgba(0,255,65,0.03) 4px);
+    pointer-events: none; z-index: 1000;
+  }
+
+  .header {
+    padding: 20px 30px;
+    border-bottom: 1px solid #00ff4133;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.4em;
+    color: #ff3333;
+    text-shadow: 0 0 10px #ff333366;
+    letter-spacing: 3px;
+  }
+
+  .header .status {
+    font-size: 0.7em;
+    color: #ffaa00;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink { 50% { opacity: 0.3; } }
+
+  .classification {
+    text-align: center;
+    padding: 8px;
+    background: #ff000015;
+    border-bottom: 1px solid #ff000033;
+    font-size: 0.65em;
+    color: #ff3333;
+    letter-spacing: 5px;
+  }
+
+  .feed-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .entry {
+    border: 1px solid #00ff4122;
+    border-left: 3px solid #ff3333;
+    margin: 15px 0;
+    padding: 15px;
+    background: #0d0d15;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .entry:hover {
+    background: #111122;
+    border-left-color: #ffaa00;
+    box-shadow: 0 0 20px #00ff4108;
+  }
+
+  .entry .timestamp {
+    font-size: 0.65em;
+    color: #666;
+    margin-bottom: 8px;
+  }
+
+  .entry .event {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95em;
+    color: #ffffff;
+    margin-bottom: 10px;
+  }
+
+  .connection-chain {
+    padding: 10px 0 10px 15px;
+    border-left: 2px dashed #ffaa0044;
+    margin: 10px 0;
+  }
+
+  .hop {
+    font-size: 0.75em;
+    color: #888;
+    margin: 6px 0;
+    padding-left: 10px;
+    position: relative;
+  }
+
+  .hop::before {
+    content: '→';
+    position: absolute;
+    left: -5px;
+    color: #ffaa00;
+  }
+
+  .hop .link-type {
+    color: #ffaa00;
+    font-weight: bold;
+  }
+
+  .confidence {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 0.6em;
+    border-radius: 2px;
+    margin-top: 8px;
+  }
+
+  .confidence.low { background: #ff333322; color: #ff6666; border: 1px solid #ff333344; }
+  .confidence.medium { background: #ffaa0022; color: #ffcc44; border: 1px solid #ffaa0044; }
+  .confidence.tenuous { background: #ff00ff22; color: #ff66ff; border: 1px solid #ff00ff44; }
+
+  .dao-event {
+    background: #00ff4108;
+    border: 1px solid #00ff4122;
+    padding: 8px 12px;
+    margin: 8px 0;
+    font-size: 0.8em;
+  }
+
+  .dao-event .dao-name { color: #00ff41; font-weight: bold; }
+  .dao-event .action { color: #aaa; }
+
+  .footer-note {
+    text-align: center;
+    padding: 30px;
+    font-size: 0.55em;
+    color: #333;
+    font-style: italic;
+  }
+
+  .live-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: #ff3333;
+    border-radius: 50%;
+    margin-right: 6px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 #ff333366; } 50% { box-shadow: 0 0 0 8px #ff333300; } }
+
+  .map-header {
+    display: flex; gap: 15px; align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #ffffff0a;
+    margin-bottom: 15px;
+  }
+
+  .stat-box {
+    padding: 8px 15px;
+    border: 1px solid #00ff4122;
+    font-size: 0.7em;
+  }
+  .stat-box .label { color: #666; font-size: 0.85em; }
+  .stat-box .value { color: #00ff41; font-size: 1.3em; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<div class="classification">⬛ TOP SECRET // SIGINT // NOFORN // DAO-NEXUS ⬛</div>
+
+<div class="header">
+  <h1>DAO-STRIKE NEXUS</h1>
+  <div class="status"><span class="live-dot"></span>LIVE FEED — CORRELATION ENGINE ACTIVE</div>
+</div>
+
+<div class="feed-container">
+  <div class="map-header">
+    <div class="stat-box"><div class="label">CORRELATIONS</div><div class="value" id="count">0</div></div>
+    <div class="stat-box"><div class="label">CONFIDENCE AVG</div><div class="value">17.3%</div></div>
+    <div class="stat-box"><div class="label">HOPS (AVG)</div><div class="value">4.2</div></div>
+    <div class="stat-box"><div class="label">PLAUSIBILITY</div><div class="value" style="color:#ffaa00">MEDIUM-LOW</div></div>
+  </div>
+
+  <div id="feed"></div>
+</div>
+
+<div class="footer-note">
+  This intelligence product is generated by an autonomous correlation engine with no editorial oversight.<br>
+  Confidence ratings are cosmetic. All connections are at minimum third-order.<br>
+  If you are taking this seriously, please close this tab immediately.
+</div>
+
+<script>
+const entries = [
+  {
+    ts: "2026-03-18 14:32:07 UTC",
+    event: "Iranian IRGC-affiliated drone strike reported near Al-Tanf garrison, Syria",
+    dao: { name: "MakerDAO", action: "Governance vote #847: Increase DAI savings rate from 5% to 8%" },
+    chain: [
+      { hop: "Al-Tanf garrison supplies are contracted through <span class='link-type'>KBR Inc</span> (NYSE: KBR)", type: "direct" },
+      { hop: "KBR's logistics subcontractor in Jordan uses <span class='link-type'>Mashreq Bank</span> for wire transfers", type: "financial" },
+      { hop: "Mashreq Bank's London desk processed a <span class='link-type'>$2.3M stablecoin redemption</span> on March 14", type: "tenuous" },
+      { hop: "That redemption was routed through <span class='link-type'>Curve Finance</span>, where MakerDAO's PSM module provides DAI liquidity", type: "structural" },
+      { hop: "The savings rate vote directly affects PSM profitability, <span class='link-type'>timing coincidence: 4 hours</span>", type: "temporal" }
+    ],
+    confidence: "low",
+    confidenceLabel: "CORRELATION: 12.7%"
+  },
+  {
+    ts: "2026-03-15 09:17:44 UTC",
+    event: "Houthi anti-ship missile narrowly misses container vessel MV Prosperity in Red Sea",
+    dao: { name: "Aave DAO", action: "Proposal AIP-291: Deploy lending market on ZKsync Era" },
+    chain: [
+      { hop: "MV Prosperity was carrying <span class='link-type'>semiconductor equipment</span> bound for Samsung's Austin fab", type: "cargo-manifest" },
+      { hop: "Samsung Austin fab supplies chips to <span class='link-type'>Nvidia</span> (A100 substrate packaging)", type: "supply-chain" },
+      { hop: "Nvidia's DGX Cloud runs 34% of <span class='link-type'>ZKsync's prover infrastructure</span>", type: "compute" },
+      { hop: "ZKsync Era's prover costs directly affect the <span class='link-type'>economic viability</span> of Aave's deployment", type: "economic" },
+      { hop: "If the ship had been hit, chip shortage → prover costs spike → <span class='link-type'>Aave vote outcome changes</span>", type: "counterfactual" }
+    ],
+    confidence: "tenuous",
+    confidenceLabel: "CORRELATION: 3.1% (COUNTERFACTUAL)"
+  },
+  {
+    ts: "2026-03-12 22:05:31 UTC",
+    event: "Israeli airstrike on Hezbollah weapons depot, Bekaa Valley, Lebanon",
+    dao: { name: "Uniswap DAO", action: "Treasury diversification: Convert 12,000 ETH to USDC via Cow Protocol" },
+    chain: [
+      { hop: "Bekaa Valley strike destroyed a facility <span class='link-type'>200m from a Château Ksara vineyard</span>", type: "geographic" },
+      { hop: "Château Ksara's UK distributor is <span class='link-type'>Enotria&Coe</span>, which was acquired by C&C Group in 2024", type: "corporate" },
+      { hop: "C&C Group's pension fund holds <span class='link-type'>Grayscale Ethereum Trust</span> shares (SEC filing, Q4 2025)", type: "financial" },
+      { hop: "ETHE redemptions spike after ETH treasury sales by DAOs, <span class='link-type'>creating selling pressure</span>", type: "market" },
+      { hop: "Uniswap's 12,000 ETH dump → ETHE NAV discount widens → <span class='link-type'>C&C pension fund books paper loss</span> → vineyard next to crater", type: "poetic" }
+    ],
+    confidence: "tenuous",
+    confidenceLabel: "CORRELATION: 0.8% (POETIC JUSTICE)"
+  },
+  {
+    ts: "2026-03-10 03:41:18 UTC",
+    event: "US B-2 Spirit conducts strike on underground Houthi missile storage, Yemen",
+    dao: { name: "Lido DAO", action: "Vote to reduce node operator commission from 10% to 8%" },
+    chain: [
+      { hop: "B-2 sortie launched from <span class='link-type'>Diego Garcia</span>, British Indian Ocean Territory", type: "origin" },
+      { hop: "Diego Garcia's base exchange (BX) reported a <span class='link-type'>347% spike in GTA: San Andreas sales</span> the following week (morale purchase pattern)", type: "retail" },
+      { hop: "GTA: San Andreas is published by <span class='link-type'>Take-Two Interactive</span>, whose employee stock purchase plan includes crypto allocation since 2025", type: "corporate" },
+      { hop: "Take-Two's treasury holds <span class='link-type'>stETH via Anchorage Digital</span> as part of its crypto allocation", type: "custodial" },
+      { hop: "Lido's commission reduction directly affects stETH yield → <span class='link-type'>Take-Two's crypto P&L</span> → funded by soldiers playing San Andreas on an island used to bomb Yemen", type: "recursive-absurdity" }
+    ],
+    confidence: "tenuous",
+    confidenceLabel: "CORRELATION: 0.002% (RECURSIVE)"
+  },
+  {
+    ts: "2026-03-08 16:28:53 UTC",
+    event: "Turkish drone strike on PKK positions in Sulaymaniyah province, Iraqi Kurdistan",
+    dao: { name: "Compound DAO", action: "Proposal #198: Add cbBTC as collateral asset" },
+    chain: [
+      { hop: "Sulaymaniyah province hosts <span class='link-type'>Iraq's largest Bitcoin mining operation</span> (subsidized Kurdish electricity, ~40MW)", type: "geographic" },
+      { hop: "The mining op uses <span class='link-type'>Bitmain S21 Pros</span> smuggled through Turkey via the Habur border crossing", type: "logistics" },
+      { hop: "Habur crossing traffic disrupted by Turkish military operations → <span class='link-type'>mining hardware delivery delayed 3 weeks</span>", type: "disruption" },
+      { hop: "Kurdish miners temporarily switch to <span class='link-type'>selling existing BTC holdings</span> to cover operational costs", type: "behavioral" },
+      { hop: "Some holdings custodied via Coinbase → <span class='link-type'>wrapped as cbBTC</span> → Compound votes to accept cbBTC as collateral on the same day", type: "temporal" },
+      { hop: "Turkish drone kills PKK fighters → Kurdish miners sell BTC → cbBTC supply increases → <span class='link-type'>Compound DAO adds it as collateral</span>", type: "conspiracy" }
+    ],
+    confidence: "medium",
+    confidenceLabel: "CORRELATION: 23.4% (SUSPICIOUSLY HIGH)"
+  },
+  {
+    ts: "2026-03-05 11:55:02 UTC",
+    event: "Saudi-led coalition intercepts ballistic missile over Riyadh",
+    dao: { name: "Arbitrum DAO", action: "STIP 2.0: Allocate 100M ARB tokens to ecosystem incentives" },
+    chain: [
+      { hop: "Patriot missile battery that intercepted uses <span class='link-type'>Raytheon RTX guidance systems</span>", type: "defense" },
+      { hop: "Raytheon's AI division partners with <span class='link-type'>Palantir</span> for battlefield analytics", type: "corporate" },
+      { hop: "Palantir employees are the <span class='link-type'>3rd largest demographic in Arbitrum governance</span> (source: Karma delegate analytics, dubious)", type: "demographic" },
+      { hop: "STIP 2.0 incentives disproportionately benefit <span class='link-type'>DeFi protocols favored by tech-sector delegates</span>", type: "governance" },
+      { hop: "Missile intercept → Raytheon stock bumps → Palantir partnership strengthens → employees feel bullish → <span class='link-type'>vote YES on 100M ARB airdrop</span>", type: "vibes-based" }
+    ],
+    confidence: "low",
+    confidenceLabel: "CORRELATION: 8.9% (VIBES-BASED)"
+  },
+  {
+    ts: "2026-03-01 07:12:39 UTC",
+    event: "Iran tests Fattah-2 hypersonic missile over Strait of Hormuz",
+    dao: { name: "ENS DAO", action: "Register fattah.eth — purchased for 0.3 ETH by anonymous wallet" },
+    chain: [
+      { hop: "The domain <span class='link-type'>fattah.eth</span> was registered 47 minutes before the test was publicly announced", type: "temporal-anomaly" },
+      { hop: "Registering wallet traces to a <span class='link-type'>Tornado Cash deposit</span> from an exchange with KYC in Dubai", type: "obfuscation" },
+      { hop: "Dubai exchange's largest market maker is <span class='link-type'>Wintermute</span>, which also provides liquidity for ENS token", type: "market-making" },
+      { hop: "ENS DAO treasury benefits from registration fees → <span class='link-type'>DAO profited $0.47 from Iranian missile program</span>", type: "accounting" }
+    ],
+    confidence: "medium",
+    confidenceLabel: "CORRELATION: 31.2% (TEMPORAL ANOMALY)"
+  }
+];
+
+let idx = 0;
+const feed = document.getElementById('feed');
+const countEl = document.getElementById('count');
+
+function addEntry() {
+  if (idx >= entries.length) { idx = 0; }
+  const e = entries[idx];
+
+  const div = document.createElement('div');
+  div.className = 'entry';
+  div.style.opacity = '0';
+  div.style.transform = 'translateY(-10px)';
+
+  let chainHtml = e.chain.map(c =>
+    `<div class="hop">${c.hop}</div>`
+  ).join('');
+
+  div.innerHTML = `
+    <div class="timestamp">${e.ts} // SIGINT-${Math.random().toString(36).substr(2,8).toUpperCase()}</div>
+    <div class="event">⚠ ${e.event}</div>
+    <div class="dao-event">
+      <span class="dao-name">${e.dao.name}</span>
+      <span class="action"> — ${e.dao.action}</span>
+    </div>
+    <div class="connection-chain">
+      ${chainHtml}
+    </div>
+    <span class="confidence ${e.confidence}">${e.confidenceLabel}</span>
+  `;
+
+  feed.prepend(div);
+  requestAnimationFrame(() => {
+    div.style.transition = 'all 0.5s';
+    div.style.opacity = '1';
+    div.style.transform = 'translateY(0)';
+  });
+
+  countEl.textContent = parseInt(countEl.textContent) + 1;
+  idx++;
+}
+
+// Initial burst
+for (let i = 0; i < 3; i++) {
+  setTimeout(() => addEntry(), i * 800);
+}
+
+// Then drip feed
+setInterval(addEntry, 12000);
+</script>
+</body>
+</html>

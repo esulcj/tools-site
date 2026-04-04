@@ -1,0 +1,14 @@
+{
+  "domain": "tools.tycho.sh",
+  "cfProject": "tycho-tools",
+  "audience": "private-internal",
+  "auth": {
+    "required": true,
+    "type": "cloudflare-access",
+    "allowedUsers": [
+      "theo@cloudnc.com"
+    ],
+    "policy": "theo-only"
+  },
+  "description": "Internal ops playbooks, guides, and tools. Theo only."
+}

@@ -1,0 +1,13 @@
+{
+  "name": "ops",
+  "version": "1.0.0",
+  "description": "Operational health, backups, sessions, and system status for OpenClaw",
+  "bin": {
+    "ops": "./index.js"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

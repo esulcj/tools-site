@@ -1,0 +1,14 @@
+{
+  "name": "memory-engine",
+  "version": "1.0.0",
+  "description": "Structured memory management for OpenClaw agents",
+  "type": "module",
+  "bin": {
+    "memory-engine": "./bin/cli.js"
+  },
+  "scripts": {
+    "test": "node --test test/*.js"
+  },
+  "keywords": ["openclaw", "memory", "agent"],
+  "license": "MIT"
+}

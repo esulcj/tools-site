@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tycho Workspace System Map</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #1a1a2e; color: #e0e0e0; font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; overflow: hidden; }
+#toolbar { position: fixed; top: 0; left: 0; right: 0; height: 48px; background: #16213e; border-bottom: 1px solid #333; display: flex; align-items: center; padding: 0 16px; z-index: 100; gap: 12px; }
+#toolbar h1 { font-size: 16px; color: #ffd700; margin-right: 20px; white-space: nowrap; }
+#toolbar h1 span { font-size: 12px; color: #888; margin-left: 8px; }
+#search { background: #1a1a2e; border: 1px solid #444; color: #e0e0e0; padding: 6px 12px; border-radius: 4px; width: 240px; font-family: inherit; font-size: 13px; }
+#search:focus { outline: none; border-color: #ffd700; }
+.tb-btn { background: #1a1a2e; border: 1px solid #444; color: #ccc; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-family: inherit; }
+.tb-btn:hover { border-color: #ffd700; color: #ffd700; }
+#canvas-wrap { position: fixed; top: 48px; left: 0; right: 320px; bottom: 0; }
+#sidebar { position: fixed; top: 48px; right: 0; width: 320px; bottom: 0; background: #16213e; border-left: 1px solid #333; overflow-y: auto; padding: 16px; font-size: 13px; }
+#sidebar.hidden { display: none; }
+#sidebar h2 { font-size: 15px; color: #ffd700; margin-bottom: 8px; }
+#sidebar h3 { font-size: 13px; color: #aaa; margin-top: 12px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+#sidebar .meta { color: #888; margin-bottom: 4px; }
+#sidebar .desc { color: #ccc; line-height: 1.5; margin-bottom: 8px; }
+#sidebar .ref-list { list-style: none; padding: 0; }
+#sidebar .ref-list li { padding: 2px 0; color: #7ec8e3; cursor: pointer; }
+#sidebar .ref-list li:hover { color: #ffd700; }
+#sidebar .close-btn { position: absolute; top: 12px; right: 12px; background: none; border: none; color: #888; cursor: pointer; font-size: 18px; }
+#sidebar .close-btn:hover { color: #ffd700; }
+#legend { position: fixed; bottom: 12px; left: 12px; background: #16213eee; border: 1px solid #333; border-radius: 6px; padding: 10px 14px; z-index: 50; font-size: 11px; max-height: 300px; overflow-y: auto; }
+#legend .item { display: flex; align-items: center; gap: 8px; padding: 2px 0; cursor: pointer; user-select: none; }
+#legend .item.dim { opacity: 0.3; }
+#legend .swatch { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+svg text { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; }
+.group-header { cursor: pointer; }
+.group-header:hover rect { filter: brightness(1.2); }
+.node-box { cursor: pointer; }
+.node-box:hover rect { filter: brightness(1.3); }
+.edge { fill: none; stroke-width: 1; opacity: 0.4; }
+.edge:hover { opacity: 0.8; stroke-width: 2; }
+.edge-label { font-size: 9px; fill: #888; pointer-events: none; }
+.search-hit rect { stroke: #ffd700 !important; stroke-width: 3 !important; }
+.search-hit text { fill: #ffd700 !important; }
+.node-dimmed { opacity: 0.15; }
+</style>
+</head>
+<body>
+<div id="toolbar">
+  <h1>&#9889; Tycho System Map <span>v2 &middot; 2026-03-19</span></h1>
+  <input id="search" type="text" placeholder="Search nodes..." />
+  <button class="tb-btn" onclick="expandAll()">Expand All</button>
+  <button class="tb-btn" onclick="collapseAll()">Collapse All</button>
+  <button class="tb-btn" onclick="resetView()">Reset View</button>
+  <button class="tb-btn" onclick="toggleSidebar()">Toggle Sidebar</button>
+</div>
+<div id="canvas-wrap"><svg id="graph"></svg></div>
+<div id="sidebar" class="hidden">
+  <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+  <div id="sidebar-content"></div>
+</div>
+<div id="legend"></div>
+
+<script>
+// ── Category definitions ──
+const CATEGORIES = {
+  'Identity':        { color: '#ffd700', order: 0 },
+  'Rules':           { color: '#ff4444', order: 1 },
+  'Specialists':     { color: '#4488ff', order: 2 },
+  'Agent Teams':     { color: '#6688ff', order: 3 },
+  'Playbooks':       { color: '#ff8844', order: 4 },
+  'Security':        { color: '#aa44ff', order: 5 },
+  'Fundraising':     { color: '#44cc66', order: 6 },
+  'Blog & Research': { color: '#44ccaa', order: 7 },
+  'Infrastructure':  { color: '#888888', order: 8 },
+  'Self-Improvement':{ color: '#ff8800', order: 9 },
+  'Knowledge Graph': { color: '#ff66aa', order: 10 },
+  'Memory':          { color: '#44dddd', order: 11 },
+  'Automation':      { color: '#dddd44', order: 12 },
+  'Channels':        { color: '#cccccc', order: 13 },
+};
+
+// ── Node data ──
+const groups = [
+  {
+    id: 'identity', label: 'Identity', category: 'Identity',
+    children: [
+      { id: 'soul', label: 'SOUL.md', desc: 'Core personality, values, anti-sycophancy, agency principles', refs_out: ['identity_md','mesh_learnings'] },
+      { id: 'identity_md', label: 'IDENTITY.md', desc: 'Avatar: Tycho &#9889; \u2014 daemon/familiar, named after Tycho Brahe' },
+      { id: 'user_md', label: 'USER.md', desc: 'Theo context: CEO CloudNC, MEng Warwick, SF/London, systems thinker' },
+      { id: 'memory_md', label: 'MEMORY.md', desc: 'Long-term operational memory hub: channels, budget, security, projects', refs_out: ['infra_lessons','coral_setup','recursive_decisions'] },
+    ]
+  },
+  {
+    id: 'rules', label: 'Rules & Directives', category: 'Rules',
+    children: [
+      { id: 'agents_md', label: 'AGENTS.md', desc: 'Task routing map, safety overrides, specialist delegation matrix', refs_out: ['routing_table','archetypes','soul','identity_md','blog_ops_spec','fundraising_spec','web_ops_spec','discord_ops_spec','spawn_lifecycle_spec','quality_gate_spec','security_gate_spec','reliability_spec','kg_spec'] },
+      { id: 'bootstrap_md', label: 'BOOTSTRAP.md', desc: 'Universal mesh directives: messaging, delivery, content standards, safety', refs_out: ['mesh_learnings','mesh_directives'] },
+      { id: 'heartbeat_md', label: 'HEARTBEAT.md', desc: 'Periodic health checks, post-restart recovery, zombie cleanup', refs_out: ['heartbeat_runner','reliability_spec','security_gate_spec','kg_spec','spawn_lifecycle_spec'] },
+      { id: 'tools_md', label: 'TOOLS.md', desc: 'Operational lessons: SVG anti-patterns, model IDs, Shopify, OAuth, email formatting' },
+    ]
+  },
+  {
+    id: 'specialists', label: 'Specialists', category: 'Specialists',
+    children: [
+      { id: 'blog_ops_spec', label: 'blog-ops', desc: 'Blog operations specialist' },
+      { id: 'fundraising_spec', label: 'fundraising-advisor', desc: 'Fundraising pipeline specialist' },
+      { id: 'web_ops_spec', label: 'web-ops', desc: 'Web deployment and ops' },
+      { id: 'discord_ops_spec', label: 'discord-ops', desc: 'Discord channel management' },
+      { id: 'spawn_lifecycle_spec', label: 'spawn-lifecycle', desc: 'Process and promise auditing' },
+      { id: 'quality_gate_spec', label: 'quality-gate', desc: 'Output quality enforcement' },
+      { id: 'security_gate_spec', label: 'security-gate', desc: 'Security sweep specialist' },
+      { id: 'reliability_spec', label: 'reliability', desc: 'Session health, API sync, config drift' },
+      { id: 'kg_spec', label: 'knowledge-graph', desc: 'KG health and queries' },
+      { id: 'heartbeat_runner', label: 'heartbeat-runner', desc: 'Executes all heartbeat checks' },
+      { id: 'task_decomposer', label: 'task-decomposer', desc: 'Recursive task decomposition' },
+      { id: 'formatting_qa', label: 'formatting-qa', desc: 'Output formatting quality assurance' },
+    ]
+  },
+  {
+    id: 'agent_teams', label: 'Agent Teams', category: 'Agent Teams',
+    children: [
+      { id: 'product_company', label: 'product-company', desc: '4 teams: product, engineering, growth, customer-intelligence (20+ personas)' },
+      { id: 'opportunity_radar', label: 'opportunity-radar', desc: 'Scans opportunities via thought-leader personas (Sahil, patio11, Pieter Levels, etc.)' },
+      { id: 'mesh_agent', label: 'mesh', desc: 'Product/blog/research/deal routing with directives and learnings' },
+      { id: 'designer_agent', label: 'designer', desc: 'Design team composer agent' },
+      { id: 'routing_table', label: 'routing-table', desc: 'Task classification \u2192 specialist routing' },
+      { id: 'archetypes', label: 'archetypes', desc: 'Sub-agent archetype definitions' },
+      { id: 'mesh_directives', label: 'mesh/directives', desc: 'Full mesh directive set' },
+      { id: 'mesh_learnings', label: 'mesh/learnings', desc: 'Append-only corrective lesson log' },
+    ]
+  },
+  {
+    id: 'playbooks', label: 'Playbooks', category: 'Playbooks',
+    children: [
+      { id: 'pb_production', label: 'production-pipeline', desc: 'Core production build orchestration' },
+      { id: 'pb_blog', label: 'blog-pipeline', desc: 'End-to-end blog publishing' },
+      { id: 'pb_deck', label: 'deck-pipeline', desc: 'Investor deck production pipeline' },
+      { id: 'pb_fundraising', label: 'fundraising-blitz', desc: 'Fundraising pipeline blitz playbook' },
+      { id: 'pb_security', label: 'security', desc: 'Security playbook' },
+      { id: 'pb_adversarial', label: 'adversarial-*', desc: 'Red/blue adversarial testing playbooks' },
+      { id: 'pb_email', label: 'email-triage', desc: 'Email triage and routing' },
+      { id: 'pb_delivery', label: 'delivery-scoping', desc: 'Delivery scoping and checkpoint protocols' },
+      { id: 'pb_research', label: 'research-methodology', desc: 'Research methodology playbook' },
+      { id: 'pb_archetypes', label: 'archetypes/', desc: '12+ reader personas: HN skeptic, capital allocator, debate moderator, etc.' },
+      { id: 'pb_writing', label: 'writing-voice', desc: 'Writing voice and style guide' },
+      { id: 'pb_sandbox', label: 'sandboxing', desc: 'Agent sandboxing protocols' },
+    ]
+  },
+  {
+    id: 'security', label: 'Security', category: 'Security',
+    children: [
+      { id: 'sec_fortress', label: 'fortress', desc: 'Adversarial red/blue testing framework' },
+      { id: 'sec_canary', label: 'canary system', desc: 'Honeypot bait files + tripwire lockdown (launchd daemon)' },
+      { id: 'sec_immune', label: 'immune system', desc: 'DNS monitor, keychain lock, security watch daemons' },
+      { id: 'sec_csp', label: 'agent CSP', desc: 'Content Security Policy per agent (scraper, analyst)' },
+      { id: 'sec_sentinel', label: 'sentinel-log', desc: 'Security event log (JSONL)' },
+      { id: 'sec_snapshots', label: 'snapshots/', desc: 'Point-in-time system snapshots for forensics' },
+      { id: 'sec_tool_tiers', label: 'tool-risk-tiers', desc: 'Tool risk classification system' },
+    ]
+  },
+  {
+    id: 'fundraising', label: 'Fundraising', category: 'Fundraising',
+    children: [
+      { id: 'fr_decks', label: 'decks/', desc: 'Investor decks v2-v14, teaser with board slides and HTML appendices' },
+      { id: 'fr_pipeline', label: 'pipeline.json', desc: 'Investor pipeline tracker' },
+      { id: 'fr_facts', label: 'CLOUDNC_FACTS', desc: 'Company facts and metrics reference' },
+      { id: 'fr_competitors', label: 'competitor-analysis', desc: 'Competitive landscape: Hadrian, Toolpath Labs, Freeform, etc.' },
+      { id: 'fr_archetype_reviews', label: 'archetype-reviews', desc: 'Investor persona deck review analysis' },
+      { id: 'fr_emails', label: 'emails/', desc: 'Investor intro blurbs and email templates' },
+      { id: 'fr_logos', label: 'logos/', desc: '80+ company and VC firm logos' },
+      { id: 'fr_financial', label: 'financial-model', desc: 'Financial model and cohort metrics' },
+    ]
+  },
+  {
+    id: 'blog_research', label: 'Blog & Research', category: 'Blog & Research',
+    children: [
+      { id: 'br_sentinel', label: 'sentinel-loop', desc: 'Research agent continuous loop spec' },
+      { id: 'br_pbbt', label: 'pbbt-research', desc: 'PBBT deep research playbook' },
+      { id: 'br_analysis', label: 'analysis-pattern', desc: 'Analysis methodology spec' },
+      { id: 'br_blog_site', label: 'blog-site/', desc: 'Blog website (research/blog-site submodule)' },
+    ]
+  },
+  {
+    id: 'infrastructure', label: 'Infrastructure', category: 'Infrastructure',
+    children: [
+      { id: 'infra_scripts', label: 'scripts/', desc: '70+ shell/python scripts: vault, deploy, monitoring, memory management' },
+      { id: 'infra_state', label: 'state/', desc: 'Runtime state: cache metrics, delivery log, spawn registry, watchdog' },
+      { id: 'infra_tools', label: 'tools/', desc: 'Operational tools: sentinel, relay, guardian, memory-engine, ops' },
+      { id: 'infra_dashboard', label: 'dashboard/', desc: 'Channel map, status dashboards' },
+      { id: 'infra_resilience', label: 'resilience/', desc: 'Gateway watchdog plist and recovery' },
+      { id: 'infra_lessons', label: 'infra-lessons', desc: 'Hard-won infrastructure lessons (memory file)' },
+    ]
+  },
+  {
+    id: 'self_improvement', label: 'Self-Improvement', category: 'Self-Improvement',
+    children: [
+      { id: 'si_graduations', label: 'graduations.md', desc: 'Graduated lessons that passed verification' },
+      { id: 'si_focus', label: 'focus.md', desc: 'Current self-improvement focus areas' },
+      { id: 'si_metrics', label: 'metrics', desc: 'Performance metrics (MD + JSONL)' },
+      { id: 'si_theo_patterns', label: 'theo-patterns', desc: 'Detected patterns in Theo\'s feedback' },
+      { id: 'si_proposals', label: 'pending-proposals', desc: 'Pending self-modification proposals' },
+      { id: 'si_detection', label: 'detection-log', desc: 'Pattern detection log' },
+      { id: 'si_feature_req', label: 'feature-requests/', desc: 'Pre-send gate, subagent sandbox override' },
+    ]
+  },
+  {
+    id: 'knowledge_graph', label: 'Knowledge Graph', category: 'Knowledge Graph',
+    children: [
+      { id: 'kg_store', label: 'quadstore', desc: '1638 RDF quads: companies, people, VCs, metrics, theses' },
+      { id: 'kg_companies', label: 'companies (30+)', desc: 'CloudNC, Hadrian, Cursor, Autodesk, Lockheed, Blue Origin, competitors', meta: 'Includes: Bright Machines, Toolpath Labs, Freeform, Mastercam, Fusion 360' },
+      { id: 'kg_people', label: 'people (24)', desc: 'Theo Saville, Chris Emery, Carl Bass, Demis Hassabis, Katherine Boyle, Palmer Luckey', meta: 'Includes leadership, advisors, VCs, thought leaders' },
+      { id: 'kg_vcs', label: 'VC firms (13)', desc: 'a16z, Lux, DCVC, Khosla, Eclipse, Spark, 8VC, Founders Fund, Wing, Theory, Bessemer', meta: 'Investment theses tracked: Vertical AI, American Dynamism, Defense Tech, Reshoring' },
+      { id: 'kg_metrics', label: 'metrics', desc: 'ARR: \u00a3713K\u2192\u00a33.8M\u2192\u00a34.2M, 5.5x growth, forecast \u00a39.9M Dec 2026', meta: '\u00a30\u2192\u00a31M in 6mo, \u00a31M\u2192\u00a35M in 10mo' },
+      { id: 'kg_seeds', label: 'seed scripts', desc: 'seed-fundraising (224 entities), seed-projects, seed-assets, seed-memory' },
+    ]
+  },
+  {
+    id: 'memory', label: 'Memory', category: 'Memory',
+    children: [
+      { id: 'mem_daily', label: 'daily notes (80+)', desc: 'Session logs from 2026-02-22 through 2026-03-18' },
+      { id: 'mem_reference', label: 'reference files (30+)', desc: 'cloudflare-setup, credential-arch, rft-primer, cost-log, sf-housing' },
+      { id: 'mem_archive', label: 'archive/ (50+)', desc: 'Compressed historical notes: fundraising-agents, shadow-theo, coaching feedback' },
+      { id: 'mem_feedback', label: 'feedback-pending', desc: 'Pending feedback for SOUL.md and tier-2 files' },
+      { id: 'recursive_decisions', label: 'recursive-decisions', desc: 'Recursive decomposition trial (arxiv 2603.02112)' },
+      { id: 'coral_setup', label: 'coral-setup', desc: 'Coral agent configuration notes' },
+    ]
+  },
+  {
+    id: 'automation', label: 'Automation', category: 'Automation',
+    children: [
+      { id: 'cron_budget', label: 'budget-daily-summary', desc: 'Daily at 21:00 London \u2192 #budget channel', meta: 'Schedule: daily 21:00 BST | Model: claude' },
+      { id: 'ld_watchdog', label: 'gateway-watchdog', desc: 'LaunchD: gateway health check every 30s', meta: 'Interval: 30s | RunAtLoad: true' },
+      { id: 'ld_dns', label: 'dns-monitor', desc: 'LaunchD: persistent DNS monitoring daemon', meta: 'KeepAlive: true | ThrottleInterval: 5s' },
+      { id: 'ld_keychain', label: 'keychain-lock', desc: 'LaunchD: auto-locks login keychain if unlocked >30s', meta: 'KeepAlive: true | ThrottleInterval: 10s' },
+      { id: 'ld_canary', label: 'canary-watcher', desc: 'LaunchD: canary tripwire daemon (runs as root)', meta: 'KeepAlive: true | User: root' },
+    ]
+  },
+  {
+    id: 'channels', label: 'Discord Channels', category: 'Channels',
+    children: [
+      { id: 'ch_main', label: '#main\u26a1', desc: 'Primary channel (1473812672922386614)' },
+      { id: 'ch_fundraising', label: '#fundraising', desc: 'Fundraising updates (1475513399864594705)' },
+      { id: 'ch_budget', label: '#budget', desc: 'Budget tracking (1475606681118445590)' },
+      { id: 'ch_blogs', label: '#blogs', desc: 'Blog publishing (1479122453111509113)' },
+      { id: 'ch_ops', label: '#ops', desc: 'Operations (1478940178159763496)' },
+      { id: 'ch_heartbeat', label: '#heartbeat', desc: 'Health checks (1479274339919466547)' },
+      { id: 'ch_white_hat', label: '#white-hat', desc: 'Security testing (1479791497850130495)' },
+      { id: 'ch_fortress', label: '#fortress', desc: 'Adversarial testing (1479984086188560415)' },
+      { id: 'ch_architecture', label: '#architecture', desc: 'Architecture discussion (1475799022043398198)' },
+      { id: 'ch_journal', label: '#journal', desc: 'Daily journal (1478974662959435847)' },
+      { id: 'ch_emails', label: '#emails-to-tycho', desc: 'Email forwarding (1479904223226368010)' },
+      { id: 'ch_infrastructure', label: '#infrastructure', desc: 'Infra updates (1480338614691827722)' },
+      { id: 'ch_quarantine', label: '#quarantine', desc: 'Quarantined content (1480314341831213142)' },
+      { id: 'ch_cloudnc', label: '#cloudnc', desc: 'CloudNC work (1479145832367394906)' },
+      { id: 'ch_random', label: '#random-questions', desc: 'Misc questions (1475991561756999730)' },
+      { id: 'ch_money', label: '#money', desc: 'Finance (1475096571602403410)' },
+      { id: 'ch_watchtower', label: '#watchtower', desc: 'Monitoring alerts (1478964467307118633)' },
+      { id: 'ch_world_model', label: '#world-model', desc: 'World model updates (1479006828775084082)' },
+      { id: 'ch_social', label: '#social-comments', desc: 'Social media comments (1476223510543204516)' },
+      { id: 'ch_dashboard', label: '#dashboard', desc: 'Dashboard updates (1480340458415849694)' },
+      { id: 'ch_whatsapp', label: 'WhatsApp', desc: 'WhatsApp DM + group (allowlist policy)' },
+    ]
+  },
+];
+
+// ── Cross-group edges ──
+const crossEdges = [
+  { from: 'agents_md', to: 'soul', label: 'reads' },
+  { from: 'agents_md', to: 'identity_md', label: 'reads' },
+  { from: 'agents_md', to: 'routing_table', label: 'defines' },
+  { from: 'bootstrap_md', to: 'mesh_directives', label: 'extends' },
+  { from: 'bootstrap_md', to: 'mesh_learnings', label: 'appends to' },
+  { from: 'heartbeat_md', to: 'heartbeat_runner', label: 'spawns' },
+  { from: 'heartbeat_md', to: 'reliability_spec', label: 'routes to' },
+  { from: 'heartbeat_md', to: 'security_gate_spec', label: 'routes to' },
+  { from: 'heartbeat_runner', to: 'ch_heartbeat', label: 'reports to' },
+  { from: 'cron_budget', to: 'ch_budget', label: 'posts to' },
+  { from: 'security_gate_spec', to: 'ch_white_hat', label: 'reports to' },
+  { from: 'sec_fortress', to: 'ch_fortress', label: 'reports to' },
+  { from: 'blog_ops_spec', to: 'ch_blogs', label: 'publishes to' },
+  { from: 'fundraising_spec', to: 'ch_fundraising', label: 'updates' },
+  { from: 'pb_fundraising', to: 'fr_decks', label: 'produces' },
+  { from: 'pb_deck', to: 'fr_decks', label: 'builds' },
+  { from: 'pb_blog', to: 'ch_blogs', label: 'delivers to' },
+  { from: 'kg_spec', to: 'kg_store', label: 'manages' },
+  { from: 'kg_seeds', to: 'kg_store', label: 'populates' },
+  { from: 'memory_md', to: 'mem_daily', label: 'indexes' },
+  { from: 'memory_md', to: 'mem_reference', label: 'indexes' },
+  { from: 'memory_md', to: 'infra_lessons', label: 'points to' },
+  { from: 'soul', to: 'mesh_learnings', label: 'evolves via' },
+  { from: 'mem_feedback', to: 'soul', label: 'proposes changes' },
+  { from: 'si_theo_patterns', to: 'si_proposals', label: 'informs' },
+  { from: 'si_proposals', to: 'soul', label: 'may modify' },
+  { from: 'ld_canary', to: 'sec_canary', label: 'monitors' },
+  { from: 'ld_watchdog', to: 'infra_resilience', label: 'guards' },
+  { from: 'ld_dns', to: 'sec_immune', label: 'part of' },
+  { from: 'ld_keychain', to: 'sec_immune', label: 'part of' },
+  { from: 'routing_table', to: 'blog_ops_spec', label: 'routes to' },
+  { from: 'routing_table', to: 'fundraising_spec', label: 'routes to' },
+  { from: 'routing_table', to: 'web_ops_spec', label: 'routes to' },
+  { from: 'routing_table', to: 'discord_ops_spec', label: 'routes to' },
+  { from: 'routing_table', to: 'security_gate_spec', label: 'routes to' },
+  { from: 'fr_pipeline', to: 'kg_companies', label: 'references' },
+  { from: 'fr_pipeline', to: 'kg_vcs', label: 'references' },
+  { from: 'pb_adversarial', to: 'sec_fortress', label: 'drives' },
+];
+
+// ── Layout engine ──
+const COL_COUNT = 4;
+const GROUP_W = 260;
+const GROUP_H_COLLAPSED = 40;
+const NODE_H = 28;
+const NODE_PAD = 4;
+const GROUP_PAD = 16;
+const GRID_GAP_X = 40;
+const GRID_GAP_Y = 30;
+const MARGIN = 30;
+
+let expanded = {};
+let hiddenCats = {};
+let nodePositions = {};
+let allNodeIndex = {};
+
+// Build node index
+groups.forEach(g => {
+  allNodeIndex[g.id] = g;
+  (g.children || []).forEach(c => { allNodeIndex[c.id] = c; c._groupId = g.id; });
+});
+
+function getGroupHeight(g) {
+  if (!expanded[g.id]) return GROUP_H_COLLAPSED;
+  return GROUP_H_COLLAPSED + (g.children.length * (NODE_H + NODE_PAD)) + GROUP_PAD;
+}
+
+function computeLayout() {
+  nodePositions = {};
+  const visibleGroups = groups.filter(g => !hiddenCats[g.category]);
+
+  // Compute column assignments - use fixed positions based on category order
+  const cols = [];
+  for (let i = 0; i < COL_COUNT; i++) cols.push({ height: 0, items: [] });
+
+  // Assign groups to fixed columns based on category for stability
+  const colAssignment = {};
+  visibleGroups.forEach((g, i) => {
+    // Fixed column based on order in the groups array
+    const originalIdx = groups.indexOf(g);
+    colAssignment[g.id] = originalIdx % COL_COUNT;
+  });
+
+  visibleGroups.forEach(g => {
+    const colIdx = colAssignment[g.id];
+    const h = getGroupHeight(g);
+    const x = MARGIN + colIdx * (GROUP_W + GRID_GAP_X);
+    const y = MARGIN + cols[colIdx].height;
+
+    nodePositions[g.id] = { x, y, w: GROUP_W, h, isGroup: true, category: g.category };
+
+    if (expanded[g.id]) {
+      g.children.forEach((c, i) => {
+        nodePositions[c.id] = {
+          x: x + 10,
+          y: y + GROUP_H_COLLAPSED + i * (NODE_H + NODE_PAD),
+          w: GROUP_W - 20,
+          h: NODE_H,
+          isGroup: false,
+          category: g.category,
+          groupId: g.id
+        };
+      });
+    }
+
+    cols[colIdx].height += h + GRID_GAP_Y;
+  });
+}
+
+// ── Rendering ──
+const svg = d3.select('#graph');
+const zoomG = svg.append('g');
+const edgeG = zoomG.append('g').attr('class', 'edges');
+const nodeG = zoomG.append('g').attr('class', 'nodes');
+
+const zoom = d3.zoom()
+  .scaleExtent([0.2, 3])
+  .on('zoom', e => zoomG.attr('transform', e.transform));
+svg.call(zoom);
+
+function resizeSVG() {
+  const wrap = document.getElementById('canvas-wrap');
+  svg.attr('width', wrap.clientWidth).attr('height', wrap.clientHeight);
+}
+window.addEventListener('resize', resizeSVG);
+resizeSVG();
+
+function render() {
+  computeLayout();
+
+  // ── Groups ──
+  const visibleGroups = groups.filter(g => !hiddenCats[g.category]);
+  const gSel = nodeG.selectAll('.group-g').data(visibleGroups, d => d.id);
+  gSel.exit().remove();
+
+  const gEnter = gSel.enter().append('g').attr('class', 'group-g group-header')
+    .on('click', (e, d) => { expanded[d.id] = !expanded[d.id]; render(); });
+
+  gEnter.append('rect').attr('rx', 6).attr('ry', 6);
+  gEnter.append('text').attr('class', 'group-label');
+  gEnter.append('text').attr('class', 'group-toggle');
+  gEnter.append('text').attr('class', 'group-count');
+
+  const gMerge = gEnter.merge(gSel);
+  gMerge.each(function(d) {
+    const pos = nodePositions[d.id];
+    if (!pos) return;
+    const g = d3.select(this);
+    g.transition().duration(300)
+      .attr('transform', `translate(${pos.x},${pos.y})`);
+
+    const cat = CATEGORIES[d.category];
+    g.select('rect')
+      .transition().duration(300)
+      .attr('width', pos.w).attr('height', pos.h)
+      .attr('fill', '#1e2a45')
+      .attr('stroke', cat.color).attr('stroke-width', 1.5);
+
+    g.select('.group-label')
+      .attr('x', 32).attr('y', 26)
+      .attr('fill', cat.color).attr('font-size', '14px').attr('font-weight', 'bold')
+      .text(d.label);
+
+    g.select('.group-toggle')
+      .attr('x', 12).attr('y', 26)
+      .attr('fill', cat.color).attr('font-size', '14px')
+      .text(expanded[d.id] ? '\u25BC' : '\u25B6');
+
+    g.select('.group-count')
+      .attr('x', pos.w - 12).attr('y', 26)
+      .attr('fill', '#666').attr('font-size', '11px').attr('text-anchor', 'end')
+      .text(`${d.children.length}`);
+  });
+
+  // ── Child nodes ──
+  const allChildren = visibleGroups.flatMap(g => expanded[g.id] ? g.children : []);
+  const nSel = nodeG.selectAll('.node-g').data(allChildren, d => d.id);
+  nSel.exit().remove();
+
+  const nEnter = nSel.enter().append('g').attr('class', 'node-g node-box')
+    .on('click', (e, d) => { e.stopPropagation(); showSidebar(d); });
+
+  nEnter.append('rect').attr('rx', 3).attr('ry', 3);
+  nEnter.append('text');
+
+  const nMerge = nEnter.merge(nSel);
+  nMerge.each(function(d) {
+    const pos = nodePositions[d.id];
+    if (!pos) return;
+    const g = d3.select(this);
+    const cat = CATEGORIES[pos.category];
+
+    g.transition().duration(300)
+      .attr('transform', `translate(${pos.x},${pos.y})`);
+
+    g.select('rect')
+      .attr('width', pos.w).attr('height', pos.h)
+      .attr('fill', '#252a3a')
+      .attr('stroke', cat ? cat.color : '#555').attr('stroke-width', 0.8)
+      .attr('opacity', 0.9);
+
+    g.select('text')
+      .attr('x', 8).attr('y', 18)
+      .attr('fill', '#ddd').attr('font-size', '12px')
+      .text(d.label.length > 30 ? d.label.slice(0, 28) + '\u2026' : d.label);
+  });
+
+  // ── Edges ──
+  const visibleEdges = crossEdges.filter(e => nodePositions[e.from] && nodePositions[e.to]);
+  const eSel = edgeG.selectAll('.edge-g').data(visibleEdges, d => d.from + '-' + d.to);
+  eSel.exit().remove();
+
+  const eEnter = eSel.enter().append('g').attr('class', 'edge-g');
+  eEnter.append('path').attr('class', 'edge');
+  eEnter.append('text').attr('class', 'edge-label');
+
+  const eMerge = eEnter.merge(eSel);
+  eMerge.each(function(d) {
+    const fromPos = nodePositions[d.from];
+    const toPos = nodePositions[d.to];
+    if (!fromPos || !toPos) return;
+
+    const fx = fromPos.x + fromPos.w / 2;
+    const fy = fromPos.y + fromPos.h / 2;
+    const tx = toPos.x + toPos.w / 2;
+    const ty = toPos.y + toPos.h / 2;
+
+    // Determine best connection points
+    let x1, y1, x2, y2;
+    if (Math.abs(fx - tx) > Math.abs(fy - ty)) {
+      x1 = fx < tx ? fromPos.x + fromPos.w : fromPos.x;
+      y1 = fy;
+      x2 = fx < tx ? toPos.x : toPos.x + toPos.w;
+      y2 = ty;
+    } else {
+      x1 = fx;
+      y1 = fy < ty ? fromPos.y + fromPos.h : fromPos.y;
+      x2 = tx;
+      y2 = fy < ty ? toPos.y : toPos.y + toPos.h;
+    }
+
+    const mx = (x1 + x2) / 2;
+    const my = (y1 + y2) / 2;
+    const cx1 = x1 + (mx - x1) * 0.5;
+    const cy1 = y1;
+    const cx2 = x2 - (x2 - mx) * 0.5;
+    const cy2 = y2;
+
+    const fromCat = fromPos.category;
+    const col = CATEGORIES[fromCat] ? CATEGORIES[fromCat].color : '#555';
+
+    d3.select(this).select('path')
+      .attr('d', `M${x1},${y1} C${cx1},${cy1} ${cx2},${cy2} ${x2},${y2}`)
+      .attr('stroke', col)
+      .attr('marker-end', 'none');
+
+    d3.select(this).select('.edge-label')
+      .attr('x', mx).attr('y', my - 4)
+      .attr('text-anchor', 'middle')
+      .text(d.label);
+  });
+}
+
+// ── Sidebar ──
+function showSidebar(node) {
+  const sb = document.getElementById('sidebar');
+  const content = document.getElementById('sidebar-content');
+  sb.classList.remove('hidden');
+  resizeCanvas();
+
+  const refsOut = crossEdges.filter(e => e.from === node.id).map(e => ({ id: e.to, label: e.label, name: (allNodeIndex[e.to] || {}).label || e.to }));
+  const refsIn = crossEdges.filter(e => e.to === node.id).map(e => ({ id: e.from, label: e.label, name: (allNodeIndex[e.from] || {}).label || e.from }));
+
+  let html = `<h2>${node.label}</h2>`;
+  const group = groups.find(g => g.id === node._groupId) || groups.find(g => g.id === node.id);
+  if (group) html += `<p class="meta">Category: ${group.category || group.label}</p>`;
+  if (node.desc) html += `<p class="desc">${node.desc}</p>`;
+  if (node.meta) html += `<p class="meta">${node.meta}</p>`;
+
+  if (refsOut.length) {
+    html += `<h3>References Out (${refsOut.length})</h3><ul class="ref-list">`;
+    refsOut.forEach(r => { html += `<li onclick="focusNode('${r.id}')">\u2192 ${r.name} <span style="color:#666">(${r.label})</span></li>`; });
+    html += '</ul>';
+  }
+  if (refsIn.length) {
+    html += `<h3>Referenced By (${refsIn.length})</h3><ul class="ref-list">`;
+    refsIn.forEach(r => { html += `<li onclick="focusNode('${r.id}')">\u2190 ${r.name} <span style="color:#666">(${r.label})</span></li>`; });
+    html += '</ul>';
+  }
+
+  if (node.children) {
+    html += `<h3>Contains (${node.children.length})</h3><ul class="ref-list">`;
+    node.children.forEach(c => { html += `<li onclick="focusNode('${c.id}')">${c.label}</li>`; });
+    html += '</ul>';
+  }
+
+  content.innerHTML = html;
+}
+
+function resizeCanvas() {
+  const sb = document.getElementById('sidebar');
+  const wrap = document.getElementById('canvas-wrap');
+  wrap.style.right = sb.classList.contains('hidden') ? '0' : '320px';
+  resizeSVG();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('hidden');
+  resizeCanvas();
+}
+
+function focusNode(id) {
+  const node = allNodeIndex[id];
+  if (node && node._groupId && !expanded[node._groupId]) {
+    expanded[node._groupId] = true;
+    render();
+  }
+  setTimeout(() => {
+    const pos = nodePositions[id];
+    if (!pos) return;
+    const wrap = document.getElementById('canvas-wrap');
+    const cx = wrap.clientWidth / 2;
+    const cy = wrap.clientHeight / 2;
+    svg.transition().duration(500).call(
+      zoom.transform,
+      d3.zoomIdentity.translate(cx - pos.x - pos.w/2, cy - pos.y - pos.h/2)
+    );
+    nodeG.selectAll('.node-g, .group-g').classed('search-hit', false);
+    nodeG.selectAll('.node-g, .group-g').filter(d => d.id === id).classed('search-hit', true);
+    if (node) showSidebar(node);
+  }, 50);
+}
+
+// ── Search ──
+document.getElementById('search').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  if (!q) {
+    nodeG.selectAll('.node-g, .group-g').classed('search-hit', false).classed('node-dimmed', false);
+    return;
+  }
+  const allNodes = [...groups, ...groups.flatMap(g => g.children || [])];
+  const hits = new Set();
+  allNodes.forEach(n => {
+    const text = (n.label + ' ' + (n.desc || '') + ' ' + (n.meta || '')).toLowerCase();
+    if (text.includes(q)) hits.add(n.id);
+  });
+
+  groups.forEach(g => {
+    if ((g.children || []).some(c => hits.has(c.id))) {
+      expanded[g.id] = true;
+    }
+  });
+  render();
+
+  nodeG.selectAll('.node-g').classed('search-hit', d => hits.has(d.id)).classed('node-dimmed', d => !hits.has(d.id) && hits.size > 0);
+  nodeG.selectAll('.group-g').classed('search-hit', d => hits.has(d.id)).classed('node-dimmed', d => !hits.has(d.id) && !(d.children || []).some(c => hits.has(c.id)) && hits.size > 0);
+});
+
+// ── Controls ──
+function expandAll() { groups.forEach(g => expanded[g.id] = true); render(); }
+function collapseAll() { groups.forEach(g => expanded[g.id] = false); render(); }
+function resetView() { svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity); }
+
+// ── Legend ──
+function buildLegend() {
+  const leg = document.getElementById('legend');
+  leg.innerHTML = '<div style="font-weight:bold;margin-bottom:6px;color:#aaa;">Categories</div>';
+  Object.entries(CATEGORIES).forEach(([name, cat]) => {
+    const div = document.createElement('div');
+    div.className = 'item' + (hiddenCats[name] ? ' dim' : '');
+    div.innerHTML = `<span class="swatch" style="background:${cat.color}"></span><span>${name}</span>`;
+    div.onclick = () => { hiddenCats[name] = !hiddenCats[name]; buildLegend(); render(); };
+    leg.appendChild(div);
+  });
+}
+buildLegend();
+
+// ── Initial render ──
+expanded['identity'] = true;
+expanded['rules'] = true;
+render();
+
+// Initial zoom to fit
+setTimeout(() => {
+  const wrap = document.getElementById('canvas-wrap');
+  const allPos = Object.values(nodePositions);
+  if (!allPos.length) return;
+  const minX = d3.min(allPos, p => p.x);
+  const minY = d3.min(allPos, p => p.y);
+  const maxX = d3.max(allPos, p => p.x + p.w);
+  const maxY = d3.max(allPos, p => p.y + p.h);
+  const bw = maxX - minX + 60;
+  const bh = maxY - minY + 60;
+  const scale = Math.min(wrap.clientWidth / bw, wrap.clientHeight / bh, 1.2);
+  const tx = (wrap.clientWidth - bw * scale) / 2 - minX * scale + 30;
+  const ty = (wrap.clientHeight - bh * scale) / 2 - minY * scale + 30;
+  svg.call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+}, 100);
+</script>
+</body>
+</html>

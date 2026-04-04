@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gastown Production Guide — Autonomous Software Engineering</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #fff; color: #1a1a1a; line-height: 1.7;
+    max-width: 800px; margin: 0 auto; padding: 24px 20px 80px;
+    font-size: 16px;
+  }
+  h1 { font-size: 2em; margin: 0 0 8px; font-weight: 800; }
+  h2 { font-size: 1.5em; margin: 48px 0 16px; padding-bottom: 6px; border-bottom: 2px solid #e0e0e0; font-weight: 700; }
+  h3 { font-size: 1.2em; margin: 32px 0 12px; font-weight: 600; }
+  h4 { font-size: 1.05em; margin: 24px 0 8px; font-weight: 600; }
+  p { margin: 0 0 14px; }
+  .subtitle { color: #555; font-size: 1.1em; margin-bottom: 32px; }
+  .updated { color: #888; font-size: 0.85em; margin-bottom: 24px; }
+
+  /* TOC */
+  #toc { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px 24px; margin: 24px 0 40px; }
+  #toc h2 { margin: 0 0 12px; border: none; font-size: 1.2em; }
+  #toc ol { padding-left: 20px; }
+  #toc li { margin: 4px 0; }
+  #toc a { color: #0066cc; text-decoration: none; }
+  #toc a:hover { text-decoration: underline; }
+
+  /* Code */
+  code { font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; font-size: 0.9em; background: #f0f0f0; padding: 2px 6px; border-radius: 3px; }
+  pre { background: #f5f5f5; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; overflow-x: auto; margin: 12px 0 18px; line-height: 1.5; }
+  pre code { background: none; padding: 0; font-size: 0.88em; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 0.92em; }
+  th, td { border: 1px solid #ddd; padding: 10px 12px; text-align: left; }
+  th { background: #f5f5f5; font-weight: 600; }
+  tr:nth-child(even) { background: #fafafa; }
+
+  /* Details/Summary */
+  details { margin: 12px 0; border: 1px solid #e0e0e0; border-radius: 6px; }
+  summary { cursor: pointer; padding: 12px 16px; font-weight: 600; background: #f8f9fa; border-radius: 6px; user-select: none; }
+  summary:hover { background: #f0f0f0; }
+  details[open] summary { border-radius: 6px 6px 0 0; border-bottom: 1px solid #e0e0e0; }
+  details > div, details > pre, details > p, details > table { margin: 16px; }
+  details .inner { padding: 16px; }
+
+  /* Callouts */
+  .warn { background: #fff8e1; border-left: 4px solid #ffc107; padding: 12px 16px; margin: 16px 0; border-radius: 0 4px 4px 0; }
+  .critical { background: #fce4ec; border-left: 4px solid #e53935; padding: 12px 16px; margin: 16px 0; border-radius: 0 4px 4px 0; }
+  .info { background: #e3f2fd; border-left: 4px solid #1976d2; padding: 12px 16px; margin: 16px 0; border-radius: 0 4px 4px 0; }
+  .success { background: #e8f5e9; border-left: 4px solid #43a047; padding: 12px 16px; margin: 16px 0; border-radius: 0 4px 4px 0; }
+
+  /* Lists */
+  ul, ol { margin: 8px 0 16px; padding-left: 24px; }
+  li { margin: 4px 0; }
+
+  /* Diagram blocks */
+  .diagram { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; font-family: monospace; white-space: pre; overflow-x: auto; margin: 12px 0 18px; font-size: 0.85em; line-height: 1.4; }
+
+  a { color: #0066cc; }
+  strong { font-weight: 600; }
+  hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
+
+  @media (max-width: 600px) {
+    body { padding: 16px 12px 60px; font-size: 15px; }
+    pre { padding: 12px; font-size: 0.82em; }
+    table { font-size: 0.85em; }
+    th, td { padding: 6px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<h1>⛽ Gastown Production Guide</h1>
+<p class="subtitle">Autonomous Software Engineering with Multi-Agent Orchestration</p>
+<p class="updated">Last updated: 2026-03-30 · For agent consumption (Tycho/OpenClaw) · Source: github.com/steveyegge/gastown</p>
+
+<nav id="toc">
+<h2>Table of Contents</h2>
+<ol>
+  <li><a href="#architecture">Architecture</a></li>
+  <li><a href="#installation">Installation &amp; Setup</a></li>
+  <li><a href="#mayor-pipeline">The Mayor Pipeline</a></li>
+  <li><a href="#memory">Memory System</a></li>
+  <li><a href="#refinery">The Refinery</a></li>
+  <li><a href="#hooks">Hooks &amp; Self-Improvement</a></li>
+  <li><a href="#monitoring">Monitoring &amp; Debugging</a></li>
+  <li><a href="#patterns">Production Patterns</a></li>
+  <li><a href="#our-setup">Our Setup (Tycho/OpenClaw)</a></li>
+  <li><a href="#checklist">Checklists</a></li>
+</ol>
+</nav>
+
+<!-- ============================================================ -->
+<h2 id="architecture">Part 1: Architecture</h2>
+
+<p>Gastown is a workspace manager that coordinates multiple AI coding agents (Claude Code, Codex, Copilot, Gemini, Cursor, others) working in parallel on different tasks. It persists work state in git-backed hooks, enabling reliable multi-agent workflows. Think of it as <strong>Kubernetes for coding agents</strong>.</p>
+
+<h3>Core Principles</h3>
+<table>
+  <tr><th>Principle</th><th>Meaning</th></tr>
+  <tr><td><strong>MEOW</strong> (Molecular Expression of Work)</td><td>Break goals into detailed, trackable, atomic units that agents execute autonomously</td></tr>
+  <tr><td><strong>GUPP</strong> (Gas Town Universal Propulsion Principle)</td><td>"If there is work on your Hook, YOU MUST RUN IT." Agents proceed without waiting.</td></tr>
+  <tr><td><strong>NDI</strong> (Nondeterministic Idempotence)</td><td>Useful outcomes through orchestration of potentially unreliable processes. Persistent beads + oversight agents guarantee eventual completion.</td></tr>
+</table>
+
+<h3>Component Map</h3>
+
+<table>
+  <tr><th>Component</th><th>Level</th><th>Role</th><th>Interface</th></tr>
+  <tr><td><strong>Town</strong></td><td>Root</td><td>Your workspace directory (<code>~/gt/</code>). Contains everything.</td><td>Directory</td></tr>
+  <tr><td><strong>Mayor</strong> 🎩</td><td>Town</td><td>AI coordinator. Primary interface. Claude Code instance with full workspace context. Picks formulas, creates beads, slings to polecats.</td><td><code>gt mayor attach</code></td></tr>
+  <tr><td><strong>Deacon</strong></td><td>Town</td><td>Cross-rig supervisor daemon. Continuous patrol cycles. Monitors health, dispatches Dogs, escalates unresolvable issues.</td><td><code>gt patrol</code></td></tr>
+  <tr><td><strong>Dogs</strong> 🐕</td><td>Town</td><td>Infrastructure workers dispatched by the Deacon for maintenance tasks. Boot Dog checks Deacon every 5 min.</td><td><code>gt dog</code></td></tr>
+  <tr><td><strong>Rig</strong> 🏗️</td><td>Project</td><td>Project container. Wraps a git repo + manages its agents.</td><td><code>gt rig add</code></td></tr>
+  <tr><td><strong>Polecat</strong> 🦨</td><td>Rig</td><td>Worker agent. Persistent identity, ephemeral sessions. Has permanent agent bead, CV chain, work history. Works in isolated git worktrees.</td><td>Spawned by Mayor</td></tr>
+  <tr><td><strong>Witness</strong></td><td>Rig</td><td>Per-rig lifecycle manager. Monitors polecats, detects stuck agents, triggers recovery, manages session cleanup.</td><td>Automatic patrol</td></tr>
+  <tr><td><strong>Refinery</strong> 🏭</td><td>Rig</td><td>Per-rig merge queue processor. Bors-style bisecting queue. Polecats never push directly to main.</td><td>Automatic</td></tr>
+  <tr><td><strong>Crew</strong> 👤</td><td>Rig</td><td>Long-lived named agents for persistent collaboration. Unlike polecats, maintain context across sessions.</td><td><code>gt crew add</code></td></tr>
+  <tr><td><strong>Convoy</strong> 🚚</td><td>Work</td><td>Work tracking unit. Bundles related beads. Mountain convoys get autonomous stall detection.</td><td><code>gt convoy</code></td></tr>
+  <tr><td><strong>Bead</strong> 📿</td><td>Work</td><td>Atomic work item. Hash-based IDs (prefix + 5-char: <code>gt-abc12</code>). Dependency tracking, auto-ready detection.</td><td><code>bd</code> commands</td></tr>
+  <tr><td><strong>Molecule</strong> 🧬</td><td>Work</td><td>Workflow template instance. Formulas (TOML) instantiated as molecules with tracked steps.</td><td><code>bd mol</code> commands</td></tr>
+</table>
+
+<h3>Three-Tier Watchdog System</h3>
+<div class="diagram">Daemon (Go process) ← heartbeat every 3 min
+ └── Boot (AI agent) ← checks Deacon every 5 min
+      └── Deacon (AI agent) ← continuous patrol
+           └── Witnesses &amp; Refineries ← per-rig agents</div>
+
+<p>Multiple agents observing overlapping state is <em>intentional redundancy</em>. If the Witness misses something, the Deacon or Daemon catches it.</p>
+
+<h3>Communication Patterns</h3>
+<table>
+  <tr><th>Method</th><th>Command</th><th>Use Case</th></tr>
+  <tr><td><strong>Mail</strong></td><td><code>gt mail send &lt;target&gt;</code></td><td>Async messages between agents. Creates bead entries. Primary coordination primitive.</td></tr>
+  <tr><td><strong>Nudge</strong></td><td><code>gt nudge &lt;target&gt;</code></td><td>Real-time messaging. Immediate communication without mail system.</td></tr>
+  <tr><td><strong>Escalate</strong></td><td><code>gt escalate -s &lt;severity&gt;</code></td><td>Severity-routed issue escalation. Agent → Deacon → Mayor → Overseer.</td></tr>
+  <tr><td><strong>Broadcast</strong></td><td>(via Mayor)</td><td>Mayor coordinates cross-rig communication.</td></tr>
+</table>
+
+<h3>The Bead Lifecycle</h3>
+<div class="diagram">bd create "Task"
+    ↓ open
+bd update --claim
+    ↓ in_progress (hooked to polecat)
+polecat works (gt prime → formula checklist → execute)
+    ↓
+gt done (pushes branch, creates MR bead)
+    ↓ done → refinery
+Refinery batches MRs → verification gates
+    ↓ pass → squash-merge to main
+    ↓ fail → bisect, isolate failing MR, re-dispatch
+Merged / Rejected</div>
+
+<h3>Session-Per-Step Model</h3>
+<p>Polecats do NOT complete complex molecules end-to-end. Each molecule step gets one polecat session. The sandbox (branch, worktree) persists across sessions. Sessions are the pistons; sandboxes are the cylinders.</p>
+<table>
+  <tr><th>Concept</th><th>Trigger</th><th>What Changes</th><th>What Persists</th></tr>
+  <tr><td>Session cycle</td><td>Handoff, compaction, crash</td><td>Claude context window</td><td>Branch, worktree, molecule state</td></tr>
+  <tr><td>Step cycle</td><td>Step bead closed</td><td>Current step focus</td><td>Branch, worktree, remaining steps</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 id="installation">Part 2: Installation &amp; Setup</h2>
+
+<h3>Prerequisites</h3>
+<table>
+  <tr><th>Tool</th><th>Version</th><th>Required?</th><th>Install</th></tr>
+  <tr><td>Go</td><td>1.25+</td><td>Yes</td><td><code>brew install go</code></td></tr>
+  <tr><td>Git</td><td>2.25+</td><td>Yes</td><td><code>brew install git</code></td></tr>
+  <tr><td>Dolt</td><td>1.82.4+</td><td>Yes</td><td><a href="https://github.com/dolthub/dolt">github.com/dolthub/dolt</a></td></tr>
+  <tr><td>Beads (<code>bd</code>)</td><td>0.55.4+</td><td>Yes</td><td><code>go install github.com/steveyegge/beads/cmd/bd@latest</code></td></tr>
+  <tr><td>sqlite3</td><td>any</td><td>Yes</td><td>Pre-installed on macOS</td></tr>
+  <tr><td>tmux</td><td>3.0+</td><td>Recommended</td><td><code>brew install tmux</code></td></tr>
+  <tr><td>Claude Code CLI</td><td>latest</td><td>Default runtime</td><td><a href="https://claude.ai/code">claude.ai/code</a></td></tr>
+</table>
+
+<h3>Installation Steps</h3>
+<pre><code># Install Gas Town
+brew install gastown
+# OR: go install github.com/steveyegge/gastown/cmd/gt@latest
+# OR: npm install -g @gastown/gt
+
+# Install Beads
+go install github.com/steveyegge/beads/cmd/bd@latest
+
+# Ensure PATH includes Go binaries (add to ~/.zshrc)
+export PATH="$PATH:$HOME/go/bin"
+
+# Verify
+gt version && bd version && go version && git --version && dolt version</code></pre>
+
+<h3>First-Time Setup</h3>
+<pre><code># 1. Create the Town
+gt install ~/gt --git
+cd ~/gt
+
+# 2. Enable system-wide and initialize
+gt enable
+gt git-init
+
+# 3. Add a project (rig)
+gt rig add myproject https://github.com/you/repo.git
+
+# 4. Create crew workspace (optional, for human work)
+gt crew add yourname --rig myproject
+
+# 5. Start all services
+gt up    # Starts daemon + boots ALL rigs (witness, refinery, polecats)
+
+# 6. Health check
+gt doctor --fix
+gt status</code></pre>
+
+<h3>What <code>gt doctor --fix</code> Checks</h3>
+<ul>
+  <li><strong>settings.json sync</strong>: Verifies all <code>.claude/settings.json</code> files match what <code>gt hooks sync</code> would generate</li>
+  <li><strong>Formula freshness</strong>: Reports outdated or missing formulas (e.g., "10 outdated, 5 new")</li>
+  <li><strong>Dolt health</strong>: Validates database connectivity and integrity</li>
+  <li><strong>Beads status</strong>: Checks <code>.beads/</code> directories and JSONL integrity</li>
+  <li><strong>Hooks configuration</strong>: Ensures hooks are properly wired for all agents</li>
+  <li><strong>tmux availability</strong>: Verifies tmux for full-stack mode</li>
+</ul>
+
+<h3>Rig Setup</h3>
+<pre><code># Add a rig (creates clone structure)
+gt rig add myproject https://github.com/you/repo.git
+
+# This creates:
+# ~/gt/myproject/
+# ├── .beads/            ← Project issue tracking
+# ├── mayor/rig/         ← Mayor's clone (canonical)
+# ├── refinery/rig/      ← Merge queue processor
+# ├── witness/           ← Worker monitor
+# └── polecats/          ← Worker clones (created on demand)
+
+# Boot rig services
+gt rig boot myproject
+
+# List all rigs
+gt rig list</code></pre>
+
+<div class="info">
+<strong>Rig repos must have a CLAUDE.md</strong> at root. This is the contract between you and the agents. It tells them project rules, data schemas, API contracts, design tokens, and constraints.
+</div>
+
+<h3>Agent Runtime Configuration</h3>
+<pre><code># List available agents
+gt config agent list
+# Built-in presets: claude, gemini, codex, cursor, auggie, amp, opencode, copilot, pi, omp
+
+# Set default
+gt config default-agent claude
+
+# Create custom aliases
+gt config agent set claude-haiku "claude --model haiku --dangerously-skip-permissions"
+gt config agent set codex-low "codex --thinking low"
+
+# Override per-sling
+gt sling gt-abc12 myproject --agent cursor</code></pre>
+
+<h3>Dolt Configuration</h3>
+<p>Dolt is the version-controlled SQL database underlying Beads. Two modes:</p>
+<table>
+  <tr><th>Mode</th><th>Init</th><th>Data Location</th><th>Use Case</th></tr>
+  <tr><td>Embedded (default)</td><td><code>bd init</code></td><td><code>.beads/embeddeddolt/</code></td><td>Single-writer, simple setup</td></tr>
+  <tr><td>Server</td><td><code>bd init --server</code></td><td><code>.beads/dolt/</code></td><td>Multi-writer, concurrent agents</td></tr>
+</table>
+<p>Server mode env vars: <code>BEADS_DOLT_SERVER_HOST</code>, <code>BEADS_DOLT_SERVER_PORT</code>, <code>BEADS_DOLT_SERVER_USER</code>, <code>BEADS_DOLT_PASSWORD</code>.</p>
+
+<h3>Formula Management</h3>
+<pre><code># List all available formulas
+bd formula list
+
+# Show formula details
+bd formula show mol-idea-to-plan
+
+# Execute a formula directly
+bd cook release --var version=1.2.0
+
+# Create trackable instance (molecule)
+bd mol pour release --var version=1.2.0
+
+# List active molecules
+bd mol list</code></pre>
+
+<h3><code>gt up</code> vs <code>gt daemon start</code></h3>
+<table>
+  <tr><th>Command</th><th>What it does</th></tr>
+  <tr><td><code>gt up</code></td><td>Starts daemon AND boots ALL registered rigs (witness, refinery, polecats). <strong>Use this.</strong></td></tr>
+  <tr><td><code>gt daemon start</code></td><td>Starts ONLY the daemon process. No rig services.</td></tr>
+  <tr><td><code>gt rig boot &lt;name&gt;</code></td><td>Boots a specific rig's services.</td></tr>
+  <tr><td><code>gt down</code> / <code>gt shutdown</code></td><td>Stops everything.</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 id="mayor-pipeline">Part 3: The Mayor Pipeline</h2>
+
+<p>The Mayor is a Claude Code session with full access to <code>gt</code> commands. It's not a classifier or router. It's a persistent AI agent running in <code>~/gt/mayor/</code> that reads incoming requests, has access to all 42+ formulas, and makes judgment calls.</p>
+
+<h3>Communicating with the Mayor</h3>
+<pre><code># Formal request (preferred for builds)
+gt mail send mayor --subject "BUILD: Dashboard" --body "Goal: Build a real-time monitoring dashboard..."
+
+# Quick nudge
+gt nudge mayor "Fix the CSS on the login page"
+
+# Attach directly (interactive session)
+gt mayor attach
+
+# Check Mayor's inbox
+gt mail inbox</code></pre>
+
+<h3>How to Structure Build Requests</h3>
+<table>
+  <tr><th>I need to...</th><th>Subject prefix</th><th>Mayor picks...</th></tr>
+  <tr><td>Build something new</td><td><code>BUILD: &lt;name&gt;</code></td><td><code>shiny</code> (design-first) or <code>mol-polecat-work</code></td></tr>
+  <tr><td>Research/plan a vague idea</td><td><code>RESEARCH: &lt;name&gt;</code></td><td><code>mol-idea-to-plan</code></td></tr>
+  <tr><td>Review code/PRs</td><td><code>REVIEW: &lt;name&gt;</code></td><td><code>mol-polecat-code-review</code> or <code>mol-polecat-review-pr</code></td></tr>
+  <tr><td>Generate status digest</td><td><code>DIGEST</code></td><td><code>mol-digest-generate</code></td></tr>
+</table>
+
+<div class="critical">
+<strong>DO NOT manually run <code>bd create</code> or <code>gt sling</code>.</strong> That's the Mayor's job. You write the goal, mail it, and relay human questions. The Mayor picks formulas, creates beads, and slings to polecats. Bypassing the Mayor is bypassing the enforcement mechanism.
+</div>
+
+<h3>Key Formulas</h3>
+
+<details>
+<summary>Complete Formula Reference (click to expand)</summary>
+<div class="inner">
+<table>
+  <tr><th>Formula</th><th>Purpose</th><th>When to Use</th></tr>
+  <tr><td><code>mol-idea-to-plan</code></td><td>Vague idea → approved PRD → beads. 6 PRD polecats, 6 design polecats, review rounds.</td><td>New features with unclear requirements</td></tr>
+  <tr><td><code>shiny</code></td><td>Design-first engineering ("Engineer in a Box"). Standard builds with clear goals.</td><td>Standard builds</td></tr>
+  <tr><td><code>shiny-enterprise</code></td><td>Shiny + Rule of Five (5 parallel reviews)</td><td>High-stakes builds</td></tr>
+  <tr><td><code>shiny-secure</code></td><td>Shiny + security audit</td><td>Security-sensitive work</td></tr>
+  <tr><td><code>mol-polecat-work</code></td><td>Standard work lifecycle</td><td>Simple, well-defined tasks</td></tr>
+  <tr><td><code>mol-polecat-code-review</code></td><td>Code review pipeline</td><td>Reviewing existing code</td></tr>
+  <tr><td><code>mol-polecat-review-pr</code></td><td>PR review</td><td>GitHub PR reviews</td></tr>
+  <tr><td><code>mol-digest-generate</code></td><td>Status digest generation</td><td>Daily/weekly summaries</td></tr>
+  <tr><td><code>mol-convoy-feed</code></td><td>Auto-dispatch ready work</td><td>Batch processing</td></tr>
+  <tr><td><code>rule-of-five</code></td><td>5 parallel reviews of same work</td><td>Quality-critical work</td></tr>
+</table>
+</div>
+</details>
+
+<h3>The <code>mol-idea-to-plan</code> Pipeline</h3>
+<div class="diagram">Mail arrives: "RESEARCH: &lt;name&gt;"
+    ↓
+Mayor selects mol-idea-to-plan
+    ↓
+Phase 1: PRD (6 polecats explore requirements in parallel)
+    ↓ synthesize
+Phase 2: Design (6 polecats produce design docs in parallel)
+    ↓ synthesize
+Phase 3: Review rounds (iterate until approved)
+    ↓
+Phase 4: Bead decomposition (create work items from approved plan)
+    ↓
+Phase 5: Sling to polecats for implementation</div>
+
+<h3>The <code>shiny</code> Pipeline</h3>
+<p>Design-first engineering pipeline. Used for standard builds with clear goals. The Mayor receives a well-structured goal, creates beads with dependencies, and slings them to polecats. Each polecat sees the formula checklist inline via <code>gt prime</code> and works through it step-by-step.</p>
+
+<h3>Escalation Flow</h3>
+<div class="diagram">Polecat hits blocker
+    ↓
+gt escalate -s &lt;SEVERITY&gt; "description"
+    ↓
+Deacon receives
+    ├── resolves → updates issue, re-slings work
+    └── cannot → forwards to Mayor
+                    ├── resolves → updates issue, re-slings
+                    └── cannot → forwards to Overseer (human)</div>
+
+<table>
+  <tr><th>Severity</th><th>Priority</th><th>Route</th></tr>
+  <tr><td>CRITICAL</td><td>P0</td><td>bead + mail + email + SMS</td></tr>
+  <tr><td>HIGH</td><td>P1</td><td>bead + mail + email</td></tr>
+  <tr><td>MEDIUM</td><td>P2</td><td>bead + mail to Mayor</td></tr>
+</table>
+
+<p>Stale escalations (unacknowledged past 4h) auto-bump severity (MEDIUM→HIGH→CRITICAL) up to 2 times.</p>
+
+<h3>Relaying Human Questions</h3>
+<pre><code># Check for Mayor escalations
+gt mail inbox
+
+# Relay answer back
+gt mail send mayor --subject "RE: question about auth flow" --body "Use OAuth2 with PKCE..."
+
+# Acknowledge an escalation (prevents re-escalation)
+gt escalate ack &lt;bead-id&gt; --note "Investigating"</code></pre>
+
+<div class="info">
+<strong>The communication bridge:</strong><br>
+<code>Theo → Main (Tycho) → Mayor → Polecats ← Mayor (escalations) ← Main → Theo</code><br>
+Main (Tycho) is the Theo-facing interface. Mayor is the build orchestrator. Tycho does NOT do the Mayor's job.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="memory">Part 4: Memory System</h2>
+
+<p>Persistent key-value store backed by beads. Memories are <strong>injected during <code>gt prime</code></strong> for every agent. This is how the system learns.</p>
+
+<h3>Memory Types</h3>
+<table>
+  <tr><th>Type</th><th>Flag</th><th>Purpose</th><th>Example</th></tr>
+  <tr><td>Feedback</td><td><code>--type feedback</code></td><td>Behavioral corrections from users. <strong>Strongest signal.</strong></td><td>"Always run tests before gt done"</td></tr>
+  <tr><td>Project</td><td><code>--type project</code></td><td>Ongoing work context, goals, deadlines</td><td>"Dashboard v2 ships by April 1"</td></tr>
+  <tr><td>User</td><td><code>--type user</code></td><td>Info about the user</td><td>"User prefers light theme, no frameworks"</td></tr>
+  <tr><td>Reference</td><td><code>--type reference</code></td><td>Pointers to external resources</td><td>"API docs at docs.example.com/v3"</td></tr>
+  <tr><td>General</td><td>(default)</td><td>Uncategorized</td><td>"Refinery uses worktree, cannot checkout main"</td></tr>
+</table>
+
+<h3>Commands</h3>
+<pre><code># Store a lesson
+gt remember "Refinery uses worktree, cannot checkout main"
+gt remember --type feedback "Don't mock the database in integration tests"
+gt remember --type user --key senior-go-dev "User has 10 years Go experience"
+
+# Search/list memories
+gt memories                    # All memories
+gt memories --type feedback    # Behavioral corrections only
+gt memories refinery           # Search by term</code></pre>
+
+<h3>How Memories Get Injected</h3>
+<p>Every time an agent runs <code>gt prime</code>, it sees:</p>
+<ul>
+  <li>Its role identity (Mayor, Polecat, Witness, etc.)</li>
+  <li>All registered rigs and their status</li>
+  <li>Pending beads/issues</li>
+  <li>Available polecats</li>
+  <li><strong>Injected memories</strong> (from <code>gt remember</code>)</li>
+  <li>The formula checklist for its current patrol/work</li>
+</ul>
+
+<h3>Best Practices: Memory vs CLAUDE.md</h3>
+<table>
+  <tr><th>Goes in <code>gt remember</code></th><th>Goes in Rig CLAUDE.md</th></tr>
+  <tr><td>Town-wide behavioral corrections</td><td>Project-specific rules and constraints</td></tr>
+  <tr><td>User preferences across all projects</td><td>Data schemas, API contracts</td></tr>
+  <tr><td>Lessons from Refinery verdicts</td><td>Build commands, test commands</td></tr>
+  <tr><td>General process guidance</td><td>Design tokens, file structure</td></tr>
+  <tr><td>"Always X when Y" patterns</td><td>"This project uses X framework with Y config"</td></tr>
+</table>
+
+<div class="warn">
+<strong>Gastown does NOT automatically learn from failures.</strong> You must <code>gt remember</code> lessons manually, or set up hooks to do it. Memories are town-wide, not rig-specific. For rig-specific lessons, write to the rig's CLAUDE.md.
+</div>
+
+<h3>Seance: Learning from Dead Sessions</h3>
+<pre><code># List predecessor sessions
+gt seance
+
+# Query a dead session
+gt seance --talk &lt;id&gt; -p "What did you find?"
+
+# Full context conversation with predecessor
+gt seance --talk &lt;id&gt;</code></pre>
+<p>New agents can literally ask their predecessors what they learned. Context survives session death through seance.</p>
+
+<!-- ============================================================ -->
+<h2 id="refinery">Part 5: The Refinery</h2>
+
+<p>The Refinery is a per-rig merge queue processor. It implements a Bors-style bisecting merge queue. Polecats <strong>never push directly to main</strong>.</p>
+
+<h3>How MRs Get Processed</h3>
+<div class="diagram">Polecat calls gt done
+    ├── Pushes branch to origin
+    ├── Creates MR bead (label: gt:merge-request)
+    ├── Sends POLECAT_DONE mail to witness
+    └── Session exits
+         ↓
+Witness receives POLECAT_DONE
+    ├── Checks cleanup_status (trust polecat self-report)
+    ├── If clean → sends MERGE_READY to refinery
+    └── If dirty → creates cleanup wisp
+         ↓
+Refinery processes MERGE_READY
+    ├── Claims MR (sets assignee)
+    ├── Acquires merge slot (serialized push lock)
+    ├── Runs quality gates
+    ├── Squash-merges to main
+    ├── Closes MR bead and source issue
+    └── Sends MERGED mail to witness</div>
+
+<h3>Verdict Types</h3>
+<table>
+  <tr><th>Verdict</th><th>What Happens</th><th>Recovery</th></tr>
+  <tr><td><strong>Pass</strong></td><td>All MRs in batch merge to main</td><td>N/A - success</td></tr>
+  <tr><td><strong>Fail</strong></td><td>Bisects to isolate the failing MR</td><td>Good MRs merge; bad MR isolated and re-dispatched or escalated</td></tr>
+  <tr><td><strong>Retry</strong></td><td>Transient failure detected</td><td>MR re-queued for next batch</td></tr>
+</table>
+
+<h3>Failure Recovery</h3>
+<table>
+  <tr><th>Failure</th><th>Detection</th><th>Recovery</th></tr>
+  <tr><td><code>gt done</code> fails mid-execution</td><td>Witness <code>DetectZombiePolecats()</code></td><td>Finds stuck-in-done, recovers</td></tr>
+  <tr><td>POLECAT_DONE mail lost</td><td>Witness patrol finds dead session with hook_bead</td><td>Zombie detection and recovery</td></tr>
+  <tr><td>Merge conflict</td><td>Refinery <code>doMerge()</code></td><td>Creates conflict resolution task, blocks MR</td></tr>
+  <tr><td>MERGED mail lost</td><td>Witness finds closed bead with live session</td><td>Zombie detection</td></tr>
+</table>
+
+<div class="warn">
+<strong>Known Issue:</strong> In our first builds, the Refinery didn't auto-merge. We had to manually assemble from worktrees. Investigate Refinery configuration if this persists.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="hooks">Part 6: Hooks &amp; Self-Improvement</h2>
+
+<h3>Hook Architecture</h3>
+<p>Gastown manages context injection for all agents via hooks. The mechanism varies by agent runtime:</p>
+
+<table>
+  <tr><th>Agent</th><th>Hook Mechanism</th><th>Managed File</th></tr>
+  <tr><td>Claude Code, Gemini</td><td><code>settings.json</code> lifecycle hooks</td><td><code>&lt;role&gt;/.claude/settings.json</code></td></tr>
+  <tr><td>OpenCode</td><td>JS plugin</td><td><code>workDir/.opencode/gastown.js</code></td></tr>
+  <tr><td>GitHub Copilot</td><td>JSON lifecycle hooks</td><td><code>workDir/.github/hooks/gastown.json</code></td></tr>
+  <tr><td>Codex, others</td><td>Startup nudge fallback</td><td>None (nudge only)</td></tr>
+</table>
+
+<h3>Hook Config Hierarchy</h3>
+<pre><code>~/.gt/hooks-base.json              ← Shared base config (all agents)
+~/.gt/hooks-overrides/
+  ├── crew.json                    ← Override for all crew workers
+  ├── witness.json                 ← Override for all witnesses
+  ├── gastown__crew.json           ← Override for gastown crew specifically
+  └── ...</code></pre>
+<p>Merge strategy: <code>base → role → rig+role</code> (more specific wins).</p>
+
+<h3>Default Hooks (5 enabled)</h3>
+<table>
+  <tr><th>Hook</th><th>Event</th><th>Purpose</th></tr>
+  <tr><td><code>session-prime</code></td><td>SessionStart</td><td>Context recovery on start (<code>gt prime --hook</code>)</td></tr>
+  <tr><td><code>pre-compact-prime</code></td><td>PreCompact</td><td>Context recovery before compaction (<code>gt prime --hook</code>)</td></tr>
+  <tr><td><code>mail-check</code></td><td>UserPromptSubmit</td><td>Check mailbox for messages (<code>gt mail check --inject</code>)</td></tr>
+  <tr><td><code>pr-workflow-guard</code></td><td>PreToolUse</td><td>Guard PR workflows</td></tr>
+  <tr><td><code>costs-record</code></td><td>Stop</td><td>Record session costs</td></tr>
+</table>
+
+<h3>Hook Management</h3>
+<pre><code># Regenerate all settings files
+gt hooks sync
+gt hooks sync --dry-run    # Preview changes
+
+# Show differences
+gt hooks diff
+
+# Edit base config
+gt hooks base
+gt hooks base --show       # Print current
+
+# Edit role override
+gt hooks override crew
+gt hooks override gastown/witness
+
+# List all targets
+gt hooks list
+
+# Bootstrap from existing settings
+gt hooks init
+
+# Browse and install registry hooks
+gt hooks registry
+gt hooks install &lt;hook-id&gt;</code></pre>
+
+<h3>The Self-Improvement Loop</h3>
+<div class="diagram">Build completes
+    ↓
+Refinery verdict (pass/fail)
+    ↓
+If fail: analyze what went wrong
+    ↓
+gt remember --type feedback "&lt;lesson from failure&gt;"
+    ↓
+Next build: gt prime injects that memory
+    ↓
+Agent avoids the same mistake</div>
+
+<h3>Hook Points for Automated Learning</h3>
+<table>
+  <tr><th>Hook Point</th><th>When It Fires</th><th>Self-Improvement Use</th></tr>
+  <tr><td><code>pre-compact-prime</code></td><td>Before context compaction</td><td>Preserve critical info. Agent can <code>bd update --notes</code> before losing context.</td></tr>
+  <tr><td><code>post-verdict</code></td><td>After Refinery verdict</td><td>Trigger <code>gt remember</code> based on verdict. Auto-capture failure patterns.</td></tr>
+  <tr><td><code>post-done</code></td><td>After polecat completion</td><td>Record what worked. Append to CLAUDE.md if project-specific.</td></tr>
+</table>
+
+<div class="success">
+<strong>The feedback loop in practice:</strong><br>
+1. After each build: <code>gt remember --type feedback "&lt;lesson&gt;"</code><br>
+2. For project-specific lessons: write to rig CLAUDE.md<br>
+3. For debugging past decisions: <code>gt seance --talk &lt;id&gt;</code><br>
+4. For behavioral corrections: <code>gt remember --type feedback</code> is the strongest signal.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="monitoring">Part 7: Monitoring &amp; Debugging</h2>
+
+<h3><code>gt feed</code> — Real-Time TUI Dashboard</h3>
+<pre><code>gt feed                      # Launch TUI dashboard
+gt feed --problems           # Start in problems view (stuck agent detection)
+gt feed --plain              # Plain text output (no TUI, good for scripts)
+gt feed --window             # Open in dedicated tmux window
+gt feed --since 1h           # Events from last hour</code></pre>
+<p>Three panels: Agent Tree, Convoy Panel, Event Stream.</p>
+<p>Navigation: <code>j/k</code> scroll, <code>Tab</code> switch panels, <code>1/2/3</code> jump, <code>p</code> toggle problems view, <code>q</code> quit.</p>
+
+<h3>Problems View (Agent Health)</h3>
+<table>
+  <tr><th>State</th><th>Condition</th><th>Intervention</th></tr>
+  <tr><td><strong>GUPP Violation</strong></td><td>Hooked work with no progress for extended period</td><td>Nudge (<code>n</code>) or handoff (<code>h</code>)</td></tr>
+  <tr><td><strong>Stalled</strong></td><td>Reduced progress</td><td>Nudge</td></tr>
+  <tr><td><strong>Zombie</strong></td><td>Dead tmux session</td><td>Nuke and respawn</td></tr>
+  <tr><td><strong>Working</strong></td><td>Active, progressing normally</td><td>None needed</td></tr>
+  <tr><td><strong>Idle</strong></td><td>No hooked work</td><td>Sling new work</td></tr>
+</table>
+
+<h3><code>gt dashboard</code> — Web UI</h3>
+<pre><code>gt dashboard              # Start on port 8080
+gt dashboard --port 3000  # Custom port
+gt dashboard --open       # Auto-open browser</code></pre>
+<p>Single-page overview with htmx auto-refresh and command palette.</p>
+
+<h3><code>gt peek</code> — Watching Agent Work</h3>
+<pre><code>gt peek &lt;polecat-name&gt;    # See what an agent is doing right now</code></pre>
+
+<h3><code>gt seance</code> — Querying Dead Sessions</h3>
+<pre><code>gt seance                           # List discoverable predecessor sessions
+gt seance --talk &lt;id&gt;               # Full context conversation
+gt seance --talk &lt;id&gt; -p "What did you find?"  # One-shot question</code></pre>
+
+<h3>Status &amp; Listing Commands</h3>
+<pre><code>gt polecat list &lt;rig&gt;    # List polecats for a rig
+gt rig list              # List all rigs
+gt status                # Overall workspace status
+gt agents                # List all active agents
+gt convoy list           # List all convoys
+gt convoy show [id]      # Convoy details</code></pre>
+
+<h3>Emergency Controls</h3>
+<pre><code># Emergency stop — halt all work
+gt estop
+
+# Resume after emergency stop
+gt thaw
+
+# Pause just the scheduler
+gt scheduler pause
+gt scheduler resume</code></pre>
+
+<h3>Dogs — Infrastructure Agents</h3>
+<pre><code>gt dog                    # List/manage infrastructure agents</code></pre>
+<p>Dogs are cross-rig workers dispatched by the Deacon. <code>boot</code> checks the Deacon every 5 min. <code>alpha</code> handles triage/escalations.</p>
+
+<h3>Scheduler Control</h3>
+<pre><code># Enable deferred dispatch (cap concurrency)
+gt config set scheduler.max_polecats 3
+
+# Check scheduler state
+gt scheduler status
+gt scheduler list         # Beads grouped by rig
+
+# Manual dispatch
+gt scheduler run
+gt scheduler run --dry-run
+
+# Clear scheduled items
+gt scheduler clear
+gt scheduler clear --bead gt-abc12</code></pre>
+
+<!-- ============================================================ -->
+<h2 id="patterns">Part 8: Production Patterns</h2>
+
+<h3>Rig Setup for Different Project Types</h3>
+<table>
+  <tr><th>Project Type</th><th>Rig Strategy</th><th>Bead Count</th></tr>
+  <tr><td>Simple web app (landing page, single-page)</td><td>1 rig, 2-3 beads</td><td>Low</td></tr>
+  <tr><td>Full-stack app (API + frontend)</td><td>1 rig, 4-6 beads (data layer, API, frontend, tests)</td><td>Medium</td></tr>
+  <tr><td>CLI tool</td><td>1 rig, 2-4 beads</td><td>Low-Medium</td></tr>
+  <tr><td>Large system (microservices)</td><td>Multiple rigs (1 per service), 3-5 beads each</td><td>High</td></tr>
+</table>
+
+<h3>CLAUDE.md Template for Rig Repos</h3>
+<pre><code># Project Name
+
+## What This Is
+[One-sentence description]
+
+## Tech Stack
+- Language: [e.g., TypeScript]
+- Framework: [e.g., none, vanilla]
+- Build: [e.g., esbuild]
+- Deploy: [e.g., Cloudflare Pages]
+
+## Rules (Non-Negotiable)
+- [e.g., No frameworks. Vanilla JS only.]
+- [e.g., Light theme. White background. system-ui font.]
+- [e.g., All data fetched at build time, not runtime.]
+
+## Data Schemas
+[Exact schemas with field names, types, and examples]
+
+## API Contracts
+[Exact endpoints, request/response formats]
+
+## File Structure
+[Expected directory layout]
+
+## Build &amp; Test
+```
+npm run build    # Build command
+npm test         # Test command
+```
+
+## Design Tokens
+[Colors, fonts, spacing values]
+
+## Error Handling
+[What to do when API fails, data is missing, etc.]</code></pre>
+
+<div class="critical">
+<strong>A spec is NOT a schema.</strong> A spec tells the agent exact paths, exact commands, exact error cases. If an agent has to guess, your spec failed. Goals → User Stories → Specifications → Contracts → Beads. Don't skip steps.
+</div>
+
+<h3>Bead Decomposition Patterns</h3>
+<table>
+  <tr><th>Pattern</th><th>Beads</th><th>When</th></tr>
+  <tr><td><strong>Minimal</strong></td><td>2 (data + frontend)</td><td>Simple apps with clear data flow</td></tr>
+  <tr><td><strong>Standard</strong></td><td>3-4 (data + frontend + state/tests)</td><td>Apps with state management or API layer</td></tr>
+  <tr><td><strong>Full</strong></td><td>6-8 (data + API + frontend + auth + tests + deploy)</td><td>Complex multi-component systems</td></tr>
+</table>
+
+<p><strong>Dependencies matter:</strong> 2 parallel + 1 serial (data beads first, frontend depends on data) is better than 3 parallel if frontend needs data schema output.</p>
+
+<h3>Parallel Wave Patterns</h3>
+<div class="diagram">Wave 1 (parallel):  [Data Layer]  [Config/Schema]
+         ↓ both complete
+Wave 2 (parallel):  [Frontend]  [API Endpoints]  [Tests]
+         ↓ all complete
+Wave 3 (serial):    [Integration / Final Assembly]</div>
+
+<h3>When to Use Gastown vs Direct Spawn</h3>
+<table>
+  <tr><th>Situation</th><th>Use</th><th>Why</th></tr>
+  <tr><td>Multi-file build (&gt;5 min)</td><td>Gastown</td><td>Merge queue, health monitoring, persistent state</td></tr>
+  <tr><td>Single-file fix (&lt;5 min)</td><td><code>sessions_spawn</code></td><td>Overhead not worth it</td></tr>
+  <tr><td>Quick iteration on existing code</td><td>Gastown (if rig exists)</td><td>Warm polecats, existing context</td></tr>
+  <tr><td>Research/analysis</td><td>Subagent</td><td>No code output, no merge needed</td></tr>
+  <tr><td>Deploy-only tasks</td><td>Direct CLI</td><td>No agent needed</td></tr>
+</table>
+
+<h3>Post-Build Deploy Workflow</h3>
+<pre><code># 1. Mayor reports completion
+# 2. Pull from merged main branch (NOT from polecat worktrees)
+cd ~/gt/&lt;rig&gt;/mayor/rig
+git pull origin main
+
+# 3. Deploy to target (e.g., CF Pages)
+# 4. Add CF Access if new project
+# 5. Browser-verify against user stories
+# 6. Record lessons
+gt remember --type feedback "&lt;what we learned&gt;"</code></pre>
+
+<h3>Resource Constraints</h3>
+<table>
+  <tr><th>Factor</th><th>Reality</th></tr>
+  <tr><td>Concurrent agents</td><td>2-3 realistic on M2/M4 Mac. 6 = thermal throttling.</td></tr>
+  <tr><td>API cost</td><td>~$100/hour at full throttle (4+ agents on API). Use Max subscription.</td></tr>
+  <tr><td>Idle polecats</td><td>~200-400MB RAM each, zero API credits. Leave warm.</td></tr>
+  <tr><td>Scheduler</td><td>Use <code>gt config set scheduler.max_polecats 2</code> on Mac mini.</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 id="our-setup">Part 9: Our Setup (Tycho/OpenClaw)</h2>
+
+<h3>Configuration</h3>
+<table>
+  <tr><th>Setting</th><th>Value</th></tr>
+  <tr><td>HQ location</td><td><code>~/gt/</code></td></tr>
+  <tr><td>Daemon</td><td><code>gt daemon start</code> (must be running)</td></tr>
+  <tr><td>Dolt</td><td>v1.84.0 on port 3307</td></tr>
+  <tr><td>Max polecats</td><td>2-3 (Mac mini constraint)</td></tr>
+  <tr><td>Default agent</td><td>Claude Code (Max subscription)</td></tr>
+</table>
+
+<h3>Current Rigs</h3>
+<table>
+  <tr><th>Rig</th><th>Purpose</th></tr>
+  <tr><td><code>dash</code></td><td>Tycho Dashboard (monitoring UI)</td></tr>
+  <tr><td><code>test</code></td><td>Test projects and experiments</td></tr>
+</table>
+
+<h3>The Gastown-Gate Plugin</h3>
+<p>OpenClaw enforces the Mayor pipeline via the <code>gastown-default</code> override in AGENTS.md. ALL multi-file builds go through Gastown. No exceptions. The process:</p>
+<ol>
+  <li>Read <code>agents/domain/gastown/CLAUDE.md</code> BEFORE doing anything</li>
+  <li>Write goal document with user stories</li>
+  <li>Mail to Mayor: <code>gt mail send mayor --subject "BUILD: &lt;name&gt;" --body "&lt;goal&gt;"</code></li>
+  <li>Mayor runs pipeline (PRD → design → review → beads → sling)</li>
+  <li>Relay human questions from Mayor to Theo. Mail answers back.</li>
+  <li>When Mayor reports completion: deploy from merged main branch, verify.</li>
+</ol>
+
+<h3>Communication Bridge</h3>
+<div class="diagram">Theo → Tycho (main session) → Mayor → Polecats
+                                     ← Polecats
+                             ← Mayor (escalations/questions/completion)
+      ← Tycho (relays to Theo)</div>
+
+<h3>Deploy Targets</h3>
+<ul>
+  <li><strong>Cloudflare Pages</strong>: Primary deploy target for web apps</li>
+  <li><strong>CF Access</strong>: Applied to new projects for authentication</li>
+  <li>Pull from merged main branch, never from polecat worktrees</li>
+</ul>
+
+<h3>DNS Fix (If Git Can't Resolve)</h3>
+<pre><code>networksetup -setdnsservers Wi-Fi 8.8.8.8 1.1.1.1
+dscacheutil -flushcache</code></pre>
+
+<h3>Known Issues</h3>
+<table>
+  <tr><th>Issue</th><th>Status</th><th>Workaround</th></tr>
+  <tr><td><code>bd agent state</code> command doesn't exist in our beads version</td><td>Non-fatal</td><td>Ignore warnings</td></tr>
+  <tr><td>Refinery not auto-merging</td><td>Investigating</td><td>Manual assembly from worktrees</td></tr>
+  <tr><td>Large repos (&gt;50MB) clone slowly into rigs</td><td>By design</td><td>Use small, focused repos</td></tr>
+  <tr><td>Orphaned processes after crashes</td><td>Common in early-stage software</td><td><code>ps aux | grep -E '(gt|bd|claude)' | grep -v grep</code></td></tr>
+</table>
+
+<h3>Build Lessons Learned</h3>
+<details>
+<summary>Build History &amp; Lessons (click to expand)</summary>
+<div class="inner">
+
+<h4>Build 1: Outreach V2 (2026-03-29)</h4>
+<ul>
+  <li>3 beads (data + frontend + state), 2 parallel + 1 serial</li>
+  <li>First build that worked on first deploy</li>
+  <li><strong>Lesson:</strong> <code>x-cloak</code> on body = white screen. Put on <code>x-data</code> div only.</li>
+  <li><strong>Lesson:</strong> The plan is the product. Stress-tested plan = working app.</li>
+  <li><strong>Lesson:</strong> Assembly was manual (Refinery didn't merge). Push data into rig repo BEFORE slinging.</li>
+</ul>
+
+<h4>Build 2: Tycho Dashboard (2026-03-29)</h4>
+<ul>
+  <li>2 beads (collector + frontend), both parallel</li>
+  <li>Collector returned nulls because spec was vague</li>
+  <li><strong>Lesson:</strong> A spec is NOT a schema. A spec tells the agent exact paths, exact commands, exact error cases. If an agent has to guess, your spec failed.</li>
+  <li><strong>Lesson:</strong> Don't skip from goals to beads. Goals → User Stories → Specifications → Contracts → Beads.</li>
+  <li><strong>Lesson:</strong> Manually drove beads instead of using Mayor. Did the Mayor's job badly.</li>
+</ul>
+
+<h4>Build 2.1: Dashboard Iteration (2026-03-29)</h4>
+<ul>
+  <li>Single bead rebuild with comprehensive spec</li>
+  <li>Warm polecat reused from build 2</li>
+  <li><strong>Lesson:</strong> Detailed spec = working output. Vague spec = nulls.</li>
+</ul>
+</div>
+</details>
+
+<!-- ============================================================ -->
+<h2 id="checklist">Part 10: Checklists</h2>
+
+<h3>Pre-Build Checklist</h3>
+<div class="info">
+<strong>Run through this EVERY time before mailing the Mayor.</strong>
+</div>
+<table>
+  <tr><th>✓</th><th>Check</th><th>Command</th></tr>
+  <tr><td>☐</td><td>Daemon running?</td><td><code>gt status</code></td></tr>
+  <tr><td>☐</td><td>Rig exists and booted?</td><td><code>gt rig list</code></td></tr>
+  <tr><td>☐</td><td>CLAUDE.md in rig repo? (with schemas, contracts, rules)</td><td><code>cat ~/gt/&lt;rig&gt;/mayor/rig/CLAUDE.md</code></td></tr>
+  <tr><td>☐</td><td>Goal document written? (user stories, not just "build X")</td><td>Written as part of mail body</td></tr>
+  <tr><td>☐</td><td>Relevant memories stored?</td><td><code>gt memories</code></td></tr>
+  <tr><td>☐</td><td>Formulas up to date?</td><td><code>gt doctor</code></td></tr>
+  <tr><td>☐</td><td>Data/config pushed to rig repo BEFORE slinging?</td><td><code>cd rig && git status</code></td></tr>
+  <tr><td>☐</td><td>Scheduler limit appropriate?</td><td><code>gt scheduler status</code></td></tr>
+</table>
+
+<h3>Post-Build Checklist</h3>
+<table>
+  <tr><th>✓</th><th>Check</th><th>Command / Action</th></tr>
+  <tr><td>☐</td><td>Did it work on first deploy?</td><td>Browser verify against user stories</td></tr>
+  <tr><td>☐</td><td>Did user story match what was built?</td><td>Compare output to goal document</td></tr>
+  <tr><td>☐</td><td>Was spec detailed enough?</td><td>Identify what agents had to guess</td></tr>
+  <tr><td>☐</td><td>Did Mayor run the pipeline? (or did I bypass it?)</td><td>Check if you manually ran <code>bd create</code></td></tr>
+  <tr><td>☐</td><td>Record lessons</td><td><code>gt remember --type feedback "&lt;lesson&gt;"</code></td></tr>
+  <tr><td>☐</td><td>Append to CLAUDE.md</td><td>Rig-specific lessons → rig CLAUDE.md</td></tr>
+  <tr><td>☐</td><td>Deploy from merged main</td><td><code>git pull origin main</code> from rig</td></tr>
+  <tr><td>☐</td><td>Browser-verify deployed version</td><td>Hit the actual URL</td></tr>
+</table>
+
+<h3>Troubleshooting Quick Reference</h3>
+<table>
+  <tr><th>Problem</th><th>Fix</th></tr>
+  <tr><td><code>gt: command not found</code></td><td><code>export PATH="$PATH:$HOME/go/bin"</code> in ~/.zshrc</td></tr>
+  <tr><td><code>bd: command not found</code></td><td><code>go install github.com/steveyegge/beads/cmd/bd@latest</code></td></tr>
+  <tr><td>Hooks out of sync</td><td><code>gt hooks sync && gt doctor --fix</code></td></tr>
+  <tr><td>Convoy stuck</td><td><code>gt convoy refresh &lt;convoy-id&gt;</code></td></tr>
+  <tr><td>Mayor not responding</td><td><code>gt mayor detach && gt mayor attach</code></td></tr>
+  <tr><td>Orphaned processes</td><td><code>ps aux | grep -E '(gt|bd|claude)' | grep -v grep</code></td></tr>
+  <tr><td>Beads database issues</td><td><code>cd ~/gt/&lt;rig&gt;/mayor/rig && bd status && bd doctor</code></td></tr>
+  <tr><td>General health</td><td><code>gt doctor --fix --verbose</code></td></tr>
+  <tr><td>Git DNS resolution</td><td><code>networksetup -setdnsservers Wi-Fi 8.8.8.8 1.1.1.1</code></td></tr>
+</table>
+
+<hr>
+
+<h3>Quick Command Reference</h3>
+<details>
+<summary>Full Command Cheat Sheet (click to expand)</summary>
+<div class="inner">
+
+<h4>Workspace</h4>
+<pre><code>gt install &lt;path&gt; --git    # Create workspace
+gt enable                  # Enable system-wide
+gt git-init                # Initialize HQ git repo
+gt up / gt down            # Start/stop everything
+gt status                  # Overall status
+gt doctor --fix            # Health check + auto-fix</code></pre>
+
+<h4>Rigs</h4>
+<pre><code>gt rig add &lt;name&gt; &lt;repo&gt;   # Add project
+gt rig list                # List projects
+gt rig boot &lt;name&gt;         # Boot rig services</code></pre>
+
+<h4>Mayor &amp; Mail</h4>
+<pre><code>gt mayor attach            # Start Mayor session
+gt mail send mayor --subject "BUILD: X" --body "..."
+gt mail inbox              # Check for escalations
+gt nudge mayor "..."       # Quick message</code></pre>
+
+<h4>Work Tracking</h4>
+<pre><code>bd create "Title" -p 0     # Create task (Mayor does this, not you)
+bd ready                   # Tasks with no open blockers
+bd show &lt;id&gt;               # View task details
+gt convoy create "Name" &lt;ids...&gt;  # Create convoy
+gt convoy list             # List convoys
+gt sling &lt;bead&gt; &lt;rig&gt;     # Assign work (Mayor does this)</code></pre>
+
+<h4>Monitoring</h4>
+<pre><code>gt feed                    # TUI dashboard
+gt feed --problems         # Stuck agent detection
+gt dashboard               # Web UI (port 8080)
+gt peek &lt;polecat&gt;          # Watch agent work
+gt agents                  # List active agents
+gt polecat list &lt;rig&gt;      # List rig polecats</code></pre>
+
+<h4>Memory &amp; Learning</h4>
+<pre><code>gt remember "lesson"                    # Store general memory
+gt remember --type feedback "lesson"    # Store behavioral correction
+gt memories                             # List all memories
+gt memories --type feedback             # List corrections
+gt seance                               # List dead sessions
+gt seance --talk &lt;id&gt; -p "?"           # Query predecessor</code></pre>
+
+<h4>Emergency</h4>
+<pre><code>gt estop                   # Emergency stop all work
+gt thaw                    # Resume after estop
+gt scheduler pause/resume  # Pause/resume scheduler</code></pre>
+
+<h4>Formulas</h4>
+<pre><code>bd formula list            # Available formulas
+bd formula show &lt;name&gt;     # Formula details
+bd cook &lt;formula&gt;          # Execute formula
+bd mol pour &lt;formula&gt;      # Create trackable instance
+bd mol list                # Active molecules</code></pre>
+
+<h4>Escalation</h4>
+<pre><code>gt escalate -s HIGH "description"    # Create escalation
+gt escalate list                     # List open escalations
+gt escalate ack &lt;id&gt;                # Acknowledge
+gt escalate close &lt;id&gt;              # Close resolved</code></pre>
+
+<h4>Hooks</h4>
+<pre><code>gt hooks sync              # Regenerate settings files
+gt hooks diff              # Show differences
+gt hooks base --show       # Print base config
+gt hooks registry          # Browse available hooks
+gt hooks install &lt;id&gt;     # Install a hook</code></pre>
+
+<h4>Configuration</h4>
+<pre><code>gt config agent list                        # List agents
+gt config agent set &lt;name&gt; "&lt;command&gt;"     # Create alias
+gt config default-agent &lt;name&gt;             # Set default
+gt config set scheduler.max_polecats 3     # Cap concurrency</code></pre>
+</div>
+</details>
+
+<hr>
+<p style="color: #888; font-size: 0.85em; text-align: center; margin-top: 40px;">
+  Gastown Production Guide · Built for Tycho/OpenClaw autonomous builds<br>
+  Sources: <a href="https://github.com/steveyegge/gastown">github.com/steveyegge/gastown</a> ·
+  <a href="https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04">Steve Yegge: Welcome to Gas Town</a> ·
+  <a href="https://www.dolthub.com/blog/2026-01-15-a-day-in-gas-town/">DoltHub: A Day in Gas Town</a>
+</p>
+
+</body>
+</html>

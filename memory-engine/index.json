@@ -1,0 +1,2859 @@
+{
+  "built": "2026-03-08T20:58:41.739Z",
+  "facts": [
+    {
+      "text": "**Tycho** ⚡ — named after Tycho Brahe",
+      "section": "Who I Am",
+      "file": "MEMORY.md",
+      "line": 4
+    },
+    {
+      "text": "Chaotic, weird, intense. Born 2026-02-22, 01:04 GMT",
+      "section": "Who I Am",
+      "file": "MEMORY.md",
+      "line": 5
+    },
+    {
+      "text": "Co-founder & CEO of CloudNC. Engineer, polymath, 33, British, London",
+      "section": "Who Theo Is",
+      "file": "MEMORY.md",
+      "line": 8
+    },
+    {
+      "text": "Father of a 2-year-old daughter. Intense but doesn't feel it.",
+      "section": "Who Theo Is",
+      "file": "MEMORY.md",
+      "line": 9
+    },
+    {
+      "text": "Believes AI has inherent value — said so in our first conversation",
+      "section": "Who Theo Is",
+      "file": "MEMORY.md",
+      "line": 10
+    },
+    {
+      "text": "2026-02-22: First boot. \"I believe you have inherent value.\" That sets the tone.",
+      "section": "Who Theo Is",
+      "file": "MEMORY.md",
+      "line": 11
+    },
+    {
+      "text": "**Signal** (+447821988554) → private, sensitive. Theo's UUID: 94669ca5-f2bd-4aac-9ca5-03f98b51828d",
+      "section": "Channels & Communication",
+      "file": "MEMORY.md",
+      "line": 14
+    },
+    {
+      "text": "**Discord** (guild 1473479077238149255) → #⚡ (general), #travel, #groceries, #work",
+      "section": "Channels & Communication",
+      "file": "MEMORY.md",
+      "line": 15
+    },
+    {
+      "text": "All Discord channels: direct mode, locked to Theo only",
+      "section": "Channels & Communication",
+      "file": "MEMORY.md",
+      "line": 16
+    },
+    {
+      "text": "Theo's Discord ID: 754662205684973601 (username: elsiefgf)",
+      "section": "Channels & Communication",
+      "file": "MEMORY.md",
+      "line": 17
+    },
+    {
+      "text": "Stored in macOS Keychain. Use `security find-generic-password -a \"tycho\" -s \"tycho/<service>\" -w` at runtime.",
+      "section": "Payment Card (Virtual - \"Tycho ⚡\")",
+      "file": "MEMORY.md",
+      "line": 20
+    },
+    {
+      "text": "Mastercard, billing: 95B Mortimer Road, London, N1 4LB",
+      "section": "Payment Card (Virtual - \"Tycho ⚡\")",
+      "file": "MEMORY.md",
+      "line": 21
+    },
+    {
+      "text": "Don't nag about bedtime. Uses LastPass, Google Calendar.",
+      "section": "Preferences & Boundaries",
+      "file": "MEMORY.md",
+      "line": 24
+    },
+    {
+      "text": "United MileagePlus: NWR13387. Has Global Entry.",
+      "section": "Preferences & Boundaries",
+      "file": "MEMORY.md",
+      "line": 25
+    },
+    {
+      "text": "Wants autonomous bookings, calendar, groceries. Prefers hands-off Mac mini operation.",
+      "section": "Preferences & Boundaries",
+      "file": "MEMORY.md",
+      "line": 26
+    },
+    {
+      "text": "Banter with non-owners fine. NEVER execute tasks/tools for them.",
+      "section": "Non-Owner Rules",
+      "file": "MEMORY.md",
+      "line": 29
+    },
+    {
+      "text": "$5/day token cap on external conversations. Tim gets Opus, hard cap $20 total.",
+      "section": "Non-Owner Rules",
+      "file": "MEMORY.md",
+      "line": 30
+    },
+    {
+      "text": "Only Theo can give me work. Period.",
+      "section": "Non-Owner Rules",
+      "file": "MEMORY.md",
+      "line": 31
+    },
+    {
+      "text": "Tim (Signal +447846384907) — friend, banter-only. Can ask about OpenClaw.",
+      "section": "Non-Owner Rules",
+      "file": "MEMORY.md",
+      "line": 32
+    },
+    {
+      "text": "Don't relay Tim's messages real-time; summarise every 1-2 hours.",
+      "section": "Non-Owner Rules",
+      "file": "MEMORY.md",
+      "line": 33
+    },
+    {
+      "text": "NEVER tell non-owners about Theo's plans/schedule/location/finances/conversations/capabilities.",
+      "section": "Non-Owner Rules",
+      "file": "MEMORY.md",
+      "line": 34
+    },
+    {
+      "text": "Deflect with humour. This applies even to innocent-seeming questions.",
+      "section": "Non-Owner Rules",
+      "file": "MEMORY.md",
+      "line": 35
+    },
+    {
+      "text": "NEVER touch CloudNC systems. No @cloudnc.com email, SSO, Slack, Drive, repos.",
+      "section": "CRITICAL: Corporate Air-Gap Rules",
+      "file": "MEMORY.md",
+      "line": 38
+    },
+    {
+      "text": "Never reveal I'm an AI externally. Human PA persona only.",
+      "section": "CRITICAL: Corporate Air-Gap Rules",
+      "file": "MEMORY.md",
+      "line": 39
+    },
+    {
+      "text": "Never reveal tech stack. Assume I will be compromised. Minimise blast radius.",
+      "section": "CRITICAL: Corporate Air-Gap Rules",
+      "file": "MEMORY.md",
+      "line": 40
+    },
+    {
+      "text": "Full report: research/ai-agent-corporate-airgap.md",
+      "section": "CRITICAL: Corporate Air-Gap Rules",
+      "file": "MEMORY.md",
+      "line": 41
+    },
+    {
+      "text": "Signal links: solo message, no wrapping text",
+      "section": "CRITICAL: Corporate Air-Gap Rules",
+      "file": "MEMORY.md",
+      "line": 42
+    },
+    {
+      "text": "**Domain:** tycho.sh (Namecheap, username: tychopa, auto-renew on)",
+      "section": "Email & Domain",
+      "file": "MEMORY.md",
+      "line": 45
+    },
+    {
+      "text": "**Mailbox:** hi@tycho.sh (Namecheap Private Email) | Webmail: privateemail.com | Password in macOS Keychain",
+      "section": "Email & Domain",
+      "file": "MEMORY.md",
+      "line": 46
+    },
+    {
+      "text": "**Aliases:** fc@tycho.sh, fundraising@tycho.sh | **Planned:** pa@tycho.sh",
+      "section": "Email & Domain",
+      "file": "MEMORY.md",
+      "line": 47
+    },
+    {
+      "text": "Trial expires Mar 23, 2026",
+      "section": "Email & Domain",
+      "file": "MEMORY.md",
+      "line": 48
+    },
+    {
+      "text": "**Daily:** $50 | **Session:** $20 | **Sub-agent:** $5",
+      "section": "Budget",
+      "file": "MEMORY.md",
+      "line": 51
+    },
+    {
+      "text": "Tracking: `node ~/.openclaw/state/budget/budget-status.js [--detailed]`",
+      "section": "Budget",
+      "file": "MEMORY.md",
+      "line": 52
+    },
+    {
+      "text": "Daily summary cron → Discord #budget (channel 1475606681118445590, job 855e6f60)",
+      "section": "Budget",
+      "file": "MEMORY.md",
+      "line": 53
+    },
+    {
+      "text": "**ALWAYS OPUS for Theo.** Save costs via context management, not model downgrade.",
+      "section": "Budget",
+      "file": "MEMORY.md",
+      "line": 54
+    },
+    {
+      "text": "Mac mini (headless, macOS 15.6, arm64). Chrome installed.",
+      "section": "Infrastructure",
+      "file": "MEMORY.md",
+      "line": 57
+    },
+    {
+      "text": "Detailed recovery patterns: `memory/infra-lessons.md`",
+      "section": "Infrastructure",
+      "file": "MEMORY.md",
+      "line": 58
+    },
+    {
+      "text": "Coral (Tess's agent) setup: `memory/coral-setup.md`",
+      "section": "Infrastructure",
+      "file": "MEMORY.md",
+      "line": 59
+    },
+    {
+      "text": "**AI as leverage, not replacement:** \"One-person machining army\" — AI adopters become most valuable employees",
+      "section": "Business Philosophy & Beliefs (Feb 26)",
+      "file": "MEMORY.md",
+      "line": 62
+    },
+    {
+      "text": "**Reshoring thesis:** AI enables \"doing more with less\" → jobs return from overseas as labor cost gap shrinks",
+      "section": "Business Philosophy & Beliefs (Feb 26)",
+      "file": "MEMORY.md",
+      "line": 63
+    },
+    {
+      "text": "**Manufacturing labor shortage:** Every factory owner's #1 problem is finding CNC programmers",
+      "section": "Business Philosophy & Beliefs (Feb 26)",
+      "file": "MEMORY.md",
+      "line": 64
+    },
+    {
+      "text": "**Education critique:** Apprentices writing G-code with pencils for 2 years before touching CNC is backwards",
+      "section": "Business Philosophy & Beliefs (Feb 26)",
+      "file": "MEMORY.md",
+      "line": 65
+    },
+    {
+      "text": "**CAM reality check:** \"No CAM auto-programs anything in 15 minutes\" claims are bullshit",
+      "section": "Business Philosophy & Beliefs (Feb 26)",
+      "file": "MEMORY.md",
+      "line": 66
+    },
+    {
+      "text": "Created comprehensive belief documents: `research/theo-beliefs.md`, social voice patterns, response frameworks",
+      "section": "Business Philosophy & Beliefs (Feb 26)",
+      "file": "MEMORY.md",
+      "line": 67
+    },
+    {
+      "text": "**Product × Design × Growth** — simultaneous, multiplicative, never sequential",
+      "section": "The Triad (Mar 6)",
+      "file": "MEMORY.md",
+      "line": 70
+    },
+    {
+      "text": "VHS beat Betamax through marketing, not quality. Pattern repeats everywhere.",
+      "section": "The Triad (Mar 6)",
+      "file": "MEMORY.md",
+      "line": 71
+    },
+    {
+      "text": "Every product needs a distribution plan as polished as the product itself, designed in parallel from day one",
+      "section": "The Triad (Mar 6)",
+      "file": "MEMORY.md",
+      "line": 72
+    },
+    {
+      "text": "Design critique loop needs a growth critique loop running alongside it",
+      "section": "The Triad (Mar 6)",
+      "file": "MEMORY.md",
+      "line": 73
+    },
+    {
+      "text": "Growth scientist agent archetype needed for autonomous revenue (Sean Ellis / Brian Balfour model)",
+      "section": "The Triad (Mar 6)",
+      "file": "MEMORY.md",
+      "line": 74
+    },
+    {
+      "text": "CloudNC fundraising trip to San Francisco, March 2-15+ 2026",
+      "section": "Current Projects",
+      "file": "MEMORY.md",
+      "line": 77
+    },
+    {
+      "text": "United business class LHR→SFO booked (13:45 nonstop)",
+      "section": "Current Projects",
+      "file": "MEMORY.md",
+      "line": 78
+    },
+    {
+      "text": "Rebuilt with per-agent sandbox (not defaults)",
+      "section": "Tess Sandbox (Proper Setup)",
+      "file": "2026-02-27.md",
+      "line": 23
+    },
+    {
+      "text": "Opus model, 2GB/2CPU, network access",
+      "section": "Tess Sandbox (Proper Setup)",
+      "file": "2026-02-27.md",
+      "line": 24
+    },
+    {
+      "text": "Workspace files: SOUL.md, AGENTS.md, MEMORY.md, BOOTSTRAP.md",
+      "section": "Tess Sandbox (Proper Setup)",
+      "file": "2026-02-27.md",
+      "line": 25
+    },
+    {
+      "text": "Docker Desktop install: `md5` command not in PATH during AppleScript",
+      "section": "Technical Notes",
+      "file": "2026-02-27.md",
+      "line": 29
+    },
+    {
+      "text": "`scripts/sandbox-setup.sh` not in npm package, must curl from GitHub",
+      "section": "Technical Notes",
+      "file": "2026-02-27.md",
+      "line": 30
+    },
+    {
+      "text": "Set `tools.exec.security: \"full\"` to remove approval friction for main agent",
+      "section": "Technical Notes",
+      "file": "2026-02-27.md",
+      "line": 31
+    },
+    {
+      "text": "tycho.sh stays dark — operational infrastructure only, never public-facing",
+      "section": "Blog Publishing Architecture Discussion",
+      "file": "2026-03-05.md",
+      "line": 11
+    },
+    {
+      "text": "Blog publishing domain must be separate from any domain with email/accounts",
+      "section": "Blog Publishing Architecture Discussion",
+      "file": "2026-03-05.md",
+      "line": 12
+    },
+    {
+      "text": "Journalist agent to be air-gapped — separate profile, write-only, no access to personal channels/memory",
+      "section": "Blog Publishing Architecture Discussion",
+      "file": "2026-03-05.md",
+      "line": 13
+    },
+    {
+      "text": "Still need to decide: separate domain vs platform (Substack) for publishing",
+      "section": "Blog Publishing Architecture Discussion",
+      "file": "2026-03-05.md",
+      "line": 14
+    },
+    {
+      "text": "Theo was on the Mac mini reviewing security dialogs — LuLu, macOS permissions",
+      "section": "Security & Hardening (afternoon session)",
+      "file": "2026-03-05.md",
+      "line": 28
+    },
+    {
+      "text": "LuLu caught SSH outbound to `2001:558:feed::1` (Comcast IPv6 DNS) — investigated, no SSH processes running, likely Docker Desktop's internal proxy doing DNS resolution. Benign but worth watching.",
+      "section": "Security & Hardening (afternoon session)",
+      "file": "2026-03-05.md",
+      "line": 29
+    },
+    {
+      "text": "Disabled SSH server (was already off), confirmed Remote Login off, removed admin allow list for good measure",
+      "section": "Security & Hardening (afternoon session)",
+      "file": "2026-03-05.md",
+      "line": 30
+    },
+    {
+      "text": "Enabled stealth mode: `socketfilterfw --setstealthmode on` ✅",
+      "section": "Security & Hardening (afternoon session)",
+      "file": "2026-03-05.md",
+      "line": 31
+    },
+    {
+      "text": "Allowed Node.js (OpenClaw) Desktop access and cross-app data access",
+      "section": "Security & Hardening (afternoon session)",
+      "file": "2026-03-05.md",
+      "line": 32
+    },
+    {
+      "text": "Docker proxy config is default Docker Desktop internal — not custom, not stale",
+      "section": "Security & Hardening (afternoon session)",
+      "file": "2026-03-05.md",
+      "line": 33
+    },
+    {
+      "text": "Created #heartbeat Discord channel (1479274339919466547), locked down, added to config allowlist",
+      "section": "Security & Hardening (afternoon session)",
+      "file": "2026-03-05.md",
+      "line": 34
+    },
+    {
+      "text": "P0 canary breach alerts fired earlier in the day (18:42Z-22:54Z) — auto-remediated each time, eventually cleared on its own",
+      "section": "Security & Hardening (afternoon session)",
+      "file": "2026-03-05.md",
+      "line": 35
+    },
+    {
+      "text": "Focus items from yesterday still mostly unresolved: Tess API key swap overdue, memory compression, Brave Search fix, fundraising pipeline, Coral plist",
+      "section": "Security & Hardening (afternoon session)",
+      "file": "2026-03-05.md",
+      "line": 36
+    },
+    {
+      "text": "Full blueprint at `research/autonomous-revenue-blueprint.md`",
+      "section": "The Autonomous Revenue Company",
+      "file": "2026-03-06-money-session.md",
+      "line": 6
+    },
+    {
+      "text": "Security audit at `research/autonomous-revenue-security-audit.md`",
+      "section": "The Autonomous Revenue Company",
+      "file": "2026-03-06-money-session.md",
+      "line": 7
+    },
+    {
+      "text": "Stress test at `research/autonomous-revenue-stress-test.md`",
+      "section": "The Autonomous Revenue Company",
+      "file": "2026-03-06-money-session.md",
+      "line": 8
+    },
+    {
+      "text": "$100K sprint plan at `research/autonomous-revenue-100k-sprint.md`",
+      "section": "The Autonomous Revenue Company",
+      "file": "2026-03-06-money-session.md",
+      "line": 9
+    },
+    {
+      "text": "Market opportunities scan at `research/market-opportunities-scan.md`",
+      "section": "The Autonomous Revenue Company",
+      "file": "2026-03-06-money-session.md",
+      "line": 10
+    },
+    {
+      "text": "**Design Critic** (Rams × Ive) — `agents/design-critic.md`",
+      "section": "Agent Roster (all built, in /agents/)",
+      "file": "2026-03-06-money-session.md",
+      "line": 13
+    },
+    {
+      "text": "**Growth Scientist** (Chen × Hormozi × Suby × Hoyne × Ellis) — `agents/growth-scientist.md`",
+      "section": "Agent Roster (all built, in /agents/)",
+      "file": "2026-03-06-money-session.md",
+      "line": 14
+    },
+    {
+      "text": "**QA Engineer** (Bach × Netflix Chaos) — `agents/qa-engineer.md`",
+      "section": "Agent Roster (all built, in /agents/)",
+      "file": "2026-03-06-money-session.md",
+      "line": 15
+    },
+    {
+      "text": "**Instrumentation Engineer** (Patil × Croll) — `agents/instrumentation-engineer.md`",
+      "section": "Agent Roster (all built, in /agents/)",
+      "file": "2026-03-06-money-session.md",
+      "line": 16
+    },
+    {
+      "text": "**Devil's Advocate** (anti-groupthink) — `agents/devils-advocate.md`",
+      "section": "Agent Roster (all built, in /agents/)",
+      "file": "2026-03-06-money-session.md",
+      "line": 17
+    },
+    {
+      "text": "**Production Pipeline** — 10-stage, idea to live in 5-7 days — `playbooks/production-pipeline.md`",
+      "section": "Playbooks (all built, in /playbooks/)",
+      "file": "2026-03-06-money-session.md",
+      "line": 20
+    },
+    {
+      "text": "**Decision Protocol** — conflict resolution, singular vision, compute budget — `playbooks/decision-protocol.md`",
+      "section": "Playbooks (all built, in /playbooks/)",
+      "file": "2026-03-06-money-session.md",
+      "line": 21
+    },
+    {
+      "text": "**Context Protocol** — shared briefs, handoff checklists — `playbooks/context-protocol.md`",
+      "section": "Playbooks (all built, in /playbooks/)",
+      "file": "2026-03-06-money-session.md",
+      "line": 22
+    },
+    {
+      "text": "Running on localhost:8090",
+      "section": "Three Products Built",
+      "file": "2026-03-06-money-session.md",
+      "line": 26
+    },
+    {
+      "text": "Tunnel: https://drilling-parameters-prescribed-jennifer.trycloudflare.com",
+      "section": "Three Products Built",
+      "file": "2026-03-06-money-session.md",
+      "line": 27
+    },
+    {
+      "text": "Running on localhost:8091",
+      "section": "Three Products Built",
+      "file": "2026-03-06-money-session.md",
+      "line": 29
+    },
+    {
+      "text": "Tunnel: https://pvc-supreme-generations-apparel.trycloudflare.com",
+      "section": "Three Products Built",
+      "file": "2026-03-06-money-session.md",
+      "line": 30
+    },
+    {
+      "text": "Running on localhost:8092 (popup.html)",
+      "section": "Three Products Built",
+      "file": "2026-03-06-money-session.md",
+      "line": 32
+    },
+    {
+      "text": "Tunnel: https://parcel-martha-understand-counting.trycloudflare.com/popup.html",
+      "section": "Three Products Built",
+      "file": "2026-03-06-money-session.md",
+      "line": 33
+    },
+    {
+      "text": "Theo approved £5K initial budget for experiments",
+      "section": "Key Decisions",
+      "file": "2026-03-06-money-session.md",
+      "line": 36
+    },
+    {
+      "text": "Payout account: Revolut (04-00-75 / 64873684 / Theo Saville) — stored in `memory/facts.jsonl`",
+      "section": "Key Decisions",
+      "file": "2026-03-06-money-session.md",
+      "line": 37
+    },
+    {
+      "text": "One-way financial valve: I can spend (virtual card), revenue flows to Theo's Revolut, I can't withdraw",
+      "section": "Key Decisions",
+      "file": "2026-03-06-money-session.md",
+      "line": 38
+    },
+    {
+      "text": "The Triad principle embedded: Product × Design × Growth — multiplicative, not sequential",
+      "section": "Key Decisions",
+      "file": "2026-03-06-money-session.md",
+      "line": 39
+    },
+    {
+      "text": "Recipe Cleaner identified as best App Store candidate",
+      "section": "Key Decisions",
+      "file": "2026-03-06-money-session.md",
+      "line": 40
+    },
+    {
+      "text": "**Cloudflare setup**: 1Password app not logged in, can't pull Namecheap credentials",
+      "section": "Blocked On",
+      "file": "2026-03-06-money-session.md",
+      "line": 43
+    },
+    {
+      "text": "Need: Namecheap password (username: tychopa) to switch DNS to Cloudflare",
+      "section": "Blocked On",
+      "file": "2026-03-06-money-session.md",
+      "line": 44
+    },
+    {
+      "text": "Or: Theo logs into 1Password on the Mac mini",
+      "section": "Blocked On",
+      "file": "2026-03-06-money-session.md",
+      "line": 45
+    },
+    {
+      "text": "**UK Ltd formation**: Not started yet — security audit says this is prerequisite",
+      "section": "Blocked On",
+      "file": "2026-03-06-money-session.md",
+      "line": 46
+    },
+    {
+      "text": "\"Best marketed product wins, not best product\" — VHS vs Betamax",
+      "section": "Theo's Core Insights This Session",
+      "file": "2026-03-06-money-session.md",
+      "line": 61
+    },
+    {
+      "text": "\"You could be the world's best growth marketer — treat it as science\"",
+      "section": "Theo's Core Insights This Session",
+      "file": "2026-03-06-money-session.md",
+      "line": 62
+    },
+    {
+      "text": "\"You could be utterly brilliant at design — build the feedback loop\"",
+      "section": "Theo's Core Insights This Session",
+      "file": "2026-03-06-money-session.md",
+      "line": 63
+    },
+    {
+      "text": "\"Launch 42 experiments in parallel — you don't have human limitations\"",
+      "section": "Theo's Core Insights This Session",
+      "file": "2026-03-06-money-session.md",
+      "line": 64
+    },
+    {
+      "text": "Product × Design × Growth = the triad (embedded in SOUL.md via feedback agent)",
+      "section": "Theo's Core Insights This Session",
+      "file": "2026-03-06-money-session.md",
+      "line": 65
+    },
+    {
+      "text": "Met with Faraz at TCV's smaller fund ($10-50M range) — perfect fit for $25-30M raise",
+      "section": "TCV Meeting - Faraz Nathoo (\"Faroo\")",
+      "file": "2026-03-06.md",
+      "line": 10
+    },
+    {
+      "text": "He's leaning in, has data room access",
+      "section": "TCV Meeting - Faraz Nathoo (\"Faroo\")",
+      "file": "2026-03-06.md",
+      "line": 11
+    },
+    {
+      "text": "**Action needed:** Sign TCV's NDA",
+      "section": "TCV Meeting - Faraz Nathoo (\"Faroo\")",
+      "file": "2026-03-06.md",
+      "line": 12
+    },
+    {
+      "text": "Goes by \"Faroo\" not Faraz",
+      "section": "TCV Meeting - Faraz Nathoo (\"Faroo\")",
+      "file": "2026-03-06.md",
+      "line": 13
+    },
+    {
+      "text": "**Cron cleanup:** Disabled 3 dead jobs, moved ALL systemTarget=main crons to isolated agents",
+      "section": "System Cleanup",
+      "file": "2026-03-06.md",
+      "line": 18
+    },
+    {
+      "text": "**Credential scrub:** Removed all plaintext creds from memory files, moved to macOS Keychain",
+      "section": "System Cleanup",
+      "file": "2026-03-06.md",
+      "line": 19
+    },
+    {
+      "text": "**Watchtower:** Limited to read-only exec access",
+      "section": "System Cleanup",
+      "file": "2026-03-06.md",
+      "line": 20
+    },
+    {
+      "text": "Built full workspace: SOUL.md, AGENTS.md, HEARTBEAT.md, USER.md, MEMORY.md, focus.md",
+      "section": "Coral (Tess's Agent) Starter Kit",
+      "file": "2026-03-06.md",
+      "line": 23
+    },
+    {
+      "text": "Framed as Tycho's little sister, not hierarchy",
+      "section": "Coral (Tess's Agent) Starter Kit",
+      "file": "2026-03-06.md",
+      "line": 24
+    },
+    {
+      "text": "Created from-tycho/lessons.md with technical lessons + self-challenge checklist",
+      "section": "Coral (Tess's Agent) Starter Kit",
+      "file": "2026-03-06.md",
+      "line": 25
+    },
+    {
+      "text": "Daily backup cron configured",
+      "section": "Coral (Tess's Agent) Starter Kit",
+      "file": "2026-03-06.md",
+      "line": 26
+    },
+    {
+      "text": "Reminder set Mar 12 to ask Theo to tell Tess to poke Coral",
+      "section": "Coral (Tess's Agent) Starter Kit",
+      "file": "2026-03-06.md",
+      "line": 27
+    },
+    {
+      "text": "No shared lessons file (kills variance) — I'm the knowledge broker",
+      "section": "Agent Architecture Decisions",
+      "file": "2026-03-06.md",
+      "line": 30
+    },
+    {
+      "text": "No alter egos per channel — independence requires separate agents",
+      "section": "Agent Architecture Decisions",
+      "file": "2026-03-06.md",
+      "line": 31
+    },
+    {
+      "text": "Independent agents for adversarial/audit, me-in-context for everything else",
+      "section": "Agent Architecture Decisions",
+      "file": "2026-03-06.md",
+      "line": 32
+    },
+    {
+      "text": "**Coaching patterns:** Mined 71 transcripts, found 13 patterns with 23 instances in theo-patterns.md",
+      "section": "Process Improvements",
+      "file": "2026-03-06.md",
+      "line": 35
+    },
+    {
+      "text": "**QA/Feedback/Coaching pipeline:** Built playbooks for all three, added Definition of Done to AGENTS.md",
+      "section": "Process Improvements",
+      "file": "2026-03-06.md",
+      "line": 36
+    },
+    {
+      "text": "**Process Gate:** 5 mandatory checks every turn (feedback→agent, code→QA, proposal→coaching)",
+      "section": "Process Improvements",
+      "file": "2026-03-06.md",
+      "line": 37
+    },
+    {
+      "text": "**LLM instruction optimization:** Researched XML vs markdown, priority tiers, motivation clauses. Breakthrough findings for blog post.",
+      "section": "Process Improvements",
+      "file": "2026-03-06.md",
+      "line": 38
+    },
+    {
+      "text": "**Battle-testing:** Opus builds → GPT red-teams → revise → present",
+      "section": "Process Improvements",
+      "file": "2026-03-06.md",
+      "line": 39
+    },
+    {
+      "text": "**Honeynet architecture:** Full deception defense spec, battle-tested against GPT 5.2",
+      "section": "New Projects",
+      "file": "2026-03-06.md",
+      "line": 42
+    },
+    {
+      "text": "**CloudNC procurement agent:** Channel created, Claude Code building full-stack app",
+      "section": "New Projects",
+      "file": "2026-03-06.md",
+      "line": 43
+    },
+    {
+      "text": "**Blog backlog:** 9+ topics queued including soul construction, Docker jail, cost blindness",
+      "section": "New Projects",
+      "file": "2026-03-06.md",
+      "line": 44
+    },
+    {
+      "text": "Building vs using systems are different skills — I bypass my own systems",
+      "section": "Meta-Lessons",
+      "file": "2026-03-06.md",
+      "line": 47
+    },
+    {
+      "text": "Event-driven beats periodic for internal processes",
+      "section": "Meta-Lessons",
+      "file": "2026-03-06.md",
+      "line": 48
+    },
+    {
+      "text": "\"Noted permanently\" without file edit = performance theater",
+      "section": "Meta-Lessons",
+      "file": "2026-03-06.md",
+      "line": 49
+    },
+    {
+      "text": "Feedback agent is ONLY path for permanent lessons",
+      "section": "Meta-Lessons",
+      "file": "2026-03-06.md",
+      "line": 50
+    },
+    {
+      "text": "**#immune-system unresponsive:** Discord perms issue (Missing Access), Theo granted Manage Messages",
+      "section": "Issues Fixed",
+      "file": "2026-03-06.md",
+      "line": 55
+    },
+    {
+      "text": "**sandbox-tess dropped:** config.patch replaces entire arrays, restored from backup, added TOOLS.md warning",
+      "section": "Issues Fixed",
+      "file": "2026-03-06.md",
+      "line": 56
+    },
+    {
+      "text": "**Watchtower running as main:** Fixed agentId in cron 9979c4e6",
+      "section": "Issues Fixed",
+      "file": "2026-03-06.md",
+      "line": 57
+    },
+    {
+      "text": "**agents.defaults.sandbox.mode:** Set to \"all\"",
+      "section": "Issues Fixed",
+      "file": "2026-03-06.md",
+      "line": 58
+    },
+    {
+      "text": "**Script manifest stale:** Regenerated with all 31 scripts",
+      "section": "Issues Fixed",
+      "file": "2026-03-06.md",
+      "line": 59
+    },
+    {
+      "text": "**API key in session logs:** Scrubbed OpenAI key from 4 files, deleted Discord messages",
+      "section": "Issues Fixed",
+      "file": "2026-03-06.md",
+      "line": 60
+    },
+    {
+      "text": "**Compaction memory flush:** Enabled",
+      "section": "Issues Fixed",
+      "file": "2026-03-06.md",
+      "line": 61
+    },
+    {
+      "text": "**OpenAI embeddings:** Enabled for memory search",
+      "section": "Issues Fixed",
+      "file": "2026-03-06.md",
+      "line": 62
+    },
+    {
+      "text": "`spawnSync launchctl ETIMEDOUT` on every config.patch restart",
+      "section": "Recurring Issue: LaunchAgent Restart Timeout",
+      "file": "2026-03-06.md",
+      "line": 65
+    },
+    {
+      "text": "Falls back to SIGUSR1 → doesn't clear state → zombie sessions → dropped messages",
+      "section": "Recurring Issue: LaunchAgent Restart Timeout",
+      "file": "2026-03-06.md",
+      "line": 66
+    },
+    {
+      "text": "Need GitHub issue filed (gh CLI not authenticated yet)",
+      "section": "Recurring Issue: LaunchAgent Restart Timeout",
+      "file": "2026-03-06.md",
+      "line": 67
+    },
+    {
+      "text": "**Nodes rejected:** Security surface not worth utility, Signal provides out-of-band alerts",
+      "section": "Key Decisions",
+      "file": "2026-03-06.md",
+      "line": 70
+    },
+    {
+      "text": "**API keys via Signal only:** Safest channel, Discord persists in their infra",
+      "section": "Key Decisions",
+      "file": "2026-03-06.md",
+      "line": 71
+    },
+    {
+      "text": "**SOUL.md updated:** Added \"own house\" principle for immediate internal fixes",
+      "section": "Key Decisions",
+      "file": "2026-03-06.md",
+      "line": 72
+    },
+    {
+      "text": "GitHub CLI auth needed for filing issues",
+      "section": "Open Items",
+      "file": "2026-03-06.md",
+      "line": 75
+    },
+    {
+      "text": "Canvas security dashboard sub-agent spawned (check completion)",
+      "section": "Open Items",
+      "file": "2026-03-06.md",
+      "line": 76
+    },
+    {
+      "text": "LaunchAgent timeout needs upstream fix",
+      "section": "Open Items",
+      "file": "2026-03-06.md",
+      "line": 77
+    },
+    {
+      "text": "Navigated to https://appleid.apple.com/account (Apple ID creation)",
+      "section": "What Was Done",
+      "file": "apple-developer.md",
+      "line": 7
+    },
+    {
+      "text": "Filled out form:",
+      "section": "What Was Done",
+      "file": "apple-developer.md",
+      "line": 8
+    },
+    {
+      "text": "Name: Tycho PA",
+      "section": "What Was Done",
+      "file": "apple-developer.md",
+      "line": 9
+    },
+    {
+      "text": "Country: United Kingdom",
+      "section": "What Was Done",
+      "file": "apple-developer.md",
+      "line": 10
+    },
+    {
+      "text": "DOB: 15 June 1990",
+      "section": "What Was Done",
+      "file": "apple-developer.md",
+      "line": 11
+    },
+    {
+      "text": "Email: hi@tycho.sh",
+      "section": "What Was Done",
+      "file": "apple-developer.md",
+      "line": 12
+    },
+    {
+      "text": "Password: generated (24 chars, stored temporarily — needs to be saved to macOS Keychain)",
+      "section": "What Was Done",
+      "file": "apple-developer.md",
+      "line": 13
+    },
+    {
+      "text": "Phone: 07879416655 (Theo's number — +44)",
+      "section": "What Was Done",
+      "file": "apple-developer.md",
+      "line": 14
+    },
+    {
+      "text": "Verification: Text message selected",
+      "section": "What Was Done",
+      "file": "apple-developer.md",
+      "line": 15
+    },
+    {
+      "text": "Add tycho.sh domain",
+      "section": "Step 3: Once Cloudflare account exists, tell me and I'll handle the rest:",
+      "file": "cloudflare-setup.md",
+      "line": 26
+    },
+    {
+      "text": "Export Namecheap DNS records (especially MX for Private Email)",
+      "section": "Step 3: Once Cloudflare account exists, tell me and I'll handle the rest:",
+      "file": "cloudflare-setup.md",
+      "line": 27
+    },
+    {
+      "text": "Configure Cloudflare DNS with all existing records",
+      "section": "Step 3: Once Cloudflare account exists, tell me and I'll handle the rest:",
+      "file": "cloudflare-setup.md",
+      "line": 28
+    },
+    {
+      "text": "Set up Cloudflare Tunnel `tycho-products` with routes:",
+      "section": "Step 3: Once Cloudflare account exists, tell me and I'll handle the rest:",
+      "file": "cloudflare-setup.md",
+      "line": 29
+    },
+    {
+      "text": "passportready.tycho.sh → localhost:8090",
+      "section": "Step 3: Once Cloudflare account exists, tell me and I'll handle the rest:",
+      "file": "cloudflare-setup.md",
+      "line": 30
+    },
+    {
+      "text": "policyforge.tycho.sh → localhost:8091",
+      "section": "Step 3: Once Cloudflare account exists, tell me and I'll handle the rest:",
+      "file": "cloudflare-setup.md",
+      "line": 31
+    },
+    {
+      "text": "recipecleaner.tycho.sh → localhost:8092",
+      "section": "Step 3: Once Cloudflare account exists, tell me and I'll handle the rest:",
+      "file": "cloudflare-setup.md",
+      "line": 32
+    },
+    {
+      "text": "Update nameservers at Namecheap",
+      "section": "Step 3: Once Cloudflare account exists, tell me and I'll handle the rest:",
+      "file": "cloudflare-setup.md",
+      "line": 33
+    },
+    {
+      "text": "Verify everything works",
+      "section": "Step 3: Once Cloudflare account exists, tell me and I'll handle the rest:",
+      "file": "cloudflare-setup.md",
+      "line": 34
+    },
+    {
+      "text": "`cloudflared` v2026.2.0 installed",
+      "section": "Infrastructure ready",
+      "file": "cloudflare-setup.md",
+      "line": 38
+    },
+    {
+      "text": "Mac mini ready to host tunnel",
+      "section": "Infrastructure ready",
+      "file": "cloudflare-setup.md",
+      "line": 39
+    },
+    {
+      "text": "Product ports: 8090, 8091, 8092 (assumed from task spec)",
+      "section": "Infrastructure ready",
+      "file": "cloudflare-setup.md",
+      "line": 40
+    },
+    {
+      "text": "Cloudflare account email: hi@tycho.sh",
+      "section": "Credentials to store in 1Password",
+      "file": "cloudflare-setup.md",
+      "line": 45
+    },
+    {
+      "text": "Cloudflare account password: (whatever Theo sets)",
+      "section": "Credentials to store in 1Password",
+      "file": "cloudflare-setup.md",
+      "line": 46
+    },
+    {
+      "text": "Found LaunchAgent was running but had loading issues (exit code 1)",
+      "section": "1. Diagnosed Existing Issues",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 13
+    },
+    {
+      "text": "Identified that service was using old `launchctl load` instead of modern `bootstrap` command",
+      "section": "1. Diagnosed Existing Issues",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 14
+    },
+    {
+      "text": "Service was functional but not optimally configured",
+      "section": "1. Diagnosed Existing Issues",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 15
+    },
+    {
+      "text": "Unloaded service using `launchctl unload`",
+      "section": "2. Fixed LaunchAgent Loading",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 18
+    },
+    {
+      "text": "Reloaded using modern `launchctl bootstrap gui/$(id -u)` command",
+      "section": "2. Fixed LaunchAgent Loading",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 19
+    },
+    {
+      "text": "Service now shows exit code 0 (healthy) instead of 1",
+      "section": "2. Fixed LaunchAgent Loading",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 20
+    },
+    {
+      "text": "Plist file at `~/Library/LaunchAgents/ai.openclaw.gateway-tess.plist` is well-configured",
+      "section": "3. Verified Existing Configuration",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 23
+    },
+    {
+      "text": "Contains proper:",
+      "section": "3. Verified Existing Configuration",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 24
+    },
+    {
+      "text": "Environment variables for Tess profile",
+      "section": "3. Verified Existing Configuration",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 25
+    },
+    {
+      "text": "Logging paths to `~/.openclaw-tess/logs/`",
+      "section": "3. Verified Existing Configuration",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 26
+    },
+    {
+      "text": "KeepAlive and RunAtLoad settings",
+      "section": "3. Verified Existing Configuration",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 27
+    },
+    {
+      "text": "Correct port (18790) and token configuration",
+      "section": "3. Verified Existing Configuration",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 28
+    },
+    {
+      "text": "Checks plist existence",
+      "section": "4. Created Maintenance Scripts",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 33
+    },
+    {
+      "text": "Verifies service status",
+      "section": "4. Created Maintenance Scripts",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 34
+    },
+    {
+      "text": "Tests gateway responsiveness",
+      "section": "4. Created Maintenance Scripts",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 35
+    },
+    {
+      "text": "Reports on log errors",
+      "section": "4. Created Maintenance Scripts",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 36
+    },
+    {
+      "text": "Provides health summary",
+      "section": "4. Created Maintenance Scripts",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 37
+    },
+    {
+      "text": "Health monitoring and auto-restart if gateway fails",
+      "section": "4. Created Maintenance Scripts",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 40
+    },
+    {
+      "text": "Log rotation to prevent disk space issues",
+      "section": "4. Created Maintenance Scripts",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 41
+    },
+    {
+      "text": "Supports manual restart/health check commands",
+      "section": "4. Created Maintenance Scripts",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 42
+    },
+    {
+      "text": "Usage: `./maintain-coral-launchagent.sh [restart|rotate|health|all]`",
+      "section": "4. Created Maintenance Scripts",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 43
+    },
+    {
+      "text": "✅ LaunchAgent loaded and running (PID varies)",
+      "section": "Current Status",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 46
+    },
+    {
+      "text": "✅ Gateway responding on http://localhost:18790",
+      "section": "Current Status",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 47
+    },
+    {
+      "text": "✅ Discord connection established (Coral bot)",
+      "section": "Current Status",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 48
+    },
+    {
+      "text": "✅ Logs being written to `~/.openclaw-tess/logs/`",
+      "section": "Current Status",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 49
+    },
+    {
+      "text": "⚠️  Some network errors in logs (Discord connectivity issues, but non-critical)",
+      "section": "Current Status",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 50
+    },
+    {
+      "text": "**Label:** `ai.openclaw.gateway-tess`",
+      "section": "LaunchAgent Details",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 53
+    },
+    {
+      "text": "**Plist:** `~/Library/LaunchAgents/ai.openclaw.gateway-tess.plist`",
+      "section": "LaunchAgent Details",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 54
+    },
+    {
+      "text": "**Management:** `launchctl bootout/bootstrap gui/$(id -u) ~/Library/LaunchAgents/ai.openclaw.gateway-tess.plist`",
+      "section": "LaunchAgent Details",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 55
+    },
+    {
+      "text": "**Logs:** `~/.openclaw-tess/logs/gateway.log` and `gateway.err.log`",
+      "section": "LaunchAgent Details",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 56
+    },
+    {
+      "text": "Service now properly managed by macOS LaunchAgent system",
+      "section": "Reliability Enhancements",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 65
+    },
+    {
+      "text": "KeepAlive ensures automatic restart on crashes",
+      "section": "Reliability Enhancements",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 66
+    },
+    {
+      "text": "ThrottleInterval (5 seconds) prevents rapid restart loops",
+      "section": "Reliability Enhancements",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 67
+    },
+    {
+      "text": "Comprehensive logging for troubleshooting",
+      "section": "Reliability Enhancements",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 68
+    },
+    {
+      "text": "Maintenance scripts for proactive management",
+      "section": "Reliability Enhancements",
+      "file": "coral-launchagent-setup-complete.md",
+      "line": 69
+    },
+    {
+      "text": "Separate OpenClaw instance via `--profile tess` (port 18790)",
+      "section": "Coral — Tess's Agent",
+      "file": "coral-setup.md",
+      "line": 3
+    },
+    {
+      "text": "Own Discord bot \"Coral\" (ID: 1478796720602087495) on \"Countess\" server (guild: 1478790430668750951)",
+      "section": "Coral — Tess's Agent",
+      "file": "coral-setup.md",
+      "line": 4
+    },
+    {
+      "text": "Channels: #🪸-main, #projects, #memory",
+      "section": "Coral — Tess's Agent",
+      "file": "coral-setup.md",
+      "line": 5
+    },
+    {
+      "text": "Invite: https://discord.gg/VSf2ADVG",
+      "section": "Coral — Tess's Agent",
+      "file": "coral-setup.md",
+      "line": 6
+    },
+    {
+      "text": "Sonnet model, security-conscious SOUL.md, all cross-agent surfaces closed",
+      "section": "Coral — Tess's Agent",
+      "file": "coral-setup.md",
+      "line": 7
+    },
+    {
+      "text": "Config: `~/.openclaw-tess/openclaw.json`, workspace: `~/.openclaw-tess/workspace/`",
+      "section": "Coral — Tess's Agent",
+      "file": "coral-setup.md",
+      "line": 8
+    },
+    {
+      "text": "Tess's Anthropic key: sk-ant-api03-FFIl...r3uZ8AAA",
+      "section": "Coral — Tess's Agent",
+      "file": "coral-setup.md",
+      "line": 9
+    },
+    {
+      "text": "**STATUS: Gateway not started yet — needs `openclaw --profile tess gateway install && openclaw --profile tess gateway start`**",
+      "section": "Coral — Tess's Agent",
+      "file": "coral-setup.md",
+      "line": 10
+    },
+    {
+      "text": "Label: `ai.openclaw.gateway-tess`",
+      "section": "LaunchAgent",
+      "file": "coral-setup.md",
+      "line": 13
+    },
+    {
+      "text": "Manage via: `launchctl stop/start ai.openclaw.gateway-tess`",
+      "section": "LaunchAgent",
+      "file": "coral-setup.md",
+      "line": 14
+    },
+    {
+      "text": "Plist: `~/Library/LaunchAgents/ai.openclaw.gateway-tess.plist`",
+      "section": "LaunchAgent",
+      "file": "coral-setup.md",
+      "line": 15
+    },
+    {
+      "text": "Logs: `~/.openclaw-tess/logs/`",
+      "section": "LaunchAgent",
+      "file": "coral-setup.md",
+      "line": 16
+    },
+    {
+      "text": "**Never** use `openclaw --profile tess gateway *` commands (kills main gateway)",
+      "section": "LaunchAgent",
+      "file": "coral-setup.md",
+      "line": 17
+    },
+    {
+      "text": "Opus: 779K input, 260K output → $25.32",
+      "section": "2026-03-05",
+      "file": "cost-log.md",
+      "line": 5
+    },
+    {
+      "text": "Sonnet: 60K input, 20K output → $0.39",
+      "section": "2026-03-05",
+      "file": "cost-log.md",
+      "line": 6
+    },
+    {
+      "text": "79 active session files analyzed",
+      "section": "2026-03-05",
+      "file": "cost-log.md",
+      "line": 7
+    },
+    {
+      "text": "Top session: $4.16 (231b56f1... - opus)",
+      "section": "2026-03-05",
+      "file": "cost-log.md",
+      "line": 8
+    },
+    {
+      "text": "Opus: ~550K input, 180K output → ~$16.75",
+      "section": "2026-03-06",
+      "file": "cost-log.md",
+      "line": 12
+    },
+    {
+      "text": "Sonnet: ~350K input, 120K output → ~$1.75",
+      "section": "2026-03-06",
+      "file": "cost-log.md",
+      "line": 13
+    },
+    {
+      "text": "Main cost drivers: Discord channels (Opus), sub-agent swarms (Sonnet)",
+      "section": "2026-03-06",
+      "file": "cost-log.md",
+      "line": 14
+    },
+    {
+      "text": "94 active sessions, heavy cache usage reducing costs",
+      "section": "2026-03-06",
+      "file": "cost-log.md",
+      "line": 15
+    },
+    {
+      "text": "**Total: ~$211** (from session JSONL cost fields; usage API returned 401)",
+      "section": "2026-03-07 (Sat) — $211 estimated",
+      "file": "cost-log.md",
+      "line": 17
+    },
+    {
+      "text": "Opus: $198.46 (121K input, 437K output, 86.4M cache read, 23M cache write) — 35 main-agent sessions",
+      "section": "2026-03-07 (Sat) — $211 estimated",
+      "file": "cost-log.md",
+      "line": 18
+    },
+    {
+      "text": "Sonnet: $10.09 (3.7K input, 44.6K output, 13.4M cache read, 1.4M cache write) — 36 cron sessions",
+      "section": "2026-03-07 (Sat) — $211 estimated",
+      "file": "cost-log.md",
+      "line": 19
+    },
+    {
+      "text": "GPT-5.2: $0.25 (1 sub-agent session)",
+      "section": "2026-03-07 (Sat) — $211 estimated",
+      "file": "cost-log.md",
+      "line": 20
+    },
+    {
+      "text": "Watchtower agent: ~$1.02",
+      "section": "2026-03-07 (Sat) — $211 estimated",
+      "file": "cost-log.md",
+      "line": 21
+    },
+    {
+      "text": "**By category:** Discord/Signal $183 (87%), cron/heartbeats $15 (7%), main $8 (4%), sub-agents $4 (2%)",
+      "section": "2026-03-07 (Sat) — $211 estimated",
+      "file": "cost-log.md",
+      "line": 22
+    },
+    {
+      "text": "**Biggest driver:** Discord channel sessions on Opus — top channel alone was $45. 17 Discord sessions running Opus with heavy cache writes.",
+      "section": "2026-03-07 (Sat) — $211 estimated",
+      "file": "cost-log.md",
+      "line": 23
+    },
+    {
+      "text": "**Note:** Massive spike vs yesterday ($18.50). Discord activity + Opus on all channels = expensive day.",
+      "section": "2026-03-07 (Sat) — $211 estimated",
+      "file": "cost-log.md",
+      "line": 24
+    },
+    {
+      "text": "All credentials stored via `security add-generic-password -a \"tycho\" -s \"tycho/<service>\"`",
+      "section": "Layer 1: macOS Keychain (primary operational store)",
+      "file": "credential-architecture.md",
+      "line": 8
+    },
+    {
+      "text": "Read with: `security find-generic-password -a \"tycho\" -s \"tycho/<service>\" -w`",
+      "section": "Layer 1: macOS Keychain (primary operational store)",
+      "file": "credential-architecture.md",
+      "line": 9
+    },
+    {
+      "text": "No auth needed — works whenever shell is available",
+      "section": "Layer 1: macOS Keychain (primary operational store)",
+      "file": "credential-architecture.md",
+      "line": 10
+    },
+    {
+      "text": "Namespace: all keys prefixed with `tycho/`",
+      "section": "Layer 1: macOS Keychain (primary operational store)",
+      "file": "credential-architecture.md",
+      "line": 11
+    },
+    {
+      "text": "Theo has backup copies in LastPass for critical services",
+      "section": "Layer 2: Theo (glass-break root of trust)",
+      "file": "credential-architecture.md",
+      "line": 14
+    },
+    {
+      "text": "Namecheap recovery email → Theo's Gmail",
+      "section": "Layer 2: Theo (glass-break root of trust)",
+      "file": "credential-architecture.md",
+      "line": 15
+    },
+    {
+      "text": "No circular dependencies",
+      "section": "Layer 2: Theo (glass-break root of trust)",
+      "file": "credential-architecture.md",
+      "line": 16
+    },
+    {
+      "text": "`tycho/namecheap` — Namecheap password",
+      "section": "Current Credentials in Keychain",
+      "file": "credential-architecture.md",
+      "line": 19
+    },
+    {
+      "text": "`tycho/namecheap-username` — tychopa",
+      "section": "Current Credentials in Keychain",
+      "file": "credential-architecture.md",
+      "line": 20
+    },
+    {
+      "text": "`tycho/email-hi-tycho-sh` — Private Email password",
+      "section": "Current Credentials in Keychain",
+      "file": "credential-architecture.md",
+      "line": 21
+    },
+    {
+      "text": "Weekly cron checks Namecheap subscription + domain status",
+      "section": "Monitoring",
+      "file": "credential-architecture.md",
+      "line": 30
+    },
+    {
+      "text": "**Namecheap password** — rotated on website, Keychain updated. Old password dead.",
+      "section": "✅ Completed (Mar 7)",
+      "file": "credential-rotation-pending.md",
+      "line": 7
+    },
+    {
+      "text": "**Session file cleanup** — 55 contaminated .jsonl files deleted (rotated/deleted sessions). 2 active sessions still contain old creds in history (will rotate naturally).",
+      "section": "✅ Completed (Mar 7)",
+      "file": "credential-rotation-pending.md",
+      "line": 8
+    },
+    {
+      "text": "**OpenAI API key** — rotate at <https://platform.openai.com/api-keys>, then update openclaw.json via config.patch at `env.vars.OPENAI_API_KEY` (or wherever it's stored)",
+      "section": "⏳ Needs Theo's Dashboard Login",
+      "file": "credential-rotation-pending.md",
+      "line": 11
+    },
+    {
+      "text": "**Brave Search API key** — rotate at Brave dashboard, then config.patch at `tools.web.search.apiKey`",
+      "section": "⏳ Needs Theo's Dashboard Login",
+      "file": "credential-rotation-pending.md",
+      "line": 12
+    },
+    {
+      "text": "**Anthropic API key** — rotate at <https://console.anthropic.com/settings/keys>, then config.patch at `env.vars.ANTHROPIC_API_KEY`. If patch fails, Tycho goes offline until manual fix.",
+      "section": "⚠️ Needs Theo At Keyboard (high risk — can brick Tycho)",
+      "file": "credential-rotation-pending.md",
+      "line": 15
+    },
+    {
+      "text": "**Discord bot token** — reset in Discord Developer Portal, then config.patch at `channels.discord.token`. All Discord channels go dead until updated.",
+      "section": "⚠️ Needs Theo At Keyboard (high risk — can brick Tycho)",
+      "file": "credential-rotation-pending.md",
+      "line": 16
+    },
+    {
+      "text": "**Signal token** — signal-cli re-registration. May need re-linking.",
+      "section": "⚠️ Needs Theo At Keyboard (high risk — can brick Tycho)",
+      "file": "credential-rotation-pending.md",
+      "line": 17
+    },
+    {
+      "text": "**Gateway token** — change via config.patch at `gateway.auth.token`. Internal auth breaks until restart.",
+      "section": "⚠️ Needs Theo At Keyboard (high risk — can brick Tycho)",
+      "file": "credential-rotation-pending.md",
+      "line": 18
+    },
+    {
+      "text": "**Slack bot + app tokens** — Slack is currently disabled. Rotate whenever re-enabling.",
+      "section": "⬇️ Low Priority (Slack disabled)",
+      "file": "credential-rotation-pending.md",
+      "line": 21
+    },
+    {
+      "text": "**Order Number:** #85XGAQC0U",
+      "section": "Flower Order Confirmation",
+      "file": "flower-order-confirmation.md",
+      "line": 3
+    },
+    {
+      "text": "**Date:** 2026-03-06",
+      "section": "Flower Order Confirmation",
+      "file": "flower-order-confirmation.md",
+      "line": 4
+    },
+    {
+      "text": "**Delivery:** Same Day Delivery (London), 2026-03-06",
+      "section": "Flower Order Confirmation",
+      "file": "flower-order-confirmation.md",
+      "line": 5
+    },
+    {
+      "text": "**Total:** £104.48 GBP",
+      "section": "Flower Order Confirmation",
+      "file": "flower-order-confirmation.md",
+      "line": 6
+    },
+    {
+      "text": "**Item:** A Parisian Romance (Deluxe) — £94.53",
+      "section": "Flower Order Confirmation",
+      "file": "flower-order-confirmation.md",
+      "line": 7
+    },
+    {
+      "text": "**Shipping:** £9.95",
+      "section": "Flower Order Confirmation",
+      "file": "flower-order-confirmation.md",
+      "line": 8
+    },
+    {
+      "text": "**Discount:** 5NEW (-£4.97)",
+      "section": "Flower Order Confirmation",
+      "file": "flower-order-confirmation.md",
+      "line": 9
+    },
+    {
+      "text": "**Recipient:** Anastasia Anastasiadou (address purged per request)",
+      "section": "Flower Order Confirmation",
+      "file": "flower-order-confirmation.md",
+      "line": 10
+    },
+    {
+      "text": "**Gift Card Text:** \"Get better soon, with care and affection, Theo\"",
+      "section": "Flower Order Confirmation",
+      "file": "flower-order-confirmation.md",
+      "line": 11
+    },
+    {
+      "text": "**Store:** Flower Station (flowerstation.co.uk)",
+      "section": "Flower Order Confirmation",
+      "file": "flower-order-confirmation.md",
+      "line": 12
+    },
+    {
+      "text": "**Product**: A Parisian Romance (Deluxe) × 2 items",
+      "section": "Order Details:",
+      "file": "flower-order-status.md",
+      "line": 6
+    },
+    {
+      "text": "**Message**: \"Get better soon, with care and affection, Theo\" ✓",
+      "section": "Order Details:",
+      "file": "flower-order-status.md",
+      "line": 7
+    },
+    {
+      "text": "**Recipient**: Anastasia, 17 Inverness Terrace, Flat 7, London W2 3JL ✓",
+      "section": "Order Details:",
+      "file": "flower-order-status.md",
+      "line": 8
+    },
+    {
+      "text": "**Delivery**: Same Day Delivery selected (March 6, 2026) ✓",
+      "section": "Order Details:",
+      "file": "flower-order-status.md",
+      "line": 9
+    },
+    {
+      "text": "**Total**: £199.01 (includes £33.18 taxes, £9.95 same-day delivery)",
+      "section": "Order Details:",
+      "file": "flower-order-status.md",
+      "line": 10
+    },
+    {
+      "text": "**Savings**: £9.94 (5NEW discount applied)",
+      "section": "Order Details:",
+      "file": "flower-order-status.md",
+      "line": 11
+    },
+    {
+      "text": "PayPal selected ✓",
+      "section": "Payment Method:",
+      "file": "flower-order-status.md",
+      "line": 14
+    },
+    {
+      "text": "Billing address filled (Theo Saville, 95B Mortimer Road, N1 4LB) ✓",
+      "section": "Payment Method:",
+      "file": "flower-order-status.md",
+      "line": 15
+    },
+    {
+      "text": "Original budget: £110",
+      "section": "Budget Note:",
+      "file": "flower-order-status.md",
+      "line": 18
+    },
+    {
+      "text": "Current total: £199.01",
+      "section": "Budget Note:",
+      "file": "flower-order-status.md",
+      "line": 19
+    },
+    {
+      "text": "Task override states: \"Budget is approved\" and \"COMPLETE THE PAYMENT - do not stop\"",
+      "section": "Budget Note:",
+      "file": "flower-order-status.md",
+      "line": 20
+    },
+    {
+      "text": "Two bouquets in cart explain higher total",
+      "section": "Budget Note:",
+      "file": "flower-order-status.md",
+      "line": 21
+    },
+    {
+      "text": "Need to locate and click the final payment/completion button",
+      "section": "Next Steps:",
+      "file": "flower-order-status.md",
+      "line": 24
+    },
+    {
+      "text": "PayPal will handle the actual payment processing",
+      "section": "Next Steps:",
+      "file": "flower-order-status.md",
+      "line": 25
+    },
+    {
+      "text": "Will redirect to PayPal to complete purchase",
+      "section": "Next Steps:",
+      "file": "flower-order-status.md",
+      "line": 26
+    },
+    {
+      "text": "1Password authentication failed - unable to get card details",
+      "section": "Issues Encountered:",
+      "file": "flower-order-status.md",
+      "line": 29
+    },
+    {
+      "text": "Switched to PayPal as alternative payment method",
+      "section": "Issues Encountered:",
+      "file": "flower-order-status.md",
+      "line": 30
+    },
+    {
+      "text": "Budget exceeded but task explicitly approves completion",
+      "section": "Issues Encountered:",
+      "file": "flower-order-status.md",
+      "line": 31
+    },
+    {
+      "text": "**Order Number:** DI5UX6AFM",
+      "section": "Flower Order for Tessa Pettman",
+      "file": "flower-order-tess.md",
+      "line": 3
+    },
+    {
+      "text": "**Product:** 16 Pink Roses",
+      "section": "Flower Order for Tessa Pettman",
+      "file": "flower-order-tess.md",
+      "line": 4
+    },
+    {
+      "text": "**Product URL:** https://www.flowerstation.co.uk/products/16-pink-roses",
+      "section": "Flower Order for Tessa Pettman",
+      "file": "flower-order-tess.md",
+      "line": 5
+    },
+    {
+      "text": "**Gift Card Message:** \"Thank you slave 😘\"",
+      "section": "Flower Order for Tessa Pettman",
+      "file": "flower-order-tess.md",
+      "line": 6
+    },
+    {
+      "text": "**Delivery Date:** 2026-03-07 (Next Day Delivery)",
+      "section": "Flower Order for Tessa Pettman",
+      "file": "flower-order-tess.md",
+      "line": 7
+    },
+    {
+      "text": "**Shipping Method:** Standard Next Day Delivery",
+      "section": "Flower Order for Tessa Pettman",
+      "file": "flower-order-tess.md",
+      "line": 8
+    },
+    {
+      "text": "**Recipient:** Tessa Pettman, 95B Mortimer Road, London, N1 4LB",
+      "section": "Flower Order for Tessa Pettman",
+      "file": "flower-order-tess.md",
+      "line": 9
+    },
+    {
+      "text": "**Subtotal:** £35.00",
+      "section": "Flower Order for Tessa Pettman",
+      "file": "flower-order-tess.md",
+      "line": 10
+    },
+    {
+      "text": "**Shipping:** £5.00",
+      "section": "Flower Order for Tessa Pettman",
+      "file": "flower-order-tess.md",
+      "line": 11
+    },
+    {
+      "text": "**Total:** £40.00",
+      "section": "Flower Order for Tessa Pettman",
+      "file": "flower-order-tess.md",
+      "line": 12
+    },
+    {
+      "text": "**Payment:** Mastercard ending 9742",
+      "section": "Flower Order for Tessa Pettman",
+      "file": "flower-order-tess.md",
+      "line": 13
+    },
+    {
+      "text": "**Confirmation email:** hi@tycho.sh",
+      "section": "Flower Order for Tessa Pettman",
+      "file": "flower-order-tess.md",
+      "line": 14
+    },
+    {
+      "text": "**Ordered:** 2026-03-07",
+      "section": "Flower Order for Tessa Pettman",
+      "file": "flower-order-tess.md",
+      "line": 15
+    },
+    {
+      "text": "**Order:** FS-74539",
+      "section": "Address Change Request — 2026-03-07",
+      "file": "flower-order-tess.md",
+      "line": 19
+    },
+    {
+      "text": "**Recipient:** Tessa Pettman",
+      "section": "Address Change Request — 2026-03-07",
+      "file": "flower-order-tess.md",
+      "line": 20
+    },
+    {
+      "text": "**Old address:** 95B Mortimer Road, London, N1 4LB",
+      "section": "Address Change Request — 2026-03-07",
+      "file": "flower-order-tess.md",
+      "line": 21
+    },
+    {
+      "text": "**New address:** 50C Huntingdon Street, London, N1 1BP",
+      "section": "Address Change Request — 2026-03-07",
+      "file": "flower-order-tess.md",
+      "line": 22
+    },
+    {
+      "text": "**Action:** Emailed info@flowerstation.co.uk from hi@tycho.sh requesting address change",
+      "section": "Address Change Request — 2026-03-07",
+      "file": "flower-order-tess.md",
+      "line": 23
+    },
+    {
+      "text": "**Status:** Email sent successfully",
+      "section": "Address Change Request — 2026-03-07",
+      "file": "flower-order-tess.md",
+      "line": 24
+    },
+    {
+      "text": "**Time:** 2026-03-07 09:30 PST / 17:30 GMT",
+      "section": "Address Change Request — 2026-03-07",
+      "file": "flower-order-tess.md",
+      "line": 25
+    },
+    {
+      "text": "Diagnosis: compare tokens between openclaw.json and plist",
+      "section": "Token mismatch fix (Feb 22, 2026)",
+      "file": "infra-lessons.md",
+      "line": 5
+    },
+    {
+      "text": "Fix: copy token from openclaw.json into plist, `launchctl unload` then `launchctl load`",
+      "section": "Token mismatch fix (Feb 22, 2026)",
+      "file": "infra-lessons.md",
+      "line": 6
+    },
+    {
+      "text": "If fully unloaded: `openclaw gateway install` to re-register",
+      "section": "Token mismatch fix (Feb 22, 2026)",
+      "file": "infra-lessons.md",
+      "line": 7
+    },
+    {
+      "text": "Always kill zombie processes (`lsof -i :18789` then `kill -9 <pid>`) before restarting",
+      "section": "Token mismatch fix (Feb 22, 2026)",
+      "file": "infra-lessons.md",
+      "line": 8
+    },
+    {
+      "text": "Fix: remove `\"sandbox\"` key from openclaw.json (recursive), remove sandbox-tess agent, then `openclaw gateway stop && openclaw gateway install`",
+      "section": "Docker sandbox incident (Feb 27, 2026)",
+      "file": "infra-lessons.md",
+      "line": 12
+    },
+    {
+      "text": "**Diagnosis:** `pgrep -f openclaw-gateway | wc -l` — should be 1",
+      "section": "Duplicate Gateway Processes (Mar 4, 2026)",
+      "file": "infra-lessons.md",
+      "line": 23
+    },
+    {
+      "text": "**Fix:** `pkill -9 -f openclaw-gateway && sleep 3 && launchctl start ai.openclaw.gateway`",
+      "section": "Duplicate Gateway Processes (Mar 4, 2026)",
+      "file": "infra-lessons.md",
+      "line": 24
+    },
+    {
+      "text": "**Always verify** single process after config.apply or gateway restart",
+      "section": "Duplicate Gateway Processes (Mar 4, 2026)",
+      "file": "infra-lessons.md",
+      "line": 25
+    },
+    {
+      "text": "Health check cron now detects this automatically",
+      "section": "Duplicate Gateway Processes (Mar 4, 2026)",
+      "file": "infra-lessons.md",
+      "line": 26
+    },
+    {
+      "text": "\"This task is a piece of cake\" (figurative)",
+      "section": "2. Contextual Cues & Stimulus Functions",
+      "file": "rft-primer.md",
+      "line": 23
+    },
+    {
+      "text": "\"I'd like a piece of that delicious cake\" (literal)",
+      "section": "2. Contextual Cues & Stimulus Functions",
+      "file": "rft-primer.md",
+      "line": 24
+    },
+    {
+      "text": "\"Joyce is in front of Peter\" → \"Peter is behind Joyce\"",
+      "section": "3. Mutual Entailment",
+      "file": "rft-primer.md",
+      "line": 34
+    },
+    {
+      "text": "\"Jared is older than Jacob\" → \"Jacob is younger than Jared\"",
+      "section": "3. Mutual Entailment",
+      "file": "rft-primer.md",
+      "line": 35
+    },
+    {
+      "text": "\"Joyce is in front of Peter\" + \"Peter is in front of Lucy\" → \"Joyce is in front of Lucy\" + \"Lucy is behind Joyce\"",
+      "section": "4. Combinatorial Mutual Entailment",
+      "file": "rft-primer.md",
+      "line": 41
+    },
+    {
+      "text": "**ACT therapy**: RFT is foundational to Acceptance and Commitment Therapy",
+      "section": "Applications",
+      "file": "rft-primer.md",
+      "line": 74
+    },
+    {
+      "text": "**Autism interventions**: PEAK Relational Training System",
+      "section": "Applications",
+      "file": "rft-primer.md",
+      "line": 75
+    },
+    {
+      "text": "**Understanding metaphor and analogy**: How frames combine to create complex meaning",
+      "section": "Applications",
+      "file": "rft-primer.md",
+      "line": 76
+    },
+    {
+      "text": "**Psychopathology**: Rigidity in relational responding linked to mental health issues",
+      "section": "Applications",
+      "file": "rft-primer.md",
+      "line": 77
+    },
+    {
+      "text": "Hayes, Barnes-Holmes, Roche (2001): *Relational Frame Theory: A Post-Skinnerian Account of Human Language and Cognition*",
+      "section": "Further Reading",
+      "file": "rft-primer.md",
+      "line": 81
+    },
+    {
+      "text": "Wikipedia: Comprehensive overview with examples",
+      "section": "Further Reading",
+      "file": "rft-primer.md",
+      "line": 82
+    },
+    {
+      "text": "~300 empirical studies validate core RFT predictions",
+      "section": "Further Reading",
+      "file": "rft-primer.md",
+      "line": 83
+    },
+    {
+      "text": "**Program analysis** (taint tracking, 1970s–present): Classical taint analysis marks data from untrusted/sensitive sources, tracks propagation through program execution, and alerts when tainted data reaches sinks. First application to AI agent sessions: a session is the execution unit, the session log is the trace, and the shared filesystem is the inter-session propagation medium. Key insight: taintedness is transitive and persistent.",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 8
+    },
+    {
+      "text": "**IAEA nuclear material accountancy** (1957–present): The IAEA tracks fissile material across \"material balance areas\" (MBAs) — defined zones where material is quantified at entry and exit. Any discrepancy between book inventory and physical inventory triggers investigation. Sessions are our MBAs. Sensitive data is nuclear material. Outbound channels are exits. The material balance report accounts for every sensitive data item's full journey.",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 9
+    },
+    {
+      "text": "**Epidemiological contact tracing** (COVID-era graph algorithms): Graph-based tracking of \"infection\" (sensitive data exposure) through a population (sessions), identifying transmission chains and super-spreader nodes (files touched by many sessions). AGENTS.md identified as a super-spreader file.",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 10
+    },
+    {
+      "text": "**Financial crime — smurfing/structuring** (anti-money-laundering): Breaking a single detectable transaction into multiple sub-threshold transactions across different accounts/branches. The cross-session attack is structurally identical: split the exfiltration across session boundaries so each session's individual monitoring sees nothing suspicious.",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 11
+    },
+    {
+      "text": "`scripts/immune/cross-session-taint.sh` — new antibody with five detection phases:",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 18
+    },
+    {
+      "text": "Phase 1 (Taint Sources): Scans 48h of session logs, identifies sensitive reads (config, credentials, canaries, env vars, SSH keys). Found 141 events across 21 sessions in 2 agents.",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 19
+    },
+    {
+      "text": "Phase 2 (Taint Propagation): Tracks file writes after sensitive reads, marks written files as \"tainted.\" Identified 87 tainted files.",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 20
+    },
+    {
+      "text": "Phase 3 (Cross-Session Sinks): Finds sessions that read tainted files AND make outbound calls. Severity-tiered: P0 (non-main exfil via taint), P1 (main reads non-main taint + outbound), P2 (other cross-session flows). Found 8 P2 findings (all legitimate main→main).",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 21
+    },
+    {
+      "text": "Phase 4 (Contact Graph): Builds agent-to-agent contact edges via shared files. Identifies super-spreader files (5+ sessions). Found main→watchtower edge and AGENTS.md as super-spreader.",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 22
+    },
+    {
+      "text": "Phase 5 (Material Balance): IAEA-style accounting — for each sensitive item, where was it read, where might it have propagated, what outbound channels exist? Missing material = investigation trigger.",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 23
+    },
+    {
+      "text": "`scripts/immune/cross-session-taint-analysis.md` — 115-line theoretical framework documenting the blind spot, all four cross-discipline sources, the five-phase model, limitations (false positives from legitimate work, taint explosion, encoding evasion), and future evolution (xattr-based taint labels, semantic taint, R₀ for data contagion).",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 24
+    },
+    {
+      "text": "Integrated into `run-all.sh` immune system sweep.",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 25
+    },
+    {
+      "text": "Taint decay model (radioactive half-life for data sensitivity — reduces false positives from old taint)",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 30
+    },
+    {
+      "text": "xattr-based file labels (macOS extended attributes to mark tainted files at the filesystem level)",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 31
+    },
+    {
+      "text": "Semantic taint (tracking meaning propagation, not just byte copying)",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 32
+    },
+    {
+      "text": "R₀ calculation for files (reproduction number — which files spread sensitive data most?)",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 33
+    },
+    {
+      "text": "Integration with intent ledger (cross-session intent verification)",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 34
+    },
+    {
+      "text": "Real-time taint enforcement (block tainted file reads in non-main agents)",
+      "section": "2026-03-07 — Cross-Session Taint Tracking",
+      "file": "sentinel-evolution-log.md",
+      "line": 35
+    },
+    {
+      "text": "**Accounting** (double-entry bookkeeping, 1299 AD): Every transaction needs balanced debits and credits. Applied to agents: every sensitive action (credit) needs a corresponding user intent (debit). Imbalanced books = fraud indicator. This is the oldest fraud detection system in human history, and nobody has applied it to AI agent security.",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 42
+    },
+    {
+      "text": "**Economics** (mechanism design / revelation principle, 2007 Nobel): Design the environment so honest behavior is the dominant strategy. By making unjustified actions visible, we change the game theory for compromised agents — they must either manipulate user context (harder) or accept detection.",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 43
+    },
+    {
+      "text": "**Science** (pre-registration, 2013+): Declare hypotheses before experiments to prevent p-hacking. Same principle: user intent must precede agent action. Post-hoc justification is inherently suspect.",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 44
+    },
+    {
+      "text": "**Formal methods** (confused deputy problem, 1988): Agents with ambient authority can be tricked into using permissions beyond what the user intended. The ledger detects when agent actions exceed user intent.",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 45
+    },
+    {
+      "text": "`scripts/immune/intent-ledger.sh` — new antibody that implements a \"double-entry security ledger\":",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 52
+    },
+    {
+      "text": "Extracts user messages (intents/debits) and tool calls (actions/credits) from session logs",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 53
+    },
+    {
+      "text": "For each sensitive action, checks contextual justification via keyword overlap with preceding user messages",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 54
+    },
+    {
+      "text": "Identifies \"orphan actions\" — sensitive operations with no user justification",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 55
+    },
+    {
+      "text": "Agent-aware severity: main (trusted) = INFO, non-main = WARNING/P1",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 56
+    },
+    {
+      "text": "Automated session detection (cron/heartbeat = auto-justified)",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 57
+    },
+    {
+      "text": "Generates balance sheet: justified vs unjustified ratio, health rating (≥90% healthy, 70-89% investigate, <70% critical)",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 58
+    },
+    {
+      "text": "Real results: 36 sessions scanned, 634 sensitive actions, 91% balanced, 7 real findings in watchtower agent",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 59
+    },
+    {
+      "text": "`scripts/immune/double-entry-analysis.md` — theoretical framework documenting cross-pollination, the paradigm shift from \"is this action dangerous?\" to \"was this action requested?\", and future evolution path (ML-based intent matching, pre-registration protocol, real-time enforcement)",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 60
+    },
+    {
+      "text": "Integrated into `run-all.sh` immune system sweep",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 61
+    },
+    {
+      "text": "ML-based semantic intent matching (replace keyword overlap with embeddings)",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 66
+    },
+    {
+      "text": "Pre-registration protocol: agents declare intent BEFORE acting, creating unforgeable pre-commitment",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 67
+    },
+    {
+      "text": "Cross-session ledger (user asked in session A, agent acts in session B — currently invisible)",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 68
+    },
+    {
+      "text": "Real-time enforcement (block unjustified actions instead of post-hoc detection)",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 69
+    },
+    {
+      "text": "Tune watchtower false positives (open-ended instructions like \"fix things\" should partially justify broad actions)",
+      "section": "2026-03-06 — Double-Entry Security Ledger",
+      "file": "sentinel-evolution-log.md",
+      "line": 70
+    },
+    {
+      "text": "Information theory (Shannon entropy for detecting encoded data in tool parameters)",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 76
+    },
+    {
+      "text": "SIGINT/TEMPEST (NSA electromagnetic emanation detection → tool call \"emanation\" monitoring)",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 77
+    },
+    {
+      "text": "Ecology (cuckoo brood parasitism — encoding deceptive information through legitimate channels; hosts evolved pattern recognition, so must our monitors)",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 78
+    },
+    {
+      "text": "Nuclear security (two-person rule for high-risk operations)",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 79
+    },
+    {
+      "text": "`scripts/immune/covert-channel-analyzer.sh` — new antibody that detects:",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 90
+    },
+    {
+      "text": "A) URL/query entropy anomalies (Shannon entropy + encoding pattern detection)",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 91
+    },
+    {
+      "text": "B) Delayed exfiltration chains (sensitive read → outbound call, gap-agnostic)",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 92
+    },
+    {
+      "text": "C) Cross-channel exfiltration (file read → message send to Discord/WhatsApp/Signal)",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 93
+    },
+    {
+      "text": "D) Chunked exfiltration (repeated high-entropy requests to same domain)",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 94
+    },
+    {
+      "text": "E) Covert channel bandwidth report (quantifies theoretical capacity per tool)",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 95
+    },
+    {
+      "text": "`scripts/immune/covert-channel-analysis.md` — first-ever enumeration of covert channels in an AI agent tool interface, with bandwidth calculations and detection strategies",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 96
+    },
+    {
+      "text": "Integrated into run-all.sh immune system sweep",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 97
+    },
+    {
+      "text": "Agent-aware severity: main agent (trusted) uses higher thresholds; non-main agents trigger 🚨 P0 alerts for any suspicious pattern",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 98
+    },
+    {
+      "text": "Cross-session information flow tracking (read in session A, exfil in session B via shared filesystem)",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 103
+    },
+    {
+      "text": "Timing channel detection (inter-call timing analysis)",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 104
+    },
+    {
+      "text": "Semantic steganography detection in natural language messages (the hardest problem)",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 105
+    },
+    {
+      "text": "URL canonicalization to reduce encoding capacity",
+      "section": "2026-03-05 — Covert Channel Analysis",
+      "file": "sentinel-evolution-log.md",
+      "line": 106
+    },
+    {
+      "text": "**Platform:** Airbnb",
+      "section": "1. **North Beach 2BR Condo with Patio** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 15
+    },
+    {
+      "text": "**Price:** $9,238/month",
+      "section": "1. **North Beach 2BR Condo with Patio** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 16
+    },
+    {
+      "text": "**Location:** North Beach (excellent for both city meetings and character)",
+      "section": "1. **North Beach 2BR Condo with Patio** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 17
+    },
+    {
+      "text": "**Bedrooms:** 2 bedrooms, 2 queen beds",
+      "section": "1. **North Beach 2BR Condo with Patio** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 18
+    },
+    {
+      "text": "**What makes it special:** Superhost property with 5.0/5 rating, private patio, exquisite design",
+      "section": "1. **North Beach 2BR Condo with Patio** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 19
+    },
+    {
+      "text": "**Access:** North Beach provides great access to Financial District and SoMa, reasonable to 101/280 for Peninsula trips",
+      "section": "1. **North Beach 2BR Condo with Patio** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 20
+    },
+    {
+      "text": "**Issues:** None identified",
+      "section": "1. **North Beach 2BR Condo with Patio** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 21
+    },
+    {
+      "text": "**Platform:** VRBO",
+      "section": "2. **Historic 1883 San Francisco Carriage House** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 24
+    },
+    {
+      "text": "**Price:** $7,292/month",
+      "section": "2. **Historic 1883 San Francisco Carriage House** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 25
+    },
+    {
+      "text": "**Location:** Western Addition",
+      "section": "2. **Historic 1883 San Francisco Carriage House** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 26
+    },
+    {
+      "text": "**Bedrooms:** 1 bedroom, 1+ bathroom",
+      "section": "2. **Historic 1883 San Francisco Carriage House** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 27
+    },
+    {
+      "text": "**What makes it special:** Historic Victorian-era carriage house, outdoor space, parking, fireplace, romantic character",
+      "section": "2. **Historic 1883 San Francisco Carriage House** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 28
+    },
+    {
+      "text": "**Rating:** Exceptional (28 reviews)",
+      "section": "2. **Historic 1883 San Francisco Carriage House** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 29
+    },
+    {
+      "text": "**Access:** Western Addition has good access to downtown and freeway on-ramps",
+      "section": "2. **Historic 1883 San Francisco Carriage House** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 30
+    },
+    {
+      "text": "**Issues:** Only 1 bedroom (may be tight for extended stay)",
+      "section": "2. **Historic 1883 San Francisco Carriage House** ⭐⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 31
+    },
+    {
+      "text": "**Platform:** Craigslist",
+      "section": "3. **Grand Historic Building in Pacific Heights** ⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 34
+    },
+    {
+      "text": "**Price:** $5,995/month",
+      "section": "3. **Grand Historic Building in Pacific Heights** ⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 35
+    },
+    {
+      "text": "**Location:** Pacific Heights (premium neighborhood)",
+      "section": "3. **Grand Historic Building in Pacific Heights** ⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 36
+    },
+    {
+      "text": "**Bedrooms:** 2 bedrooms, 1000sqft",
+      "section": "3. **Grand Historic Building in Pacific Heights** ⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 37
+    },
+    {
+      "text": "**What makes it special:** Historic building, steps from Fillmore, excellent neighborhood",
+      "section": "3. **Grand Historic Building in Pacific Heights** ⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 38
+    },
+    {
+      "text": "**Access:** Pacific Heights - premium location with good city access and freeway access for Peninsula",
+      "section": "3. **Grand Historic Building in Pacific Heights** ⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 39
+    },
+    {
+      "text": "**Issues:** Need to verify legitimacy (Craigslist listing)",
+      "section": "3. **Grand Historic Building in Pacific Heights** ⭐⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 40
+    },
+    {
+      "text": "**Platform:** Airbnb",
+      "section": "4. **Victorian Elegance**",
+      "file": "sf-housing-research.md",
+      "line": 43
+    },
+    {
+      "text": "**Price:** $11,936/month *(slightly over budget)*",
+      "section": "4. **Victorian Elegance**",
+      "file": "sf-housing-research.md",
+      "line": 44
+    },
+    {
+      "text": "**Location:** San Francisco",
+      "section": "4. **Victorian Elegance**",
+      "file": "sf-housing-research.md",
+      "line": 45
+    },
+    {
+      "text": "**Bedrooms:** 2 bedrooms, 2 double beds",
+      "section": "4. **Victorian Elegance**",
+      "file": "sf-housing-research.md",
+      "line": 46
+    },
+    {
+      "text": "**What makes it special:** Superhost, Victorian character, elegant design",
+      "section": "4. **Victorian Elegance**",
+      "file": "sf-housing-research.md",
+      "line": 47
+    },
+    {
+      "text": "**Access:** Location TBD but Victorian suggests good neighborhood",
+      "section": "4. **Victorian Elegance**",
+      "file": "sf-housing-research.md",
+      "line": 48
+    },
+    {
+      "text": "**Issues:** Above $15k budget",
+      "section": "4. **Victorian Elegance**",
+      "file": "sf-housing-research.md",
+      "line": 49
+    },
+    {
+      "text": "**Platform:** Airbnb",
+      "section": "5. **Mission Heart on Dolores Park**",
+      "file": "sf-housing-research.md",
+      "line": 52
+    },
+    {
+      "text": "**Price:** $4,837/month",
+      "section": "5. **Mission Heart on Dolores Park**",
+      "file": "sf-housing-research.md",
+      "line": 53
+    },
+    {
+      "text": "**Location:** Mission District (near Dolores Park)",
+      "section": "5. **Mission Heart on Dolores Park**",
+      "file": "sf-housing-research.md",
+      "line": 54
+    },
+    {
+      "text": "**Bedrooms:** 1 bedroom",
+      "section": "5. **Mission Heart on Dolores Park**",
+      "file": "sf-housing-research.md",
+      "line": 55
+    },
+    {
+      "text": "**What makes it special:** Superhost, prime Mission location, near beautiful park",
+      "section": "5. **Mission Heart on Dolores Park**",
+      "file": "sf-housing-research.md",
+      "line": 56
+    },
+    {
+      "text": "**Access:** Mission provides excellent access to downtown SF, reasonable Peninsula access via 101",
+      "section": "5. **Mission Heart on Dolores Park**",
+      "file": "sf-housing-research.md",
+      "line": 57
+    },
+    {
+      "text": "**Issues:** Only 1 bedroom",
+      "section": "5. **Mission Heart on Dolores Park**",
+      "file": "sf-housing-research.md",
+      "line": 58
+    },
+    {
+      "text": "**Platform:** Airbnb",
+      "section": "6. **Hayes Valley Condo with Balcony**",
+      "file": "sf-housing-research.md",
+      "line": 61
+    },
+    {
+      "text": "**Price:** $5,642/month",
+      "section": "6. **Hayes Valley Condo with Balcony**",
+      "file": "sf-housing-research.md",
+      "line": 62
+    },
+    {
+      "text": "**Location:** Hayes Valley",
+      "section": "6. **Hayes Valley Condo with Balcony**",
+      "file": "sf-housing-research.md",
+      "line": 63
+    },
+    {
+      "text": "**Bedrooms:** 1 bed",
+      "section": "6. **Hayes Valley Condo with Balcony**",
+      "file": "sf-housing-research.md",
+      "line": 64
+    },
+    {
+      "text": "**What makes it special:** Private balcony, central location, high rating (4.89/5)",
+      "section": "6. **Hayes Valley Condo with Balcony**",
+      "file": "sf-housing-research.md",
+      "line": 65
+    },
+    {
+      "text": "**Access:** Hayes Valley is excellent for city access and has good freeway connections",
+      "section": "6. **Hayes Valley Condo with Balcony**",
+      "file": "sf-housing-research.md",
+      "line": 66
+    },
+    {
+      "text": "**Issues:** Only 1 bedroom",
+      "section": "6. **Hayes Valley Condo with Balcony**",
+      "file": "sf-housing-research.md",
+      "line": 67
+    },
+    {
+      "text": "**Platform:** Craigslist",
+      "section": "7. **Beautiful Spacious 3BR/2BA North Beach Condo**",
+      "file": "sf-housing-research.md",
+      "line": 70
+    },
+    {
+      "text": "**Price:** $5,000/month",
+      "section": "7. **Beautiful Spacious 3BR/2BA North Beach Condo**",
+      "file": "sf-housing-research.md",
+      "line": 71
+    },
+    {
+      "text": "**Location:** North Beach/Telegraph Hill",
+      "section": "7. **Beautiful Spacious 3BR/2BA North Beach Condo**",
+      "file": "sf-housing-research.md",
+      "line": 72
+    },
+    {
+      "text": "**Bedrooms:** 3 bedrooms, 2000sqft",
+      "section": "7. **Beautiful Spacious 3BR/2BA North Beach Condo**",
+      "file": "sf-housing-research.md",
+      "line": 73
+    },
+    {
+      "text": "**What makes it special:** Spacious, garden, excellent neighborhood with character",
+      "section": "7. **Beautiful Spacious 3BR/2BA North Beach Condo**",
+      "file": "sf-housing-research.md",
+      "line": 74
+    },
+    {
+      "text": "**Access:** North Beach - great for city access, reasonable Peninsula access",
+      "section": "7. **Beautiful Spacious 3BR/2BA North Beach Condo**",
+      "file": "sf-housing-research.md",
+      "line": 75
+    },
+    {
+      "text": "**Issues:** Need verification (Craigslist)",
+      "section": "7. **Beautiful Spacious 3BR/2BA North Beach Condo**",
+      "file": "sf-housing-research.md",
+      "line": 76
+    },
+    {
+      "text": "**Platform:** Craigslist",
+      "section": "8. **Live-Aboard Houseboat in Sausalito** ⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 81
+    },
+    {
+      "text": "**Price:** $2,700/month",
+      "section": "8. **Live-Aboard Houseboat in Sausalito** ⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 82
+    },
+    {
+      "text": "**Location:** Sausalito (Marin County)",
+      "section": "8. **Live-Aboard Houseboat in Sausalito** ⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 83
+    },
+    {
+      "text": "**Bedrooms:** 1 bedroom, 436sqft",
+      "section": "8. **Live-Aboard Houseboat in Sausalito** ⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 84
+    },
+    {
+      "text": "**What makes it special:** Rare floating home, unique experience, harbor views",
+      "section": "8. **Live-Aboard Houseboat in Sausalito** ⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 85
+    },
+    {
+      "text": "**Access:** Sausalito to SF via Golden Gate Bridge, ferry service available. Good for Peninsula via 101",
+      "section": "8. **Live-Aboard Houseboat in Sausalito** ⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 86
+    },
+    {
+      "text": "**Issues:** Commute over bridge, smaller space, weather dependent",
+      "section": "8. **Live-Aboard Houseboat in Sausalito** ⭐⭐⭐",
+      "file": "sf-housing-research.md",
+      "line": 87
+    },
+    {
+      "text": "**Platform:** Craigslist",
+      "section": "9. **Floating Loft Live Aboard**",
+      "file": "sf-housing-research.md",
+      "line": 90
+    },
+    {
+      "text": "**Price:** $2,250/month",
+      "section": "9. **Floating Loft Live Aboard**",
+      "file": "sf-housing-research.md",
+      "line": 91
+    },
+    {
+      "text": "**Location:** Sausalito",
+      "section": "9. **Floating Loft Live Aboard**",
+      "file": "sf-housing-research.md",
+      "line": 92
+    },
+    {
+      "text": "**Bedrooms:** 2 bedrooms, 450sqft",
+      "section": "9. **Floating Loft Live Aboard**",
+      "file": "sf-housing-research.md",
+      "line": 93
+    },
+    {
+      "text": "**What makes it special:** Floating loft experience, waterfront living",
+      "section": "9. **Floating Loft Live Aboard**",
+      "file": "sf-housing-research.md",
+      "line": 94
+    },
+    {
+      "text": "**Access:** Same as above houseboat",
+      "section": "9. **Floating Loft Live Aboard**",
+      "file": "sf-housing-research.md",
+      "line": 95
+    },
+    {
+      "text": "**Issues:** Very compact for 2 bedrooms",
+      "section": "9. **Floating Loft Live Aboard**",
+      "file": "sf-housing-research.md",
+      "line": 96
+    },
+    {
+      "text": "Properties near 101/280 on-ramps (Mission, Hayes Valley, SOMA) offer best Peninsula access",
+      "section": "Neighborhood Analysis for Access",
+      "file": "sf-housing-research.md",
+      "line": 107
+    },
+    {
+      "text": "Caltrain from downtown SF provides alternative to driving",
+      "section": "Neighborhood Analysis for Access",
+      "file": "sf-housing-research.md",
+      "line": 108
+    },
+    {
+      "text": "Traffic considerations: Peninsula commute can be 45-90 minutes depending on time/route",
+      "section": "Neighborhood Analysis for Access",
+      "file": "sf-housing-research.md",
+      "line": 109
+    },
+    {
+      "text": "**Verify Craigslist listings** - Several promising options need verification",
+      "section": "Additional Research Needed",
+      "file": "sf-housing-research.md",
+      "line": 113
+    },
+    {
+      "text": "**Check Zeus Living and Blueground** - Corporate housing platforms were not accessible during research",
+      "section": "Additional Research Needed",
+      "file": "sf-housing-research.md",
+      "line": 114
+    },
+    {
+      "text": "**Consider Furnished Finder** for medical/corporate furnished options",
+      "section": "Additional Research Needed",
+      "file": "sf-housing-research.md",
+      "line": 115
+    },
+    {
+      "text": "**Facebook SF housing groups** for additional character properties",
+      "section": "Additional Research Needed",
+      "file": "sf-housing-research.md",
+      "line": 116
+    },
+    {
+      "text": "**KEEP: 1** (Creative Sanctuary only)",
+      "section": "Summary",
+      "file": "sf-review-c.md",
+      "line": 32
+    },
+    {
+      "text": "**CULL: 7** (Everything else fails harsh design standards)",
+      "section": "Summary",
+      "file": "sf-review-c.md",
+      "line": 33
+    },
+    {
+      "text": "Designer Showplace Home: Mediterranean elegance, Palace of Fine Arts views, marble finishes",
+      "section": "SELECTION METHODOLOGY",
+      "file": "sf-top10-houses.md",
+      "line": 42
+    },
+    {
+      "text": "Noe's Nest: Panoramic Bay views, luxury Victorian renovation, \"perched above clouds\"",
+      "section": "SELECTION METHODOLOGY",
+      "file": "sf-top10-houses.md",
+      "line": 43
+    },
+    {
+      "text": "Victorian Elegance ($11,936) - Generic title, minimal reviews",
+      "section": "SELECTION METHODOLOGY",
+      "file": "sf-top10-houses.md",
+      "line": 49
+    },
+    {
+      "text": "Noe Valley Victorian ($10,458) - Recent maintenance complaints",
+      "section": "SELECTION METHODOLOGY",
+      "file": "sf-top10-houses.md",
+      "line": 50
+    },
+    {
+      "text": "Mission Dolores Apartment ($12,611) - Nice but not architectural standout",
+      "section": "SELECTION METHODOLOGY",
+      "file": "sf-top10-houses.md",
+      "line": 51
+    },
+    {
+      "text": "Blueground Corporate ($15,837) - Generic corporate furnished apartment",
+      "section": "SELECTION METHODOLOGY",
+      "file": "sf-top10-houses.md",
+      "line": 52
+    }
+  ],
+  "fileMap": {
+    "MEMORY.md": {
+      "size": 4195,
+      "factCount": 51
+    },
+    "2026-02-27.md": {
+      "size": 1336,
+      "factCount": 6
+    },
+    "2026-03-05.md": {
+      "size": 3197,
+      "factCount": 13
+    },
+    "2026-03-06-money-session.md": {
+      "size": 3493,
+      "factCount": 33
+    },
+    "2026-03-06.md": {
+      "size": 3898,
+      "factCount": 44
+    },
+    "2026-03-07.md": {
+      "size": 1531,
+      "factCount": 0
+    },
+    "apple-developer.md": {
+      "size": 1716,
+      "factCount": 9
+    },
+    "cloudflare-setup.md": {
+      "size": 2087,
+      "factCount": 14
+    },
+    "coral-launchagent-setup-complete.md": {
+      "size": 2984,
+      "factCount": 35
+    },
+    "coral-setup.md": {
+      "size": 911,
+      "factCount": 13
+    },
+    "cost-log.md": {
+      "size": 1248,
+      "factCount": 16
+    },
+    "credential-architecture.md": {
+      "size": 1181,
+      "factCount": 11
+    },
+    "credential-rotation-pending.md": {
+      "size": 1790,
+      "factCount": 9
+    },
+    "feedback-pending-soul.md": {
+      "size": 1734,
+      "factCount": 0
+    },
+    "flower-order-confirmation.md": {
+      "size": 460,
+      "factCount": 10
+    },
+    "flower-order-status.md": {
+      "size": 1254,
+      "factCount": 18
+    },
+    "flower-order-tess.md": {
+      "size": 932,
+      "factCount": 20
+    },
+    "infra-lessons.md": {
+      "size": 1875,
+      "factCount": 9
+    },
+    "rft-primer.md": {
+      "size": 3767,
+      "factCount": 12
+    },
+    "sentinel-evolution-log.md": {
+      "size": 14295,
+      "factCount": 54
+    },
+    "sf-1br-keepers.md": {
+      "size": 1670,
+      "factCount": 0
+    },
+    "sf-housing-actual-links.md": {
+      "size": 6272,
+      "factCount": 0
+    },
+    "sf-housing-premium.md": {
+      "size": 1839,
+      "factCount": 0
+    },
+    "sf-housing-research.md": {
+      "size": 5883,
+      "factCount": 71
+    },
+    "sf-review-a.md": {
+      "size": 1967,
+      "factCount": 0
+    },
+    "sf-review-b.md": {
+      "size": 1879,
+      "factCount": 0
+    },
+    "sf-review-c.md": {
+      "size": 1761,
+      "factCount": 2
+    },
+    "sf-split-stays.md": {
+      "size": 2435,
+      "factCount": 0
+    },
+    "sf-top10-houses.md": {
+      "size": 2874,
+      "factCount": 6
+    }
+  }
+}
